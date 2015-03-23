@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WalkingsToursApp</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Ρυθμίσεις</string>
+
+    <string name="menu1">Περίπατοι που έγιναν</string>
+    <string name="menu2">Περίπατος της ημέρας</string>
+    <string name="menu3">Σύντομα</string>
+
+    <string name="title_activity_coming_soon">Σύντομα</string>
+    <string name="title_activity_walkof_day">Περίπατος της Ημέρας</string>
+    <string name="title_activity_missed_walks">Περίπατοι που έγιναν</string>
+</resources>
