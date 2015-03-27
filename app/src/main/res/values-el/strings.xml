@@ -11,4 +11,5 @@
 
     <string name="title_activity_coming_soon">Σύντομα</string>
     <string name="title_activity_walkof_day">Περίπατος της Ημέρας</string>
+    <string name="title_activity_missed_walks">Περίπατοι που έγιναν</string>
 </resources>

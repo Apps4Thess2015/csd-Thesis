@@ -3,6 +3,7 @@ package kiki__000.walkingstoursapp;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,11 +15,7 @@ import android.widget.GridView;
 public class MainActivity extends ActionBarActivity {
 
     private GridView grid;
-    //private String[] menuOptions = {getString(R.string.menu1), getString(R.string.menu2), getString(R.string.menu3)};
-    String[] menuOptions = {
-            "Google",
-            "Github",
-            "Instagram"};
+    private String[] menuOptions;
     private int[] imageId = {R.drawable.abc_ic_go_search_api_mtrl_alpha, R.drawable.abc_ic_go_search_api_mtrl_alpha, R.drawable.abc_ic_go_search_api_mtrl_alpha};
 
 
@@ -29,6 +26,8 @@ public class MainActivity extends ActionBarActivity {
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        menuOptions = new String[]{getResources().getString(R.string.menu1), getResources().getString(R.string.menu2), getResources().getString(R.string.menu3)};
+
         CustomGrid adapter = new CustomGrid(MainActivity.this, menuOptions, imageId);
         grid = (GridView)findViewById(R.id.grid);
         grid.setAdapter(adapter);
@@ -36,8 +35,9 @@ public class MainActivity extends ActionBarActivity {
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
+                Log.i("menu1", getResources().getString(R.string.menu1));
                 if (position == 0){
-                    Intent intent = new Intent(MainActivity.this, MIssedWalks.class);
+                    Intent intent = new Intent(MainActivity.this, MissedWalks.class);
                     startActivity(intent);
                 }
                 else if (position == 1){

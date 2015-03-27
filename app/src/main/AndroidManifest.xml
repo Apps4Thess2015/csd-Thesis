@@ -24,6 +24,10 @@
             android:name=".WalkofDay"
             android:label="@string/title_activity_walkof_day" >
         </activity>
+        <activity
+            android:name=".MissedWalks"
+            android:label="@string/title_activity_missed_walks" >
+        </activity>
     </application>
 
 </manifest>
