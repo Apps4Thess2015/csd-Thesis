@@ -11,13 +11,11 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
-
 public class MainActivity extends ActionBarActivity {
 
     private GridView grid;
     private String[] menuOptions;
-    private int[] imageId = {R.drawable.abc_ic_go_search_api_mtrl_alpha, R.drawable.abc_ic_go_search_api_mtrl_alpha, R.drawable.abc_ic_go_search_api_mtrl_alpha};
-
+    private int[] imageId = {R.mipmap.missed, R.mipmap.today, R.mipmap.coming};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="kiki__000.walkingstoursapp" >
 
+    <!-- Internet Permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -27,6 +30,14 @@
         <activity
             android:name=".MissedWalks"
             android:label="@string/title_activity_missed_walks" >
+        </activity>
+        <activity
+            android:name=".Route"
+            android:label="@string/title_activity_route" >
+        </activity>
+        <activity
+            android:name=".Map"
+            android:label="@string/title_activity_map" >
         </activity>
     </application>
 
