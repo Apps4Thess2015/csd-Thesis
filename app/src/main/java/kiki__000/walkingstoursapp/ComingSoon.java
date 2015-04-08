@@ -7,11 +7,6 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import org.json.JSONObject;
-
-import java.util.HashMap;
-
-
 public class ComingSoon extends ActionBarActivity {
 
     private TextView walk;
