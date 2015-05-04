@@ -15,7 +15,7 @@ public class WalkofDay extends ActionBarActivity {
 
     private GridView grid;
     private String[] menuOptions;
-    private int[] imageId = {R.mipmap.missed, R.mipmap.today};
+    private int[] imageId = {R.mipmap.ic_launcher, R.mipmap.ic_launcher};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

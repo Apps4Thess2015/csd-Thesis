@@ -65,6 +65,14 @@
                 android:gravity="center_horizontal"
                 android:id="@+id/description"/>
 
+            <!-- stay tuned -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="25dp"
+                android:gravity="center_horizontal"
+                android:id="@+id/stayTuned"/>
+
 
 
         </LinearLayout>

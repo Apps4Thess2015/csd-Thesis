@@ -20,4 +20,10 @@
     <string name="stations">Στάσεις</string>
     <string name="title_activity_route">Διαδρομή</string>
     <string name="title_activity_map">Χάρτης</string>
+    <string name="refresh">Ανανέωση</string>
+    <string name="left_scroll_item1">Γλώσσα</string>
+    <string name="left_scroll_item2">Σχετικά</string>
+    <string name="title_activity_language">Γλώσσα</string>
+    <string name="title_activity_about">Σχετικά</string>
+    <string name="stay_tuned">Σύντομα κοντά σας με έναν νέο περίπατο!</string>
 </resources>

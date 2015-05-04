@@ -1,21 +1,25 @@
 package kiki__000.walkingstoursapp;
 
 import android.content.Intent;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ListView;
 
 public class MainActivity extends ActionBarActivity {
 
     private GridView grid;
     private String[] menuOptions;
-    private int[] imageId = {R.mipmap.missed, R.mipmap.today, R.mipmap.coming};
+    private int[] imageId = {R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher};
+    private String[] drawerOptions;
+    private DrawerLayout dLayout;
+    private ListView dList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +37,6 @@ public class MainActivity extends ActionBarActivity {
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
-                Log.i("menu1", getResources().getString(R.string.menu1));
                 if (position == 0){
                     Intent intent = new Intent(MainActivity.this, MissedWalks.class);
                     startActivity(intent);
@@ -49,7 +52,31 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+        drawerOptions = new String[]{getResources().getString(R.string.left_scroll_item1), getResources().getString(R.string.left_scroll_item2)};
+        dLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        ListViewAdapter adapterDrawer = new ListViewAdapter(MainActivity.this, drawerOptions);
+        dList = (ListView) findViewById(R.id.left_drawer);
+        dList.setAdapter(adapterDrawer);
+        dList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+                //dLayout.closeDrawers();
+                if (position == 0) {
+                    Intent intent = new Intent(MainActivity.this, Language.class);
+                    startActivity(intent);
+
+                }
+                if (position == 1) {
+                    Intent intent = new Intent(MainActivity.this, About.class);
+                    startActivity(intent);
+                }
+            }
+        });
+
+
     }
+
 
 
     @Override

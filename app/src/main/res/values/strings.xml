@@ -19,4 +19,10 @@
     <string name="stations">Stations</string>
     <string name="title_activity_route">Route</string>
     <string name="title_activity_map">Map</string>
+    <string name="refresh">Refresh</string>
+    <string name="left_scroll_item1">Language</string>
+    <string name="left_scroll_item2">About</string>
+    <string name="title_activity_language">Language</string>
+    <string name="title_activity_about">About</string>
+    <string name="stay_tuned">More events coming soon! Stay tuned</string>
 </resources>
