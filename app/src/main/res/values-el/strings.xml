@@ -26,4 +26,5 @@
     <string name="title_activity_language">Γλώσσα</string>
     <string name="title_activity_about">Σχετικά</string>
     <string name="stay_tuned">Σύντομα κοντά σας με έναν νέο περίπατο!</string>
+    <string name="title_activity_show_me_awalk">Ένας Περίπατος</string>
 </resources>

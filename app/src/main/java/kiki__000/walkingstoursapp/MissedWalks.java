@@ -1,50 +1,32 @@
 package kiki__000.walkingstoursapp;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
+
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
-
-import org.apache.http.client.HttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
 
 
 public class MissedWalks extends ActionBarActivity {
+
+    private GridView grid;
+    private ArrayList<String> menuOptions = new ArrayList<String>();
+    private ArrayList<Integer> imageId = new ArrayList<Integer>();
+    private TextView stayTuned;
+    // DB Class to perform DB related operations
+    DBController controller = new DBController(this);
+    // Progress Dialog Object
+    ProgressDialog prgDialog;
+    Walk queryValues;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +35,38 @@ public class MissedWalks extends ActionBarActivity {
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        // Get walks from SQLite DB
+        ArrayList<Walk> walkList = controller.getAllWalks();
+        // If walks exists in SQLite DB
+        if (walkList.size() != 0) {
+            for (int i=0; i<walkList.size();i++){
+                imageId.add(R.mipmap.ic_launcher);
+                menuOptions.add(walkList.get(i).getName());
+            }
+            //convert ArrayLists to arrays
+            String[] names = new String[menuOptions.size()];
+            names = menuOptions.toArray(names);
+            int[] icons = new int[imageId.size()];
+            for (int i=0; i<imageId.size(); i++){
+                icons[i] = Integer.valueOf(imageId.get(i));
+            }
+            //set gridView
+            CustomGrid adapter = new CustomGrid(MissedWalks.this, names, icons);
+            grid = (GridView)findViewById(R.id.grid);
+            grid.setAdapter(adapter);
+            grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
+                    Intent intent = new Intent(MissedWalks.this, ShowMeAWalk.class);
+                    startActivity(intent);
+                }
+            });
+        }
+        else{
+            //stay tuned
+            stayTuned = (TextView)findViewById(R.id.stayTuned);
+            stayTuned.setText(getString(R.string.stay_tuned));
+        }
     }
 
 

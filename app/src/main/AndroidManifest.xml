@@ -66,6 +66,10 @@
             android:name=".About"
             android:label="@string/title_activity_about" >
         </activity>
+        <activity
+            android:name=".ShowMeAWalk"
+            android:label="@string/title_activity_show_me_awalk" >
+        </activity>
     </application>
 
 </manifest>

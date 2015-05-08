@@ -49,9 +49,9 @@ public class ComingSoon extends ActionBarActivity {
         //full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        // Get User records from SQLite DB
+        // Get walks from SQLite DB
         ArrayList<Walk> walkList = controller.getAllWalks();
-        // If users exists in SQLite DB
+        // If walks exists in SQLite DB
         if (walkList.size() != 0) {
             for (int i=0; i<walkList.size();i++){
                 //walk
