@@ -1,5 +1,6 @@
 package kiki__000.walkingstoursapp;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -14,9 +15,9 @@ import android.view.WindowManager;
 public class ShowMeAWalk extends ActionBarActivity {
 
     private static final int NUM_PAGES = 5;
-
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
+    public static String stationId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,9 @@ public class ShowMeAWalk extends ActionBarActivity {
         setContentView(R.layout.activity_show_me_awalk);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        Intent intent = getIntent();
+        stationId = intent.getStringExtra("stationId");
 
         mPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new MyFragmentStatePagerAdapter(getSupportFragmentManager());
@@ -82,6 +86,15 @@ public class ShowMeAWalk extends ActionBarActivity {
         @Override
         public int getCount() {
             return NUM_PAGES;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+
+            String header;
+            header = getResources().getString(R.string.station) + " " + Integer.valueOf(position+1);
+
+            return header;
         }
     }
 }

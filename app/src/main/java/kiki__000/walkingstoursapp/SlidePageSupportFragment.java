@@ -41,6 +41,7 @@ public class SlidePageSupportFragment extends Fragment {
 
         description = (TextView)rootView.findViewById(R.id.station_description);
         description.setText("station description");
+        
 
 
         return rootView;

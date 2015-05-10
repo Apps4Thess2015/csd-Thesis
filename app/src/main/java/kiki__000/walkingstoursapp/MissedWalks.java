@@ -58,6 +58,7 @@ public class MissedWalks extends ActionBarActivity {
                 public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
                     Intent intent = new Intent(MissedWalks.this, ShowMeAWalk.class);
+                    intent.putExtra("stationId",position);
                     startActivity(intent);
                 }
             });

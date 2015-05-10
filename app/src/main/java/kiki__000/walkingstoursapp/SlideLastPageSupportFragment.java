@@ -42,4 +42,6 @@ public class SlideLastPageSupportFragment extends Fragment {
         super.onDestroyView();
     }
 
+
+
 }

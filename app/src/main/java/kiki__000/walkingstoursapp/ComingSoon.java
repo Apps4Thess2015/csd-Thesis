@@ -49,6 +49,9 @@ public class ComingSoon extends ActionBarActivity {
         //full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        //animation
+        overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+
         // Get walks from SQLite DB
         ArrayList<Walk> walkList = controller.getAllWalks();
         // If walks exists in SQLite DB
@@ -60,27 +63,27 @@ public class ComingSoon extends ActionBarActivity {
 
                 //when
                 when = (TextView) findViewById(R.id.when);
-                when.setText(getString(R.string.when) + walkList.get(i).getDate());
+                when.setText(getString(R.string.when) + " " + walkList.get(i).getDate());
 
                 //time
                 time = (TextView) findViewById(R.id.time);
-                time.setText(getString(R.string.time) + walkList.get(i).getTime());
+                time.setText(getString(R.string.time) + " " +  walkList.get(i).getTime());
 
                 //venue
                 venue = (TextView) findViewById(R.id.venue);
-                venue.setText(getString(R.string.venue) + walkList.get(i).getVenue());
+                venue.setText(getString(R.string.venue) + " " +  walkList.get(i).getVenue());
 
                 //kind
                 kind = (TextView) findViewById(R.id.kind);
-                kind.setText(getString(R.string.kind) + walkList.get(i).getKind());
+                kind.setText(getString(R.string.kind) + " " +  walkList.get(i).getKind());
 
                 //guides
                 guides = (TextView) findViewById(R.id.guides);
-                guides.setText(getString(R.string.guides) + walkList.get(i).getGuide());
+                guides.setText(getString(R.string.guides) + " " +  walkList.get(i).getGuide());
 
                 //description
                 descr = (TextView) findViewById(R.id.description);
-                descr.setText(getString(R.string.description) + walkList.get(i).getDescription());
+                descr.setText(getString(R.string.description) + " " +  walkList.get(i).getDescription());
             }
         }
         else{
