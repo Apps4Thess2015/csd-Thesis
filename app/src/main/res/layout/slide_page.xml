@@ -17,7 +17,8 @@
                 android:id="@+id/station_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"/>
+                android:layout_marginTop="4dp"
+                android:layout_gravity="center"/>
 
             <!--station image-->
             <ImageView
@@ -28,9 +29,44 @@
             <!--station description-->
             <TextView
                 android:id="@+id/station_description"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"/>
 
+            <!--rating-->
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_gravity="center">
+
+            <!--plus one-->
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:text="+1"
+                android:textSize="40sp"
+                android:paddingLeft="10dp"
+                android:id="@+id/plus_one"/>
+
+            <!--less one-->
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:text="-1"
+                android:textSize="40sp"
+                android:id="@+id/less_one"/>
+            </LinearLayout>
+
+
+            <!--mini Map-->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:id="@+id/miniMap"/>
 
         </LinearLayout>
 

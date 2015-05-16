@@ -8,16 +8,21 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
+import java.util.ArrayList;
+
 public class ShowMeAWalk extends ActionBarActivity {
 
-    private static final int NUM_PAGES = 5;
+    private static int NUM_PAGES;
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
-    public static String stationId;
+    public static String walkName;
+    DBController controller;
+    Walk walk = new Walk();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +31,16 @@ public class ShowMeAWalk extends ActionBarActivity {
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        //get the walkName
         Intent intent = getIntent();
-        stationId = intent.getStringExtra("stationId");
+        walkName = intent.getStringExtra("walkName");
 
+        //get the station's number of walk and set the NUM_PAGES
+        controller = new DBController(this);
+        walk = controller.getWalkByName(walkName);
+        NUM_PAGES = walk.getStations();
+
+        //view pager for every station of walk
         mPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new MyFragmentStatePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);

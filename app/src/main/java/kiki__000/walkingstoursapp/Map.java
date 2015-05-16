@@ -80,5 +80,6 @@ public class Map extends ActionBarActivity {
         CameraUpdate zoom=CameraUpdateFactory.zoomTo(15);
         mMap.moveCamera(center);
         mMap.animateCamera(zoom);
+
     }
 }

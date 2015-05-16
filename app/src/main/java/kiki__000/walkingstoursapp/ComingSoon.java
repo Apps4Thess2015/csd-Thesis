@@ -5,11 +5,14 @@ import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
+import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.gson.Gson;
@@ -26,13 +29,10 @@ import java.util.HashMap;
 
 public class ComingSoon extends ActionBarActivity {
 
-    private TextView walk;
-    private TextView when;
-    private TextView time;
-    private TextView venue;
-    private TextView kind;
-    private TextView guides;
-    private TextView descr;
+    private int[] imagesId = {R.mipmap.walk, R.mipmap.date, R.mipmap.time,R.mipmap.venue, R.mipmap.kind, R.mipmap.guide, R.mipmap.description};
+   //private int[] imagesId = {R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher,R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher};
+    private String[] walkData = new String[7];
+    private ListView dList;
     private TextView stayTuned;
     // DB Class to perform DB related operations
     DBController controller = new DBController(this);
@@ -58,33 +58,19 @@ public class ComingSoon extends ActionBarActivity {
         if (walkList.size() != 0) {
             for (int i=0; i<walkList.size();i++){
                 //walk
-                walk = (TextView) findViewById(R.id.walk);
-                walk.setText(getString(R.string.walk) + " " + walkList.get(i).getName());
-
-                //when
-                when = (TextView) findViewById(R.id.when);
-                when.setText(getString(R.string.when) + " " + walkList.get(i).getDate());
-
-                //time
-                time = (TextView) findViewById(R.id.time);
-                time.setText(getString(R.string.time) + " " +  walkList.get(i).getTime());
-
-                //venue
-                venue = (TextView) findViewById(R.id.venue);
-                venue.setText(getString(R.string.venue) + " " +  walkList.get(i).getVenue());
-
-                //kind
-                kind = (TextView) findViewById(R.id.kind);
-                kind.setText(getString(R.string.kind) + " " +  walkList.get(i).getKind());
-
-                //guides
-                guides = (TextView) findViewById(R.id.guides);
-                guides.setText(getString(R.string.guides) + " " +  walkList.get(i).getGuide());
-
-                //description
-                descr = (TextView) findViewById(R.id.description);
-                descr.setText(getString(R.string.description) + " " +  walkList.get(i).getDescription());
+                walkData[0] = walkList.get(i).getName();
+                walkData[1] = walkList.get(i).getDate();
+                walkData[2] = walkList.get(i).getTime();
+                walkData[3] = walkList.get(i).getVenue();
+                walkData[4] = walkList.get(i).getKind();
+                walkData[5] = walkList.get(i).getGuide();
+                walkData[6] = walkList.get(i).getDescription();
             }
+
+            //set the listView
+            ListViewAdapterCS adapter = new ListViewAdapterCS(ComingSoon.this, walkData, imagesId);
+            dList = (ListView) findViewById(R.id.listView);
+            dList.setAdapter(adapter);
         }
         else{
             //stay tuned

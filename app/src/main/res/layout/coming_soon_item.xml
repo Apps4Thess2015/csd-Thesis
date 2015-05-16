@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:stretchColumns="0,1">
+
+    <!-- Line -->
+    <!-- <View
+         android:layout_height="0.5dip"
+         android:background="#FFFFFF" />-->
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
+
+        <!--coming soon image-->
+        <ImageView
+            android:id="@+id/comingSoonImage"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="left"
+            android:background="@mipmap/ic_launcher"
+            android:layout_column="0" />
+
+        <!--coming soon Text-->
+        <TextView
+            android:id="@+id/comingSoonText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:layout_gravity="center_vertical"
+            android:textSize="20dp"
+            android:layout_column="0" />
+
+    </TableRow>
+
+</TableLayout>

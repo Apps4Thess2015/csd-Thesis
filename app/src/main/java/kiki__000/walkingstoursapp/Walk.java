@@ -2,6 +2,8 @@ package kiki__000.walkingstoursapp;
 
 /**
  * Created by kiki__000 on 24-Apr-15.
+ *
+ * Representation of a walk
  */
 public class Walk {
 

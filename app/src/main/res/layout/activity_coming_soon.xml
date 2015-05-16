@@ -7,84 +7,17 @@
     android:background="@color/fuschia"
     tools:context="kiki__000.walkingstoursapp.ComingSoon">
 
-    <ScrollView
+    <!--ListView for the description of a walk-->
+    <ListView
+        android:id="@+id/listView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <!-- walk -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="25dp"
-                android:id="@+id/walk"
-                android:textColor="@color/white"/>
-
-            <!-- when -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="25dp"
-                android:id="@+id/when"
-                android:textColor="@color/white"/>
-
-            <!-- time -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="25dp"
-                android:id="@+id/time"
-                android:textColor="@color/white"/>
-
-            <!-- venue -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="25dp"
-                android:id="@+id/venue"
-                android:textColor="@color/white"/>
-
-            <!-- kind -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="25dp"
-                android:id="@+id/kind"
-                android:textColor="@color/white"/>
-
-            <!-- guides -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="25dp"
-                android:id="@+id/guides"
-                android:textColor="@color/white"/>
-
-            <!-- description -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="25dp"
-                android:id="@+id/description"
-                android:textColor="@color/white"/>
-
-            <!-- stay tuned -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="25dp"
-                android:gravity="center_horizontal"
-                android:id="@+id/stayTuned"
-                android:textColor="@color/white"/>
-
-
-
-        </LinearLayout>
-
-    </ScrollView>
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp" />
 
 </RelativeLayout>

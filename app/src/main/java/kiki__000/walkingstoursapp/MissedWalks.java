@@ -5,9 +5,11 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -22,6 +24,7 @@ public class MissedWalks extends ActionBarActivity {
     private ArrayList<String> menuOptions = new ArrayList<String>();
     private ArrayList<Integer> imageId = new ArrayList<Integer>();
     private TextView stayTuned;
+    private String walkName;
     // DB Class to perform DB related operations
     DBController controller = new DBController(this);
     // Progress Dialog Object
@@ -54,11 +57,24 @@ public class MissedWalks extends ActionBarActivity {
             CustomGrid adapter = new CustomGrid(MissedWalks.this, names, icons);
             grid = (GridView)findViewById(R.id.grid);
             grid.setAdapter(adapter);
+
+
             grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
+                    //find the name of station which the user clicked
+                    ViewGroup gridChild = (ViewGroup) grid.getChildAt(position);
+                    int childSize = gridChild.getChildCount();
+                    for(int k = 0; k < childSize; k++) {
+                        if( gridChild.getChildAt(k) instanceof TextView ){
+                            walkName = ((TextView) gridChild.getChildAt(k)).getText().toString();
+                            Log.i("walkName", walkName);
+                        }
+                    }
+
+                    //open the new activity
                     Intent intent = new Intent(MissedWalks.this, ShowMeAWalk.class);
-                    intent.putExtra("stationId",position);
+                    intent.putExtra("walkName",walkName);
                     startActivity(intent);
                 }
             });
