@@ -7,21 +7,20 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 
-public class Route extends ActionBarActivity {
+public class ThessalonikiWalkingTours extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_route);
+        setContentView(R.layout.activity_thessaloniki_walking_tours);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_route, menu);
+        getMenuInflater().inflate(R.menu.menu_thessaloniki_walking_tours, menu);
         return true;
     }
 

@@ -18,14 +18,23 @@
     <string name="description">Περιγραφή:</string>
     <string name="map">Χάρτης</string>
     <string name="stations">Στάσεις</string>
-    <string name="title_activity_route">Διαδρομή</string>
     <string name="title_activity_map">Χάρτης</string>
     <string name="refresh">Ανανέωση</string>
     <string name="left_scroll_item1">Γλώσσα</string>
-    <string name="left_scroll_item2">Σχετικά</string>
+    <string name="left_scroll_item2">Thessaloniki Walking Tours</string>
+    <string name="left_scroll_item3">Σχετικά</string>
     <string name="title_activity_language">Γλώσσα</string>
     <string name="title_activity_about">Σχετικά</string>
     <string name="stay_tuned">Σύντομα κοντά σας με έναν νέο περίπατο!</string>
     <string name="title_activity_show_me_awalk">Ένας Περίπατος</string>
     <string name="station">Στάση</string>
+    <string name="title_activity_thessaloniki_walking_tours">Thessaloniki Walking Tours</string>
+    <string name="choose_lang">Διάλεξε Γλώσσα</string>
+    <string name="ok">ΟΚ</string>
+    <string name="en">English</string>
+    <string name="gr">Ελληνικά</string>
+    <string name="text_about">Η εφαρμογή αυτή δημιουργήθηκε από την φοιτήτρια Κυριακή Πανισκάκη
+        στο πλαίσια της διπλωματικής της, υπό την επίβλεψη της καθηγήτριας Αθηνά Βακάλη.
+        "\n" Τμήμα Πληροφορικής, Αριστοτέλειο Πανεπιστήμιο Θεσσαλονίκης.
+    </string>
 </resources>

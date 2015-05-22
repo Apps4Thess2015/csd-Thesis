@@ -28,7 +28,7 @@ public class SampleBC extends BroadcastReceiver {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         // Checks if new records are inserted in Remote MySQL DB to proceed with Sync operation
-        client.post("http://paniskak.webpages.auth.gr/walkingTours/getdbrowcount.php",params ,new AsyncHttpResponseHandler() {
+        client.post("http://paniskak.webpages.auth.gr/walkingTours/noOfWalks.php",params ,new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 System.out.println(response);

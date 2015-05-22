@@ -7,6 +7,16 @@
     android:background="@color/fuschia"
     tools:context="kiki__000.walkingstoursapp.ComingSoon">
 
+    <!--Message if there isn't walk of day-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:id="@+id/stayTuned"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+
     <!--ListView for the description of a walk-->
     <ListView
         android:id="@+id/listView"

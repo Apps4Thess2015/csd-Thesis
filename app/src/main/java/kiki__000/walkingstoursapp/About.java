@@ -5,16 +5,25 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 
 public class About extends ActionBarActivity {
+
+    private TextView text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
+        //full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //set the action bar for the right language
+        getSupportActionBar().setTitle(getResources().getString(R.string.title_activity_about));
+
+        text = (TextView)findViewById(R.id.text_about);
+        text.setText(getResources().getString(R.string.text_about));
 
     }
 

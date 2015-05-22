@@ -14,33 +14,76 @@ import java.util.ArrayList;
  */
 public class DBController extends SQLiteOpenHelper {
 
-    private static final String[] COLUMNS = {"id", "name", "date", "time", "venue", "kind", "guide", "description", "stations", "status"};
+    //columns' names of table walks
+    private static final String[] COLUMNSWalks = {"id", "name", "date", "time", "venue", "kind", "guide", "description", "stations", "status"};
+    //columns' names of table stations
+    private static final String[] COLUMNSStations = {"id", "title", "description", "lat", "lng", "walkId"};
+    //set the string walks as walksG for greek or walksE for english
+    public static String walks;
+    //set the string stations as stationsG for greek or stationsE for english
+    public static String stations;
 
     public DBController(Context applicationcontext) {
-        super(applicationcontext, "walks.db", null, 3);
+        super(applicationcontext, "walks.db", null, 19);
     }
 
     //Create Table
     @Override
     public void onCreate(SQLiteDatabase database) {
         String query;
-        query = "CREATE TABLE walks ( id TEXT, name TEXT, date TEXT, time TEXT, venue TEXT, kind TEXT, guide TEXT, description TEXT, stations INTEGER, status INTEGER)";
+
+        //create table walksG (table walks with greek content)
+        query = "CREATE TABLE walksG ( id TEXT, name TEXT, date TEXT, time TEXT, venue TEXT, kind TEXT, guide TEXT, description TEXT, stations INTEGER, status INTEGER)";
         database.execSQL(query);
+
+        //create table stationsG (table stations with greek content)
+        query = "CREATE TABLE stationsG ( id TEXT, title TEXT, description TEXT, lat DOUBLE, lng DOUBLE, walkId TEXT)";
+        database.execSQL(query);
+
+        //create table walksE (table walks with english content)
+        query = "CREATE TABLE walksE ( id TEXT, name TEXT, date TEXT, time TEXT, venue TEXT, kind TEXT, guide TEXT, description TEXT, stations INTEGER, status INTEGER)";
+        database.execSQL(query);
+
+        //create table stationsE (table stations with english content)
+        query = "CREATE TABLE stationsE ( id TEXT, title TEXT, description TEXT, lat DOUBLE, lng DOUBLE, walkId TEXT)";
+        database.execSQL(query);
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase database, int version_old, int current_version) {
         String query;
-        query = "DROP TABLE IF EXISTS walks";
+
+        query = "DROP TABLE IF EXISTS walksG";
         database.execSQL(query);
+
+        query = "DROP TABLE IF EXISTS stationsG";
+        database.execSQL(query);
+
+        query = "DROP TABLE IF EXISTS walksE";
+        database.execSQL(query);
+
+        query = "DROP TABLE IF EXISTS stationsE";
+        database.execSQL(query);
+
         onCreate(database);
     }
 
     /**
-     * Inserts Walk into SQLite DB
+     * Inserts Walk into SQLite DB with this lang
      * @param queryValues
      */
-    public void insertWalk(Walk queryValues) {
+    public void insertWalk(Walk queryValues, String lang) {
+
+        String table;
+
+        if (lang == "gr"){
+            table = "walksG";
+        }
+        else{
+            table = "walksE";
+        }
+
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("id", queryValues.getId());
@@ -51,27 +94,57 @@ public class DBController extends SQLiteOpenHelper {
         values.put("kind", queryValues.getKind());
         values.put("guide", queryValues.getGuide());
         values.put("description", queryValues.getDescription());
-        values.put("stations" ,queryValues.getStations());
+        values.put("stations", queryValues.getStations());
         values.put("status", queryValues.getStatus());
-        database.insert("walks", null, values);
+        database.insert(table, null, values);
+        database.close();
+    }
+
+    /**
+     * Inserts Station into SQLite DB with this lang
+     * @param queryValues
+     */
+    public void insertStation(Station queryValues, String lang) {
+
+        String table;
+
+        if (lang == "gr"){
+            table = "stationsG";
+        }
+        else{
+            table = "stationsE";
+        }
+
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("id", queryValues.getId());
+        values.put("title", queryValues.getTitle());
+        values.put("description", queryValues.getDescription());
+        values.put("lat", queryValues.getLat());
+        values.put("lng", queryValues.getLng());
+        values.put("walkId", queryValues.getWalkId());
+        database.insert(table, null, values);
+        Log.i("station_id", queryValues.getId());
+        Log.i("station_walkId",queryValues.getWalkId() );
         database.close();
     }
 
     /**
      * Get list of Walks from SQLite DB as Array List
+     * with this status (0 for missedWalks, 1 for walkOfDay, 2 for ComingSoon)
+     *
      * @return <ArrayList<Walk>
      */
-    public ArrayList<Walk> getAllWalks() {
+    public ArrayList<Walk> getAllWalks(int status) {
         ArrayList<Walk> walksList;
-        walksList = new ArrayList<Walk>();
-        String selectQuery = "SELECT  * FROM walks";
+        walksList = new ArrayList<>();
+        String selectQuery = "SELECT  * FROM " + walks + " WHERE status = " + status + " ORDER BY id";
         SQLiteDatabase database = this.getWritableDatabase();
         Cursor cursor = database.rawQuery(selectQuery, null);
         if (cursor.moveToFirst()) {
             for (String s : cursor.getColumnNames()) {
                 Log.i("name ", s);
             }
-            ;
             do {
                 Walk walk = new Walk();
                 walk.setId(cursor.getString(cursor.getColumnIndex("id")));
@@ -103,10 +176,10 @@ public class DBController extends SQLiteOpenHelper {
 
         // 2. build query
         Cursor cursor =
-                db.query("walks", // a. table
-                        COLUMNS, // b. column names
+                db.query(walks, // a. table
+                        COLUMNSWalks, // b. column names
                         " name = ?", // c. selections
-                        new String[] { String.valueOf(name) }, // d. selections args
+                        new String[]{String.valueOf(name)}, // d. selections args
                         null, // e. group by
                         null, // f. having
                         null, // g. order by
@@ -135,4 +208,40 @@ public class DBController extends SQLiteOpenHelper {
         // 5. return walk
         return null;
     }
+
+    /**
+     * Get stations of the walk with this walkId
+     *
+     * @return ArrayList<Station>
+     */
+    public ArrayList<Station> getStationsByWalkId(String walkId){
+
+        ArrayList<Station> stationsList = new ArrayList<Station>();
+        String selectQuery = "SELECT  * FROM " + stations + " WHERE walkId = " + walkId + " ORDER BY id";
+        SQLiteDatabase database = this.getReadableDatabase();
+
+        Cursor cursor = database.rawQuery(selectQuery, null);
+
+        // if we got results get them
+        if (cursor.moveToFirst()) {
+            do {
+                // build stations object
+                Station station = new Station();
+                station.setId(cursor.getString(cursor.getColumnIndex("id")));
+                station.setTitle(cursor.getString(cursor.getColumnIndex("title")));
+                station.setDescription(cursor.getString(cursor.getColumnIndex("description")));
+                station.setLat(cursor.getDouble(cursor.getColumnIndex("lat")));
+                station.setLng(cursor.getDouble(cursor.getColumnIndex("lng")));
+                station.setWalkId(cursor.getString(cursor.getColumnIndex("walkId")));
+                stationsList.add(station);
+            } while (cursor.moveToNext());
+
+            cursor.close();
+            return  stationsList;
+        }
+        cursor.close();
+        return  null;
+    }
+
+
 }

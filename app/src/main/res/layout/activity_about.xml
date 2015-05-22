@@ -6,7 +6,22 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="kiki__000.walkingstoursapp.About">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
+        <!--about text-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:id="@+id/text_about"/>
+
+    </LinearLayout>
+
+ </ScrollView>
 </RelativeLayout>

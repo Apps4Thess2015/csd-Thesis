@@ -43,10 +43,6 @@
             android:label="@string/title_activity_missed_walks" >
         </activity>
         <activity
-            android:name=".Route"
-            android:label="@string/title_activity_route" >
-        </activity>
-        <activity
             android:name=".Map"
             android:label="@string/title_activity_map" >
         </activity>
@@ -69,6 +65,10 @@
         <activity
             android:name=".ShowMeAWalk"
             android:label="@string/title_activity_show_me_awalk" >
+        </activity>
+        <activity
+            android:name=".ThessalonikiWalkingTours"
+            android:label="@string/title_activity_thessaloniki_walking_tours" >
         </activity>
     </application>
 

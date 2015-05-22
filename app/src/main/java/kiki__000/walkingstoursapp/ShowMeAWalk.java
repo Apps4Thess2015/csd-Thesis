@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class ShowMeAWalk extends ActionBarActivity {
 
-    private static int NUM_PAGES;
+    public static int NUM_PAGES;
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
     public static String walkName;

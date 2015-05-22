@@ -36,10 +36,13 @@ public class MissedWalks extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_missed_walks);
 
+        //full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //set the action bar for the right language
+        getSupportActionBar().setTitle(getResources().getString(R.string.title_activity_missed_walks));
 
-        // Get walks from SQLite DB
-        ArrayList<Walk> walkList = controller.getAllWalks();
+        // Get walks from SQLite DB where STATUS = 0
+        ArrayList<Walk> walkList = controller.getAllWalks(0);
         // If walks exists in SQLite DB
         if (walkList.size() != 0) {
             for (int i=0; i<walkList.size();i++){
