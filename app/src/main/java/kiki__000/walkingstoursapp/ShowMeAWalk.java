@@ -30,6 +30,8 @@ public class ShowMeAWalk extends ActionBarActivity {
         setContentView(R.layout.activity_show_me_awalk);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //set the action bar for the right language
+        getSupportActionBar().setTitle(getResources().getString(R.string.title_activity_show_me_awalk));
 
         //get the walkName
         Intent intent = getIntent();

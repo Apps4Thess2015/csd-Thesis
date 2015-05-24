@@ -54,6 +54,8 @@ public class UpdateSqlLite {
         // Remote MySQL DB
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis() + 5000, 10 * 1000, pendingIntent);
 
+        //increase dbVersion
+       // controller.increaseDbVersion();
 
         //update walksG
         syncSQLiteMySQLDB(urls[0], lang[0]);

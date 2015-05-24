@@ -174,6 +174,7 @@ public class SlidePageSupportFragment extends Fragment {
         //add marker
         if (latLng != null) {
             marker = miniMap.addMarker(new MarkerOptions().position(latLng).title(stations.get(getPageNumber()).getTitle()));
+            marker.showInfoWindow();
             Timer timer = new Timer();
             TimerTask updateProfile = new CustomTimerTask(getActivity().getApplicationContext());
             timer.scheduleAtFixedRate(updateProfile, 10, 5000);

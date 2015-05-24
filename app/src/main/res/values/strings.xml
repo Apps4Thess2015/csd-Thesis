@@ -32,8 +32,11 @@
     <string name="ok">OK</string>
     <string name="en">English</string>
     <string name="gr">Ελληνικά</string>
-    <string name="text_about">The application designed by student Kyriaki Paniskaki
+    <string name="show_route">Show the route</string>
+    <string name="no_route">There is no route</string>
+    <string name="end_route">This was the route</string>
+    <string name="text_about">The application has been designed by student Kyriaki Paniskaki
         for her thesis, under the supervision of professor Athina Vakali.
-        "\n" Computer Science Department, Aristotle University of Thessaloniki.
+        "\n" "\n" "\n" Computer Science Department "\n" "\n" Aristotle University of Thessaloniki
     </string>
 </resources>

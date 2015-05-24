@@ -32,6 +32,8 @@ public class WalkofDay extends ActionBarActivity {
         setContentView(R.layout.activity_walkof_day);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //set the action bar for the right language
+        getSupportActionBar().setTitle(getResources().getString(R.string.title_activity_walkof_day));
 
         //Check if there is walk of day where STATUS = 1
         ArrayList<Walk> walkList = controller.getAllWalks(1);

@@ -1,40 +1,36 @@
 package kiki__000.walkingstoursapp;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Point;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.BounceInterpolator;
-import android.view.animation.Interpolator;
-import android.view.animation.LinearInterpolator;
-
+import android.widget.Button;
+import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PolylineOptions;
-
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.ArrayList;
 
 import static com.google.android.gms.maps.GoogleMap.*;
 
 public class Map extends ActionBarActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
-    private Double[] lat = new Double[]{40.588872, 40.599560, 40.610899, 40.623929, 40.633049, 40.633700};
-    private Double[] lng = new Double[]{22.942527, 22.949222, 22.952312, 22.951625, 22.938408, 22.911457};
     public static String walkName;
+    private Button showRoute;
+    private Marker marker;
+    DBController controller;
+    Walk walk;
+    ArrayList<String> titles = new ArrayList<>();
+    ArrayList<Station> stations = new ArrayList<>();
+    ArrayList<LatLng> listPoint = new ArrayList<>();
+    int currentPt;
 
 
     @Override
@@ -50,6 +46,32 @@ public class Map extends ActionBarActivity {
         //get the walkName
         Intent intent = getIntent();
         walkName = intent.getStringExtra("walkName");
+
+
+        controller = new DBController(getApplicationContext());
+        // Get walk from SQLite DB
+        walk = controller.getWalkByName(walkName);
+        if (walk == null){
+            Log.i("station_name", "null");
+        }
+        else {
+            stations = controller.getStationsByWalkId(walk.getId());
+            Log.i("walkId", walk.getId());
+            if (stations != null) {
+                Log.i("stations", "" + stations.size());
+                for (int i = 0; i < stations.size(); i++) {
+
+                    //lat & lng
+                    listPoint.add(new LatLng(stations.get(i).getLat(), stations.get(i).getLng()));
+
+                    //markers' titles
+                    titles.add(stations.get(i).getTitle());
+                }
+            }
+        }
+
+        //button in order to start the animation of route
+        showRoute = (Button)findViewById(R.id.show_route);
 
         setUpMapIfNeeded();
     }
@@ -95,10 +117,6 @@ public class Map extends ActionBarActivity {
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-        mMap.addMarker(new MarkerOptions().position(new LatLng(40.6312779, 22.9526476)).title("Marker"));
-        for (int i = 0; i < lat.length; i++) {
-            mMap.addMarker(new MarkerOptions().position(new LatLng(lat[i], lng[i])).title("marker"));
-        }
 
         //enable zoom controls buttons
         mMap.getUiSettings().setZoomControlsEnabled(true);
@@ -113,17 +131,43 @@ public class Map extends ActionBarActivity {
         mMap.moveCamera(center);
         mMap.animateCamera(zoom);
 
-
-        //test from here
-        PolylineOptions options = new PolylineOptions().width(5).color(Color.CYAN).geodesic(true);
-        for (int z = 0; z < lat.length; z++) {
-            LatLng point = new LatLng(lat[z],lng[z]);
-            options.add(point);
-        }
-        mMap.addPolyline(options);
-
-
-
+       showRoute.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               if(stations == null){
+                   Toast.makeText(getApplicationContext(),getResources().getString(R.string.no_route),Toast.LENGTH_LONG).show();
+               }else{
+                   int zoomValue = 15;
+                   mMap.animateCamera(CameraUpdateFactory.zoomTo(zoomValue),4000,MyCancelableCallback);
+                   currentPt = 0;
+               }
+           }
+       });
 
     }
+
+
+    CancelableCallback MyCancelableCallback = new CancelableCallback(){
+
+        @Override
+        public void onCancel() {}
+
+        @Override
+        public void onFinish() {
+            if(currentPt < listPoint.size()){
+                Log.i("current", "" + currentPt);
+                Log.i("listpointSize", "" + listPoint.size());
+                marker = mMap.addMarker(new MarkerOptions().position(listPoint.get(currentPt)).title(titles.get(currentPt)));
+                marker.showInfoWindow();
+                mMap.animateCamera(CameraUpdateFactory.newLatLng(listPoint.get(currentPt)),4000, MyCancelableCallback);
+                currentPt++;
+
+            }else{
+                Toast.makeText(getApplicationContext(),getResources().getString(R.string.end_route),Toast.LENGTH_LONG).show();
+            }
+
+        }
+
+    };
+
 }
