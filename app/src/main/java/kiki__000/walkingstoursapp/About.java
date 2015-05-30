@@ -1,11 +1,18 @@
 package kiki__000.walkingstoursapp;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 
 public class About extends ActionBarActivity {
@@ -16,6 +23,9 @@ public class About extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
+
+        //handles the language in orientation changes
+        MyApplication.updateLanguage(getApplicationContext(), Language.language);
 
         //full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);

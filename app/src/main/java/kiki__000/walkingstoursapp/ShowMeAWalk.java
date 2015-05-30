@@ -29,7 +29,12 @@ public class ShowMeAWalk extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_me_awalk);
 
+        //handles the language in orientation changes
+        MyApplication.updateLanguage(getApplicationContext(), Language.language);
+
+        //full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         //set the action bar for the right language
         getSupportActionBar().setTitle(getResources().getString(R.string.title_activity_show_me_awalk));
 
@@ -88,7 +93,7 @@ public class ShowMeAWalk extends ActionBarActivity {
         @Override
         public Fragment getItem(int position) {
             Fragment tmpFragment;
-            if(position==4){
+            if(position==NUM_PAGES){
                 tmpFragment = new SlideLastPageSupportFragment();
             }else{
                 tmpFragment = new SlidePageSupportFragment();

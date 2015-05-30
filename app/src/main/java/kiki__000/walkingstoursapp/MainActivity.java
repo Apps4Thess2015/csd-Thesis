@@ -1,6 +1,8 @@
 package kiki__000.walkingstoursapp;
 
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -30,22 +32,43 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //handles the language in orientation changes
+        MyApplication.updateLanguage(getApplicationContext(), Language.language);
+
         //full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
        // Locale current = getResources().getConfiguration().locale;
-        String current = Locale.getDefault().getDisplayLanguage();
-        Log.i("locale", current);
+        //String current = Locale.getDefault().getDisplayLanguage();
+        //Log.i("locale", current);
+
 
         //set the language of tables in local database
-        if (current.equals("English")){
-            DBController.walks = "walksE";
-            DBController.stations = "stationsE";
+        String lang = Language.language;
+
+        if(lang == null){
+            String current = Locale.getDefault().getDisplayLanguage();
+            Log.i("locale", current);
+            if (current.equals("????????")){
+                DBController.walks = "walksG";
+                DBController.stations = "stationsG";
+            }
+            else{
+                DBController.walks = "walksE";
+                DBController.stations = "stationsE";
+            }
         }
-        else{
-            DBController.walks = "walksG";
-            DBController.stations = "stationsG";
+        else {
+            if (lang.equals("en_US")) {
+                DBController.walks = "walksE";
+                DBController.stations = "stationsE";
+            } else if (lang.equals("el")) {
+                DBController.walks = "walksG";
+                DBController.stations = "stationsG";
+            }
         }
+
+
 
         menuOptions = new String[]{getResources().getString(R.string.menu1), getResources().getString(R.string.menu2), getResources().getString(R.string.menu3)};
 
@@ -84,7 +107,6 @@ public class MainActivity extends ActionBarActivity {
                 if (position == 0) {
                     Intent intent = new Intent(MainActivity.this, Language.class);
                     startActivity(intent);
-
                 }
                 if (position == 1) {
                     Intent intent = new Intent(MainActivity.this, ThessalonikiWalkingTours.class);
@@ -99,7 +121,6 @@ public class MainActivity extends ActionBarActivity {
 
 
     }
-
 
 
     @Override

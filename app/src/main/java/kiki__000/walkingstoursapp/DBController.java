@@ -20,13 +20,15 @@ public class DBController extends SQLiteOpenHelper {
     private static final String[] COLUMNSWalks = {"id", "name", "date", "time", "venue", "kind", "guide", "description", "stations", "status"};
     //columns' names of table stations
     private static final String[] COLUMNSStations = {"id", "title", "description", "lat", "lng", "walkId"};
+    //columns' names of table photos
+    private static final String[] COLUMNSPhotos = {"id", "stationId", "walkId", "image"};
     //set the string walks as walksG for greek or walksE for english
     public static String walks;
     //set the string stations as stationsG for greek or stationsE for english
     public static String stations;
 
     public DBController(Context applicationcontext) {
-        super(applicationcontext, "walks.db", null, 20);
+        super(applicationcontext, "walks.db", null, 29);
     }
 
     //Create Table
@@ -50,6 +52,10 @@ public class DBController extends SQLiteOpenHelper {
         query = "CREATE TABLE stationsE ( id TEXT, title TEXT, description TEXT, lat DOUBLE, lng DOUBLE, walkId TEXT)";
         database.execSQL(query);
 
+        //create table photos
+        query = "CREATE TABLE photos ( id TEXT, stationId TEXT, walkId TEXT,  image TEXT)";
+        database.execSQL(query);
+
     }
 
     @Override
@@ -66,6 +72,9 @@ public class DBController extends SQLiteOpenHelper {
         database.execSQL(query);
 
         query = "DROP TABLE IF EXISTS stationsE";
+        database.execSQL(query);
+
+        query = "DROP TABLE IF EXISTS photos";
         database.execSQL(query);
 
         onCreate(database);
@@ -141,7 +150,26 @@ public class DBController extends SQLiteOpenHelper {
         values.put("walkId", queryValues.getWalkId());
         database.insert(table, null, values);
         Log.i("station_id", queryValues.getId());
-        Log.i("station_walkId",queryValues.getWalkId() );
+        Log.i("station_walkId", queryValues.getWalkId());
+        database.close();
+    }
+
+    /**
+     * Inserts Photo into SQLite DB
+     * @param queryValues
+     */
+    public void insertPhoto(Photo queryValues) {
+
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put("id", queryValues.getId());
+        values.put("stationId", queryValues.getStationId());
+        values.put("walkId", queryValues.getWalkId());
+        values.put("image", queryValues.getImage());
+
+        database.insert("photos", null, values);
+
         database.close();
     }
 
@@ -258,6 +286,43 @@ public class DBController extends SQLiteOpenHelper {
         cursor.close();
         return  null;
     }
+
+    /**
+     * Get photos of the walk with this walkId
+     *
+     * @return ArrayList<Photo>
+     */
+    public ArrayList<Photo> getPhotosByWalkId(String walkId){
+
+        ArrayList<Photo> photosList = new ArrayList<Photo>();
+        String selectQuery = "SELECT  * FROM photos WHERE walkId = " + walkId + " ORDER BY stationId";
+        SQLiteDatabase database = this.getReadableDatabase();
+
+        Cursor cursor = database.rawQuery(selectQuery, null);
+
+        // if we got results get them
+        if (cursor.moveToFirst()) {
+            do {
+                // build photos object
+                Photo photo = new Photo();
+                photo.setId(cursor.getString(cursor.getColumnIndex("id")));
+                photo.setStationId(cursor.getString(cursor.getColumnIndex("stationId")));
+                photo.setImage(cursor.getString(cursor.getColumnIndex("image")));
+                photo.setWalkId(cursor.getString(cursor.getColumnIndex("walkId")));
+                photosList.add(photo);
+            } while (cursor.moveToNext());
+
+            cursor.close();
+            return  photosList;
+        }
+        cursor.close();
+        return  null;
+    }
+
+
+
+
+
 
 
 }

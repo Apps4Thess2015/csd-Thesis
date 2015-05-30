@@ -23,14 +23,19 @@ public class Language extends ActionBarActivity {
 
     private String[] languages;
     private ListView listViewLang;
+    public static String language;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_language);
 
+        //handles the language in orientation changes
+        MyApplication.updateLanguage(getApplicationContext(), Language.language);
+
         //full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         //set the action bar for the right language
         getSupportActionBar().setTitle(getResources().getString(R.string.title_activity_language));
 
@@ -52,6 +57,7 @@ public class Language extends ActionBarActivity {
                     Configuration config = new Configuration();
                     config.locale = locale;
                     getApplicationContext().getResources().updateConfiguration(config, null);
+                    language = "el";
                 }
                 //english language
                 else{
@@ -60,6 +66,7 @@ public class Language extends ActionBarActivity {
                     Configuration config = new Configuration();
                     config.locale = locale;
                     getApplicationContext().getResources().updateConfiguration(config, null);
+                    language = "en_US";
 
                 }
 

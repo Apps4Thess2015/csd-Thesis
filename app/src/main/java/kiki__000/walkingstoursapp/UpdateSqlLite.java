@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -24,12 +25,13 @@ import java.util.Calendar;
  */
 public class UpdateSqlLite {
 
-    String urls[] = new String[]{"http://paniskak.webpages.auth.gr/walkingTours/getWalksG.php", "http://paniskak.webpages.auth.gr/walkingTours/getWalksE.php", "http://paniskak.webpages.auth.gr/walkingTours/getStationsG.php", "http://paniskak.webpages.auth.gr/walkingTours/getStationsE.php"};
+    String urls[] = new String[]{"http://paniskak.webpages.auth.gr/walkingTours/getWalksG.php", "http://paniskak.webpages.auth.gr/walkingTours/getWalksE.php", "http://paniskak.webpages.auth.gr/walkingTours/getStationsG.php", "http://paniskak.webpages.auth.gr/walkingTours/getStationsE.php", "http://paniskak.webpages.auth.gr/walkingTours/getPhotos.php"};
     String lang[] = new String[]{"gr", "en"};
     DBController controller;
     ProgressDialog prgDialog;
     Walk queryValues;
     Station qValuesStation;
+    Photo qValuesPhoto;
     Context context;
 
     public UpdateSqlLite(Context context) {
@@ -65,6 +67,8 @@ public class UpdateSqlLite {
         syncSQLiteMySQLDB(urls[2], lang[0]);
         //update stationsE
         syncSQLiteMySQLDB(urls[3], lang[1]);
+        //update Photos
+        syncSQLiteMySQLDB(urls[4], lang[0]);
     }
 
     // Method to Sync MySQL to SQLite DB
@@ -84,8 +88,10 @@ public class UpdateSqlLite {
                 // Update SQLite DB with response sent by php file
                 if (url.contains("Walks")) {
                     updateWalks(response, lang);
-                } else {
+                } else if (url.contains("Stations")) {
                     updateStations(response, lang);
+                }else{
+                    updatePhotos(response);
                 }
             }
 
@@ -109,9 +115,8 @@ public class UpdateSqlLite {
 
 
     /**
-     * Update the walk table
+     * Update the table walks
      */
-
     public void updateWalks(String response, String lang) {
 
         // Create GSON object
@@ -155,7 +160,6 @@ public class UpdateSqlLite {
     /**
      * update the table stations
      */
-
     public void updateStations(String response, String lang) {
 
         // Create GSON object
@@ -191,6 +195,44 @@ public class UpdateSqlLite {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Update the table Photos
+     */
+    public void updatePhotos(String response) {
+
+        // Create GSON object
+        Gson gson = new GsonBuilder().create();
+        try {
+            // Extract JSON array from the response
+            JSONArray arr = new JSONArray(response);
+            System.out.println(arr.length());
+            // If no of array elements is not zero
+            if (arr.length() != 0) {
+                // Loop through each array element, get JSON object which has userid and username
+                for (int i = 0; i < arr.length(); i++) {
+                    // Get JSON object
+                    JSONObject obj = (JSONObject) arr.get(i);
+                    // DB QueryValues Object to insert into SQLite
+                    qValuesPhoto = new Photo();
+                    // Add fields extracted from Object
+                    qValuesPhoto.setId(obj.get("id").toString());
+                    qValuesPhoto.setStationId(obj.get("stationId").toString());
+                    qValuesPhoto.setImage(obj.get("image").toString());
+                    Log.i("image", obj.get("image").toString());
+                    qValuesPhoto.setWalkId(obj.get("walkId").toString());
+                    // Insert Photo into SQLite DB
+                    controller.insertPhoto(qValuesPhoto);
+                }
+            }
+
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
+
 
 
 }

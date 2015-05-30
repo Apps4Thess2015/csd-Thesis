@@ -36,6 +36,9 @@ public class MissedWalks extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_missed_walks);
 
+        //handles the language in orientation changes
+        MyApplication.updateLanguage(getApplicationContext(), Language.language);
+
         //full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         //set the action bar for the right language

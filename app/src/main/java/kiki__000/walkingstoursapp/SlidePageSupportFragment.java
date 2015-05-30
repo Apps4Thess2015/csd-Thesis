@@ -2,11 +2,14 @@ package kiki__000.walkingstoursapp;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -53,7 +56,8 @@ public class SlidePageSupportFragment extends Fragment {
     private GoogleMap miniMap;
     DBController controller;
     Walk walk = new Walk();
-    ArrayList<Station> stations;
+    ArrayList<Station> stations = new ArrayList<Station>();
+    ArrayList<Photo> photos = new ArrayList<Photo>();
     private Marker marker;
     private LatLng latLng;
 
@@ -81,14 +85,24 @@ public class SlidePageSupportFragment extends Fragment {
             stations = controller.getStationsByWalkId(walk.getId());
             Log.i("walkId",walk.getId());
             if (stations != null) {
-                Log.i("STATIONS",""+stations.size());
+                Log.i("STATIONS", "" + stations.size());
                 //station title
                 title = (TextView) rootView.findViewById(R.id.station_title);
                 title.setText(stations.get(getPageNumber()).getTitle());
 
                 //station image
                 image = (ImageView) rootView.findViewById(R.id.station_image);
-                image.setImageResource(R.mipmap.ic_launcher);
+                photos = controller.getPhotosByWalkId(walk.getId());
+
+                if (photos == null) {
+                    image.setImageResource(R.mipmap.ic_launcher);
+                }else{
+                    //convert bytes into array
+                    byte[] decodedString = Base64.decode(photos.get(getPageNumber()).getImage(), Base64.DEFAULT);
+                    Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+                    image.setImageBitmap(decodedByte);
+                }
 
                 //station description
                 description = (TextView) rootView.findViewById(R.id.station_description);

@@ -36,12 +36,18 @@ public class Map extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map);
+
+
+        //handles the language in orientation changes
+        MyApplication.updateLanguage(getApplicationContext(), Language.language);
 
         //full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         //set the action bar for the right language
         getSupportActionBar().setTitle(getResources().getString(R.string.title_activity_map));
+
+        setContentView(R.layout.activity_map);
 
         //get the walkName
         Intent intent = getIntent();

@@ -31,6 +31,10 @@ public class WalkofDay extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_walkof_day);
 
+        //handles the language in orientation changes
+        MyApplication.updateLanguage(getApplicationContext(), Language.language);
+
+        //full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         //set the action bar for the right language
         getSupportActionBar().setTitle(getResources().getString(R.string.title_activity_walkof_day));
