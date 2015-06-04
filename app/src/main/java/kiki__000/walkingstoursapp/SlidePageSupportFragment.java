@@ -1,9 +1,18 @@
 package kiki__000.walkingstoursapp;
 
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -33,6 +42,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -52,6 +62,8 @@ public class SlidePageSupportFragment extends Fragment {
     private String walkName;
     private Button plusOne;
     private Button lessOne;
+    private Button twitter;
+    private String twitterText;
     private SupportMapFragment fragment;
     private GoogleMap miniMap;
     DBController controller;
@@ -110,7 +122,27 @@ public class SlidePageSupportFragment extends Fragment {
 
                 //lat & lng
                 latLng = new LatLng(stations.get(getPageNumber()).getLat(), stations.get(getPageNumber()).getLng());
+
+                //twitterText
+                twitterText = "Thessaloniki%23Walking%23Tours%23" + stations.get(getPageNumber()).getTitle() + "%23";
             }
+            else{
+                Log.i("stations", "null");
+                twitterText = "Thessaloniki%23Walking%23Tours%23";
+            }
+
+            //twitter button
+            twitter = (Button)rootView.findViewById(R.id.twitter);
+            twitter.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    String tweetUrl = "https://twitter.com/intent/tweet?text=" + twitterText;
+                    Uri uri = Uri.parse(tweetUrl);
+                    startActivity(new Intent(Intent.ACTION_VIEW, uri));
+                }
+            });
+
 
             //plus one & less one buttons for rating
             plusOne = (Button)rootView.findViewById(R.id.plus_one);
@@ -244,5 +276,5 @@ public class SlidePageSupportFragment extends Fragment {
 
 
 
-
+    
 }

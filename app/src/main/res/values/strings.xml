@@ -35,6 +35,7 @@
     <string name="show_route">Show the route</string>
     <string name="no_route">There is no route</string>
     <string name="end_route">This was the route</string>
+    <string name="no_app">This application does not exist.</string>
     <string name="text_about">The application has been designed by student Kyriaki Paniskaki
         for her thesis, under the supervision of professor Athina Vakali.
         "\n" "\n" "\n" Computer Science Department "\n" "\n" Aristotle University of Thessaloniki

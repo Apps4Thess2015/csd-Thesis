@@ -33,8 +33,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"/>
 
-            <!--rating-->
+            <!--twitter button-->
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="70dp"
+                android:background="@mipmap/twitter"
+                android:id="@+id/twitter"/>
 
+            <!--rating-->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
