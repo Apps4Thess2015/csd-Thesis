@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -34,6 +36,7 @@ public class ComingSoon extends ActionBarActivity {
     private String[] walkData = new String[7];
     private ListView dList;
     private TextView stayTuned;
+    private Animation fadeIn;
     private DBController controller = new DBController(this);
 
 
@@ -79,6 +82,10 @@ public class ComingSoon extends ActionBarActivity {
             //stay tuned
             stayTuned = (TextView)findViewById(R.id.stayTuned);
             stayTuned.setText(getResources().getString(R.string.stay_tuned));
+
+            //animation
+            fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+            stayTuned.startAnimation(fadeIn);
         }
     }
 

@@ -11,10 +11,11 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:id="@+id/stayTuned"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:id="@+id/stayTuned"/>
 
 
     <!--ListView for the description of a walk-->
@@ -28,6 +29,7 @@
         android:dividerHeight="0dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
+        android:gravity="center"
         android:paddingTop="5dp" />
 
 </RelativeLayout>

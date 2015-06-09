@@ -7,6 +7,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -23,6 +25,7 @@ public class WalkofDay extends ActionBarActivity {
     private int[] imageId = {R.mipmap.map, R.mipmap.ic_launcher};
     private TextView stayTuned;
     private String walkName;
+    private Animation fadeIn;
     // DB Class to perform DB related operations
     DBController controller = new DBController(this);
 
@@ -45,6 +48,10 @@ public class WalkofDay extends ActionBarActivity {
         if (walkList.size() == 0){ //if there isn't walk of day show a message
             stayTuned = (TextView)findViewById(R.id.noWalk);
             stayTuned.setText(getResources().getString(R.string.stay_tuned));
+
+            //animation
+            fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+            stayTuned.startAnimation(fadeIn);
         }
         else{ //else show the walk of day
             walkName = walkList.get(0).getName();

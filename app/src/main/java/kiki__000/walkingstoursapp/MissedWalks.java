@@ -11,6 +11,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -25,6 +27,7 @@ public class MissedWalks extends ActionBarActivity {
     private ArrayList<Integer> imageId = new ArrayList<Integer>();
     private TextView stayTuned;
     private String walkName;
+    private Animation fadeIn;
     // DB Class to perform DB related operations
     DBController controller = new DBController(this);
     // Progress Dialog Object
@@ -90,6 +93,9 @@ public class MissedWalks extends ActionBarActivity {
             stayTuned = (TextView)findViewById(R.id.stayTuned);
             stayTuned.setText(getString(R.string.stay_tuned));
 
+            //animation
+            fadeIn = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fade_in);
+            stayTuned.startAnimation(fadeIn);
         }
     }
 

@@ -10,10 +10,11 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:id="@+id/noWalk"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:id="@+id/noWalk"/>
 
     <!--inforamtion for walk of day-->
     <GridView
