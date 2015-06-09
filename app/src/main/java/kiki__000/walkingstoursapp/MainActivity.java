@@ -94,7 +94,7 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-        drawerOptions = new String[]{getResources().getString(R.string.left_scroll_item1), getResources().getString(R.string.left_scroll_item2), getResources().getString(R.string.left_scroll_item3)};
+        drawerOptions = new String[]{getResources().getString(R.string.left_scroll_item1), getResources().getString(R.string.left_scroll_item2), getResources().getString(R.string.left_scroll_item3), getResources().getString(R.string.left_scroll_item4)};
         dLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         ListViewAdapter adapterDrawer = new ListViewAdapter(MainActivity.this, drawerOptions);
@@ -109,13 +109,18 @@ public class MainActivity extends ActionBarActivity {
                     startActivity(intent);
                 }
                 if (position == 1) {
-                    Intent intent = new Intent(MainActivity.this, ThessalonikiWalkingTours.class);
+                    Intent intent = new Intent(MainActivity.this, Register.class);
                     startActivity(intent);
                 }
                 if (position == 2) {
+                    Intent intent = new Intent(MainActivity.this, ThessalonikiWalkingTours.class);
+                    startActivity(intent);
+                }
+                if (position == 3) {
                     Intent intent = new Intent(MainActivity.this, About.class);
                     startActivity(intent);
                 }
+
             }
         });
 

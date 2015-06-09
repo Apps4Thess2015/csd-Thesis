@@ -21,8 +21,9 @@
     <string name="title_activity_map">Χάρτης</string>
     <string name="refresh">Ανανέωση</string>
     <string name="left_scroll_item1">Γλώσσα</string>
-    <string name="left_scroll_item2">Thessaloniki Walking Tours</string>
-    <string name="left_scroll_item3">Σχετικά</string>
+    <string name="left_scroll_item2">Εγγραφή</string>
+    <string name="left_scroll_item3">Thessaloniki Walking Tours</string>
+    <string name="left_scroll_item4">Σχετικά</string>
     <string name="title_activity_language">Γλώσσα</string>
     <string name="title_activity_about">Σχετικά</string>
     <string name="stay_tuned">Σύντομα κοντά σας με έναν νέο περίπατο!</string>
@@ -41,4 +42,11 @@
         στο πλαίσιο της διπλωματικής της, υπό την επίβλεψη της καθηγήτριας Αθηνά Βακάλη.
         "\n" "\n" "\n" Τμήμα Πληροφορικής "\n" "\n" Αριστοτέλειο Πανεπιστήμιο Θεσσαλονίκης
     </string>
+    <string name="title_activity_register">Εγγραφή</string>
+    <string name="resister_text">Εγγράψου έτσι, ώστε να λαμβάνεις μηνύματα και να μπορείς να ανανεώσεις τη βάση.</string>
+    <string name="mail">E-mail</string>
+    <string name="title_activity_greeting">Καλώς ήρθατε</string>
+    <string name="title_activity_message">Μήνυμα</string>
+    <string name="welcome_text">Καλώς ήρθατε στην εφαρμογή Τhessaloniki Walking Tours. Τώρα μπορείτε να λαμβάνεται μηνύματα απο τον server.</string>
+    <string name="register_as">Είστε εγγεγραμμένος ως </string>
 </resources>

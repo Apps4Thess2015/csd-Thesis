@@ -3,6 +3,7 @@ package kiki__000.walkingstoursapp;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -39,6 +40,7 @@ public class SampleBC extends BroadcastReceiver {
                     // If the count value is not zero, call MyService to display notification
                     if(obj.getInt("count") != 0){
                         final Intent intnt = new Intent(context, MyService.class);
+                        Log.i("SERVICE", "here");
                         // Set unsynced count in intent data
                         intnt.putExtra("intntdata", "Unsynced Rows Count "+obj.getInt("count"));
                         // Call MyService

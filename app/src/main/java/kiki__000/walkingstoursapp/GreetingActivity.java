@@ -1,29 +1,41 @@
 package kiki__000.walkingstoursapp;
 
-import android.support.v7.app.ActionBarActivity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 
-public class ThessalonikiWalkingTours extends ActionBarActivity {
+public class GreetingActivity extends ActionBarActivity {
+
+    private TextView mail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_thessaloniki_walking_tours);
+        setContentView(R.layout.activity_greeting);
 
         //full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         //set the action bar for the right language
-        getSupportActionBar().setTitle(getResources().getString(R.string.title_activity_thessaloniki_walking_tours));
+        getSupportActionBar().setTitle(getResources().getString(R.string.title_activity_greeting));
+
+        SharedPreferences prefs = getSharedPreferences("UserDetails",
+                Context.MODE_PRIVATE);
+
+        mail = (TextView) findViewById(R.id.mail);
+
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_thessaloniki_walking_tours, menu);
+        getMenuInflater().inflate(R.menu.menu_greeting, menu);
         return true;
     }
 
@@ -41,4 +53,5 @@ public class ThessalonikiWalkingTours extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }

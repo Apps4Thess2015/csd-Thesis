@@ -20,8 +20,9 @@
     <string name="title_activity_map">Map</string>
     <string name="refresh">Refresh</string>
     <string name="left_scroll_item1">Language</string>
-    <string name="left_scroll_item2">Thessaloniki Walking Tours</string>
-    <string name="left_scroll_item3">About</string>
+    <string name="left_scroll_item2">Register</string>
+    <string name="left_scroll_item3">Thessaloniki Walking Tours</string>
+    <string name="left_scroll_item4">About</string>
     <string name="title_activity_language">Language</string>
     <string name="title_activity_about">About</string>
     <string name="stay_tuned">More events coming soon! Stay tuned</string>
@@ -40,4 +41,11 @@
         for her thesis, under the supervision of professor Athina Vakali.
         "\n" "\n" "\n" Computer Science Department "\n" "\n" Aristotle University of Thessaloniki
     </string>
+    <string name="title_activity_register">Register</string>
+    <string name="resister_text">Register in order to receive messages and to be able to update the database.</string>
+    <string name="mail">E-mail</string>
+    <string name="title_activity_greeting">Welcome</string>
+    <string name="title_activity_message">Message</string>
+    <string name="welcome_text">Welcome in Thessaloniki Walking Tours App. Now you will receive messages from server.</string>
+    <string name="register_as">You have register as </string>
 </resources>

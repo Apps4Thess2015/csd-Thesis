@@ -59,15 +59,15 @@ public class UpdateSqlLite {
         //increase dbVersion
        // controller.increaseDbVersion();
 
-        //update walksG
+        //update table walksG
         syncSQLiteMySQLDB(urls[0], lang[0]);
-        //update walksE
+        //update table walksE
         syncSQLiteMySQLDB(urls[1], lang[1]);
-        //update stationsG
+        //update table stationsG
         syncSQLiteMySQLDB(urls[2], lang[0]);
-        //update stationsE
+        //update table stationsE
         syncSQLiteMySQLDB(urls[3], lang[1]);
-        //update Photos
+        //update table Photos
         syncSQLiteMySQLDB(urls[4], lang[0]);
     }
 

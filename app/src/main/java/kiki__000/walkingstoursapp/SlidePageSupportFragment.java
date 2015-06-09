@@ -276,5 +276,5 @@ public class SlidePageSupportFragment extends Fragment {
 
 
 
-    
+
 }

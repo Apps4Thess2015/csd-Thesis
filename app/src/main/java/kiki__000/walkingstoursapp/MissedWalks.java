@@ -89,6 +89,7 @@ public class MissedWalks extends ActionBarActivity {
             //stay tuned
             stayTuned = (TextView)findViewById(R.id.stayTuned);
             stayTuned.setText(getString(R.string.stay_tuned));
+
         }
     }
 

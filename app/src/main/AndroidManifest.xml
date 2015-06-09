@@ -16,14 +16,18 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    <!-- This app has permission to register and receive data message. -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -69,6 +73,36 @@
         <activity
             android:name=".ThessalonikiWalkingTours"
             android:label="@string/title_activity_thessaloniki_walking_tours" >
+        </activity>
+        <!-- Register MyService -->
+        <service
+            android:name=".GCMNotificationIntentService"
+            android:enabled="true" >
+        </service>
+        <!-- Register BroadCase Receiver -->
+        <receiver
+            android:name=".GcmBroadcastReceiver"
+            android:enabled="true"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="com.app.muf_appen" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".Register"
+            android:label="@string/title_activity_register" >
+        </activity>
+        <activity
+            android:name=".GreetingActivity"
+            android:label="@string/title_activity_greeting" >
+        </activity>
+        <activity
+            android:name=".Message"
+            android:label="@string/title_activity_message" >
         </activity>
     </application>
 
