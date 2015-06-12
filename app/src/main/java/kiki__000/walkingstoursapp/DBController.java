@@ -28,7 +28,7 @@ public class DBController extends SQLiteOpenHelper {
     public static String stations;
 
     public DBController(Context applicationcontext) {
-        super(applicationcontext, "walks.db", null, 29);
+        super(applicationcontext, "walks.db", null, 35);
     }
 
     //Create Table

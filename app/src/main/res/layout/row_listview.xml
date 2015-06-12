@@ -2,10 +2,11 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:stretchColumns="0,1">
+    android:shrinkColumns="*"
+    android:stretchColumns="*" >
 
     <TableRow
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center">
         <TextView
@@ -14,16 +15,15 @@
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
             android:layout_gravity="center_vertical"
-            android:textSize="20dp"
-            android:layout_column="0" />
+            android:textSize="20sp" />
 
         <ImageView
             android:id="@+id/listImage"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="50dp"
             android:layout_gravity="end"
-            android:background="@mipmap/ic_launcher"
-            android:layout_column="4" />
+            android:background="@mipmap/arrow"
+            android:layout_column="5" />
     </TableRow>
 
     <!-- Line -->

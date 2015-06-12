@@ -1,7 +1,6 @@
 package kiki__000.walkingstoursapp;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -13,6 +12,7 @@ import android.widget.TextView;
 public class GreetingActivity extends ActionBarActivity {
 
     private TextView mail;
+    private String emailId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,10 +24,13 @@ public class GreetingActivity extends ActionBarActivity {
         //set the action bar for the right language
         getSupportActionBar().setTitle(getResources().getString(R.string.title_activity_greeting));
 
-        SharedPreferences prefs = getSharedPreferences("UserDetails",
-                Context.MODE_PRIVATE);
+
+        //get the emailID
+        Intent intent = getIntent();
+        emailId = intent.getStringExtra("emailId");
 
         mail = (TextView) findViewById(R.id.mail);
+        mail.setText(emailId);
 
 
     }

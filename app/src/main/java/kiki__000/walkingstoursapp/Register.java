@@ -67,10 +67,12 @@ public class Register extends ActionBarActivity {
         SharedPreferences prefs = getSharedPreferences("UserDetails",
                 Context.MODE_PRIVATE);
         String registrationId = prefs.getString(REG_ID, "");
+        String emailId = prefs.getString(EMAIL_ID, "");
 
         if (!TextUtils.isEmpty(registrationId)) {
             Intent i = new Intent(applicationContext, GreetingActivity.class);
             i.putExtra("regId", registrationId);
+            i.putExtra("emailId", emailId);
             startActivity(i);
             finish();
         }

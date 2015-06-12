@@ -48,4 +48,17 @@
     <string name="title_activity_message">Message</string>
     <string name="welcome_text">Welcome in Thessaloniki Walking Tours App. Now you will receive messages from server.</string>
     <string name="register_as">You have register as </string>
+    <string name="member1">Evi Karkiti</string>
+    <string name="member2">Kostis Zafeirakis</string>
+    <string name="member3">Alkistis Charsouli</string>
+    <string name="member4">George Featham</string>
+    <string name="member5">Philip Chatzissimou</string>
+    <string name="member6">Christos Ananiadis</string>
+    <string name="title_activity_csdescription_of_awalk">Description</string>
+    <string name="info_member1">Evi Karkiti text</string>
+    <string name="info_member2">Kostis Zafeirakis text</string>
+    <string name="info_member3">Alkistis Charsouli text</string>
+    <string name="info_member4">George Featham text</string>
+    <string name="info_member5">Philip Chatzissimou text</string>
+    <string name="info_member6">Christos Ananiadis text</string>
 </resources>

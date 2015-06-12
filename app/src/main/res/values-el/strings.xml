@@ -49,4 +49,17 @@
     <string name="title_activity_message">Μήνυμα</string>
     <string name="welcome_text">Καλώς ήρθατε στην εφαρμογή Τhessaloniki Walking Tours. Τώρα μπορείτε να λαμβάνεται μηνύματα απο τον server.</string>
     <string name="register_as">Είστε εγγεγραμμένος ως </string>
+    <string name="member1">Εύη Καρκίτη</string>
+    <string name="member2">Κωστής Ζαφειράκης</string>
+    <string name="member3">Άλκιστης Χαρσουλή</string>
+    <string name="member4">Γιώργος Φίθαμ</string>
+    <string name="member5">Φίλιππος Χατζησσίμου</string>
+    <string name="member6">Χρήστος Ανανιάδης</string>
+    <string name="title_activity_csdescription_of_awalk">Περιγραφή</string>
+    <string name="info_member1">Εύη Καρκίτη text</string>
+    <string name="info_member2">Κωστής Ζαφειράκης text</string>
+    <string name="info_member3">Άλκιστης Χαρσουλή text</string>
+    <string name="info_member4">Γιώργος Φίθαμ text</string>
+    <string name="info_member5">Φίλιππος Χατζησσίμου text</string>
+    <string name="info_member6">Χρήστος Ανανιάδης text</string>
 </resources>

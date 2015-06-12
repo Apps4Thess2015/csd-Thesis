@@ -35,8 +35,8 @@
 
             <!--twitter button-->
             <Button
-                android:layout_width="100dp"
-                android:layout_height="70dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:background="@mipmap/twitter"
                 android:id="@+id/twitter"/>
 

@@ -1,42 +1,25 @@
 package kiki__000.walkingstoursapp;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.GridView;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
 
 public class ComingSoon extends ActionBarActivity {
 
-    private int[] imagesId = {R.mipmap.walk, R.mipmap.date, R.mipmap.time,R.mipmap.venue, R.mipmap.kind, R.mipmap.guide, R.mipmap.description};
-    private String[] walkData = new String[7];
     private ListView dList;
     private TextView stayTuned;
     private Animation fadeIn;
+    private ArrayList<String> namesOfWalksCS = new ArrayList<String>();
     private DBController controller = new DBController(this);
 
 
@@ -60,27 +43,34 @@ public class ComingSoon extends ActionBarActivity {
         ArrayList<Walk> walkList = controller.getAllWalks(2);
 
         if (walkList.size() != 0) { // If walks exists in SQLite DB
-            for (int i=0; i<walkList.size();i++){
-                //walk
-                walkData[0] = walkList.get(i).getName();
-                walkData[1] = walkList.get(i).getDate();
-                walkData[2] = walkList.get(i).getTime();
-                walkData[3] = walkList.get(i).getVenue();
-                walkData[4] = walkList.get(i).getKind();
-                walkData[5] = walkList.get(i).getGuide();
-                walkData[6] = walkList.get(i).getDescription();
+
+            //get the names of walks with status 2
+            for (int i = 0; i < walkList.size(); i++) {
+                namesOfWalksCS.add(walkList.get(i).getName());
             }
 
+            //convert the arrayList to array of strings
+            String[] names = new String[namesOfWalksCS.size()];
+            names = namesOfWalksCS.toArray(names);
+
             //set the listView
-            ListViewAdapterCS adapter = new ListViewAdapterCS(ComingSoon.this, walkData, imagesId);
+            ListViewAdapter adapter = new ListViewAdapter(ComingSoon.this, names);
             dList = (ListView) findViewById(R.id.listView);
             dList.setAdapter(adapter);
+            dList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                    String walkName = namesOfWalksCS.get(position);
 
-        }
-        else{
+                    Intent intent = new Intent(ComingSoon.this, CSDescriptionOfAWalk.class);
+                    intent.putExtra("walkName", walkName);
+                    startActivity(intent);
+                }
+            });
+        } else {
             //stay tuned
-            stayTuned = (TextView)findViewById(R.id.stayTuned);
+            stayTuned = (TextView) findViewById(R.id.stayTuned);
             stayTuned.setText(getResources().getString(R.string.stay_tuned));
 
             //animation
