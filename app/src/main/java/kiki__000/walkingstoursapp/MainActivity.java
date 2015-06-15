@@ -12,25 +12,29 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.Locale;
 import java.util.Objects;
 
 public class MainActivity extends ActionBarActivity {
 
-    private GridView grid;
-    private String[] menuOptions;
-    private int[] imageId = {R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher};
     private String[] drawerOptions;
     private DrawerLayout dLayout;
     private ListView dList;
+    private TextView menu1;
+    private TextView menu2;
+    private TextView menu3;
+    private GraphicsView graphics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //setContentView(new GraphicsView(this, "lalal"));
 
         //handles the language in orientation changes
         MyApplication.updateLanguage(getApplicationContext(), Language.language);
@@ -69,33 +73,38 @@ public class MainActivity extends ActionBarActivity {
         }
 
 
+        //button for first menu option - missed walks
+        menu1 = (TextView)findViewById(R.id.menu1);
+        menu1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MissedWalks.class);
+                startActivity(intent);
+            }
+        });
 
-        menuOptions = new String[]{getResources().getString(R.string.menu1), getResources().getString(R.string.menu2), getResources().getString(R.string.menu3)};
+        //button for second menu option - walk of day
+        menu2 = (TextView)findViewById(R.id.menu2);
+        menu2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, WalkofDay.class);
+                startActivity(intent);
+            }
+        });
 
-        CustomGrid adapter = new CustomGrid(MainActivity.this, menuOptions, imageId);
-        grid = (GridView)findViewById(R.id.grid);
-        grid.setAdapter(adapter);
-
-        grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-
-                if (position == 0){
-                    Intent intent = new Intent(MainActivity.this, MissedWalks.class);
-                    startActivity(intent);
-                }
-                else if (position == 1){
-                    Intent intent = new Intent(MainActivity.this, WalkofDay.class);
-                    startActivity(intent);
-                }
-                else if (position == 2){
-                    Intent intent = new Intent(MainActivity.this, ComingSoon.class);
-                    startActivity(intent);
-                }
+        //button for third menu option - coming soon
+        menu3 = (TextView)findViewById(R.id.menu3);
+        menu3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ComingSoon.class);
+                startActivity(intent);
             }
         });
 
         drawerOptions = new String[]{getResources().getString(R.string.left_scroll_item1), getResources().getString(R.string.left_scroll_item2), getResources().getString(R.string.left_scroll_item3), getResources().getString(R.string.left_scroll_item4)};
-        dLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        //dLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         ListViewAdapter adapterDrawer = new ListViewAdapter(MainActivity.this, drawerOptions);
         dList = (ListView) findViewById(R.id.left_drawer);

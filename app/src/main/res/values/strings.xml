@@ -39,7 +39,7 @@
     <string name="no_app">This application does not exist.</string>
     <string name="text_about">The application has been designed by student Kyriaki Paniskaki
         for her thesis, under the supervision of professor Athina Vakali.
-        "\n" "\n" "\n" Computer Science Department "\n" "\n" Aristotle University of Thessaloniki
+        "\n" "\n" "\n" Informatics School "\n" "\n" Aristotle University of Thessaloniki
     </string>
     <string name="title_activity_register">Register</string>
     <string name="resister_text">Register in order to receive messages and to be able to update the database.</string>
@@ -49,16 +49,26 @@
     <string name="welcome_text">Welcome in Thessaloniki Walking Tours App. Now you will receive messages from server.</string>
     <string name="register_as">You have register as </string>
     <string name="member1">Evi Karkiti</string>
-    <string name="member2">Kostis Zafeirakis</string>
-    <string name="member3">Alkistis Charsouli</string>
-    <string name="member4">George Featham</string>
-    <string name="member5">Philip Chatzissimou</string>
-    <string name="member6">Christos Ananiadis</string>
+    <string name="member2">Kostis Zafirakis</string>
+    <string name="member3">George Featham</string>
+    <string name="member4">Tasos Papadopoulos</string>
+    <string name="member5">Alkistis Charsouli</string>
+    <string name="member6">Mada Dimaki</string>
     <string name="title_activity_csdescription_of_awalk">Description</string>
-    <string name="info_member1">Evi Karkiti text</string>
-    <string name="info_member2">Kostis Zafeirakis text</string>
-    <string name="info_member3">Alkistis Charsouli text</string>
-    <string name="info_member4">George Featham text</string>
-    <string name="info_member5">Philip Chatzissimou text</string>
-    <string name="info_member6">Christos Ananiadis text</string>
+    <string name="info_member1">Journalist and team manager. She organizes walking tours and she is responsible for the
+        company’s communication and public relations. She never misses the opportunity to take photographic snapshots during
+        the walking tours.</string>
+    <string name="info_member2">Journalist, radio and television producer with vast experience in the TV reportage and a real
+        taste aficionado, he keeps wandering in the markets offering an unforgettable gastronomic experience.</string>
+    <string name="info_member3">Archaeologist, art historian, a PhD student and a licensed tour guide, with a subversive attitude
+        and an endless humour. He is a real storyteller and he has a deep knowledge of the city’s history, a history that will lead
+        you to the most unexpected places.</string>
+    <string name="info_member4">Archaeologist, a PhD student of Byzantine archaeology and a licensed tour guide. He is both a
+        magnificent narrator and an inquiring mind and he has a really unique way of approaching not only city’s history but also
+        city’s stories and urban legends.</string>
+    <string name="info_member5">Archaeologist and a theatre aficionado, she designed a very agreeable evening walking tour full
+        of theatre stories, secret love stories and urban legends that come right from the Belle Epoque era in Thessaloniki.</string>
+    <string name="info_member6">Journalist and professor, in charge of promotion issues. Being also fully capable to understand the
+        students’ needs and combine the informal learning with fun, she is a valuable advisor to the educational program of the
+        company.</string>
 </resources>

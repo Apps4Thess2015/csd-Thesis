@@ -14,8 +14,6 @@ import java.util.ArrayList;
  */
 public class DBController extends SQLiteOpenHelper {
 
-    //database Version number
-    private int dbVersion;
     //columns' names of table walks
     private static final String[] COLUMNSWalks = {"id", "name", "date", "time", "venue", "kind", "guide", "description", "stations", "status"};
     //columns' names of table stations
@@ -28,7 +26,7 @@ public class DBController extends SQLiteOpenHelper {
     public static String stations;
 
     public DBController(Context applicationcontext) {
-        super(applicationcontext, "walks.db", null, 35);
+        super(applicationcontext, "walks.db", null, 36);
     }
 
     //Create Table
@@ -79,20 +77,6 @@ public class DBController extends SQLiteOpenHelper {
 
         onCreate(database);
     }
-
-    /**
-     * increase dbVersion by one
-     * when the user update the local database
-     * in order not to be there duplicates
-     * */
-    public void increaseDbVersion(){ dbVersion++; }
-
-    /**
-     * get the database version number
-     *
-     * @return dbVersion
-     * */
-    public int getDbVersion(){return dbVersion;}
 
     /**
      * Inserts Walk into SQLite DB with this lang

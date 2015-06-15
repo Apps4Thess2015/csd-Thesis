@@ -1,6 +1,10 @@
 package kiki__000.walkingstoursapp;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.renderscript.Allocation;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -10,6 +14,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -20,7 +25,7 @@ public class ThessalonikiWalkingTours extends ActionBarActivity {
 
     private String[] team;
     private String[] info;
-    private int[] imageId = {R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher};
+    private int[] imageId;
     private TableLayout table;
     private ArrayList<TableRow> hiddenRows = new ArrayList<>();
     private ArrayList<Button> buttons = new ArrayList<>();
@@ -35,6 +40,8 @@ public class ThessalonikiWalkingTours extends ActionBarActivity {
         //set the action bar for the right language
         getSupportActionBar().setTitle(getResources().getString(R.string.title_activity_thessaloniki_walking_tours));
 
+        //create array with team's photos
+        imageId = new int[]{R.mipmap.evi, R.mipmap.kostis, R.mipmap.giorgos, R.mipmap.tasos, R.mipmap.alkistis, R.mipmap.mada};
         //create array with team's names
         team = new String[]{getResources().getString(R.string.member1), getResources().getString(R.string.member2), getResources().getString(R.string.member3), getResources().getString(R.string.member4), getResources().getString(R.string.member5), getResources().getString(R.string.member6)};
         //create array with team's info
@@ -49,21 +56,27 @@ public class ThessalonikiWalkingTours extends ActionBarActivity {
             TableRow row= new TableRow(this);
 
             TableLayout.LayoutParams layoutRow = new TableLayout.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.MATCH_PARENT);
+            layoutRow.setMargins(5, 5, 5, 5);
             row.setLayoutParams(layoutRow);
 
             int index = i/2;
             //member image
             ImageView image = new ImageView(this);
+            TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(80, 80);
+            image.setLayoutParams(layoutParams);
             image.setBackgroundResource(imageId[index]);
 
             //member name
             TextView name = new TextView(this);
             name.setText(team[index]);
+            name.setTextSize(getResources().getDimension(R.dimen.text_size));
 
             //button in order to show the info of member
             Button more = new Button(this);
-            more.setText("more");
-            more.setBackgroundColor(Color.TRANSPARENT);
+            TableRow.LayoutParams buttonParams = new TableRow.LayoutParams(20, 20);
+            more.setLayoutParams(buttonParams);
+            more.setBackgroundResource(R.mipmap.down_arrow);
+            more.setTag("more");
             more.setId(i);
             more.setOnClickListener(infoButtonClickListener(more));
             buttons.add(more);
@@ -135,21 +148,30 @@ public class ThessalonikiWalkingTours extends ActionBarActivity {
 
                 int position = button.getId();
 
-                if (button.getText() == "more") {
+                if (button.getTag() == "more") {
                     for (int i = 0; i < hiddenRows.size(); i++) {
                         if (hiddenRows.get(i).getId() == position) {
                             hiddenRows.get(i).setVisibility(View.VISIBLE);
-                            buttons.get(i).setText("less");
+                            TableRow.LayoutParams buttonParams = new TableRow.LayoutParams(20, 20);
+                            buttons.get(i).setLayoutParams(buttonParams);
+                            buttons.get(i).setBackgroundResource(R.mipmap.up_arrow);
+                            buttons.get(i).setTag("less");
                         } else {
                             hiddenRows.get(i).setVisibility(View.GONE);
-                            buttons.get(i).setText("more");
+                            TableRow.LayoutParams buttonParams = new TableRow.LayoutParams(20, 20);
+                            buttons.get(i).setLayoutParams(buttonParams);
+                            buttons.get(i).setBackgroundResource(R.mipmap.down_arrow);
+                            buttons.get(i).setTag("more");
                         }
                     }
                 }else{
                     for (int i = 0; i < hiddenRows.size(); i++) {
                         if (hiddenRows.get(i).getId() == position) {
                             hiddenRows.get(i).setVisibility(View.GONE);
-                            buttons.get(i).setText("more");
+                            TableRow.LayoutParams buttonParams = new TableRow.LayoutParams(20, 20);
+                            buttons.get(i).setLayoutParams(buttonParams);
+                            buttons.get(i).setBackgroundResource(R.mipmap.down_arrow);
+                            buttons.get(i).setTag("more");
                         }
                     }
                 }

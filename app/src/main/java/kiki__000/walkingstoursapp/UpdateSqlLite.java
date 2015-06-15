@@ -46,18 +46,7 @@ public class UpdateSqlLite {
         prgDialog = new ProgressDialog(context);
         prgDialog.setMessage("Transferring Data from Remote MySQL DB and Syncing SQLite. Please wait...");
         prgDialog.setCancelable(false);
-        // BroadCase Receiver Intent Object
-        Intent alarmIntent = new Intent(context, SampleBC.class);
-        // Pending Intent Object
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        // Alarm Manager Object
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        // Alarm Manager calls BroadCast for every Ten seconds (10 * 1000), BroadCase further calls service to check if new records are inserted in
-        // Remote MySQL DB
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis() + 5000, 10 * 1000, pendingIntent);
 
-        //increase dbVersion
-       // controller.increaseDbVersion();
 
         //update table walksG
         syncSQLiteMySQLDB(urls[0], lang[0]);

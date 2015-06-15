@@ -15,15 +15,50 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <!--GridView for menu options-->
-            <GridView
-                android:id="@+id/grid"
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:columnWidth="100dp"
-                android:layout_gravity="center"
-                android:numColumns="1"
-                android:stretchMode="columnWidth" />
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <!-- pasted walks button-->
+                    <TextView
+                        android:id="@+id/menu1"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="start"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/circle_button"
+
+                        android:text="@string/menu1"/>
+
+                    <!-- walk of day button-->
+                    <TextView
+                        android:id="@+id/menu2"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="end"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/circle_button"
+                        android:text="@string/menu2"/>
+
+                    <!-- coming soon button-->
+                    <TextView
+                        android:id="@+id/menu3"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="start"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/circle_button"
+                        android:text="@string/menu3"/>
+
+                </LinearLayout>
+            </ScrollView>
 
 
         </FrameLayout>
