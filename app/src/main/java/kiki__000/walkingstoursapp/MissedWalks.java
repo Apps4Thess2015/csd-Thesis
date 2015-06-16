@@ -37,10 +37,11 @@ public class MissedWalks extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_missed_walks);
 
-        //handles the language in orientation changes
-        MyApplication.updateLanguage(getApplicationContext(), Language.language);
+        //set the lang from sharedPreferences
+        MyApplication.updateLanguage(getApplicationContext());
+
+        setContentView(R.layout.activity_missed_walks);
 
         //full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);

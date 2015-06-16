@@ -51,6 +51,9 @@ public class SlideLastPageSupportFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        //set the lang from sharedPreferences
+        MyApplication.updateLanguage(getActivity().getApplicationContext());
+
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.slide_page, container, false);
 
         walkName = ShowMeAWalk.walkName;

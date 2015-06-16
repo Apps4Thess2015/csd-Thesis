@@ -1,6 +1,8 @@
 package kiki__000.walkingstoursapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -23,15 +25,16 @@ public class Language extends ActionBarActivity {
 
     private String[] languages;
     private ListView listViewLang;
-    public static String language;
+    private String language;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_language);
 
-        //handles the language in orientation changes
-        MyApplication.updateLanguage(getApplicationContext(), Language.language);
+        //set the lang from sharedPreferences
+        MyApplication.updateLanguage(getApplicationContext());
+
+        setContentView(R.layout.activity_language);
 
         //full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -67,8 +70,13 @@ public class Language extends ActionBarActivity {
                     config.locale = locale;
                     getApplicationContext().getResources().updateConfiguration(config, null);
                     language = "en_US";
-
                 }
+                Log.i("LANGUAGE", language);
+                //store language in sharedPreferences
+                SharedPreferences prefs = getSharedPreferences("language", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("lang", language);
+                editor.apply();
 
                 //reload activity
                 Intent intent = new Intent(Language.this, MainActivity.class);

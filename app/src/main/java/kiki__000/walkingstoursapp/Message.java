@@ -28,6 +28,10 @@ public class Message extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //set the lang from sharedPreferences
+        MyApplication.updateLanguage(getApplicationContext());
+
         setContentView(R.layout.activity_message);
 
         //full screen

@@ -1,11 +1,14 @@
 package kiki__000.walkingstoursapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,45 +36,15 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //set the lang from sharedPreferences
+        MyApplication.updateLanguage(getApplicationContext());
+
         setContentView(R.layout.activity_main);
         //setContentView(new GraphicsView(this, "lalal"));
 
-        //handles the language in orientation changes
-        MyApplication.updateLanguage(getApplicationContext(), Language.language);
-
         //full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-       // Locale current = getResources().getConfiguration().locale;
-        //String current = Locale.getDefault().getDisplayLanguage();
-        //Log.i("locale", current);
-
-
-        //set the language of tables in local database
-        String lang = Language.language;
-
-        if(lang == null){
-            String current = Locale.getDefault().getDisplayLanguage();
-            Log.i("locale", current);
-            if (current.equals("????????")){
-                DBController.walks = "walksG";
-                DBController.stations = "stationsG";
-            }
-            else{
-                DBController.walks = "walksE";
-                DBController.stations = "stationsE";
-            }
-        }
-        else {
-            if (lang.equals("en_US")) {
-                DBController.walks = "walksE";
-                DBController.stations = "stationsE";
-            } else if (lang.equals("el")) {
-                DBController.walks = "walksG";
-                DBController.stations = "stationsG";
-            }
-        }
-
 
         //button for first menu option - missed walks
         menu1 = (TextView)findViewById(R.id.menu1);

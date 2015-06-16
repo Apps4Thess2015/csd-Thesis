@@ -1,75 +1,69 @@
 package kiki__000.walkingstoursapp;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.preference.PreferenceManager;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.util.Locale;
 
 /**
- * Created by kiki__000 on 26-May-15.
+ * Created by kiki__000 on 16-Jun-15.
  */
-public class MyApplication extends Application {
+public class MyApplication {
 
-    public static final String FORCE_LOCAL = "force_local";
+    public static void updateLanguage(Context context){
 
-    @Override
-    public void onCreate()
-    {
-        updateLanguage(this,null);
-        super.onCreate();
-    }
+        //get the language of sharedPreferences
+        SharedPreferences prefs = context.getSharedPreferences("language", Context.MODE_PRIVATE);
+        String lang = prefs.getString("lang", "");
+        Log.i("langSP", lang);
 
-    public static void updateLanguage(Context ctx, String lang)
-    {
-        Configuration cfg = new Configuration();
-        SharedPreferences force_pref = PreferenceManager.getDefaultSharedPreferences(ctx);
-        String language = force_pref.getString(FORCE_LOCAL, "");
-
-        if(TextUtils.isEmpty(language)&&lang==null){
-            cfg.locale = Locale.getDefault();
-
-            SharedPreferences.Editor edit = force_pref.edit();
-            String tmp="";
-            tmp=Locale.getDefault().toString().substring(0, 2);
-
-            edit.putString(FORCE_LOCAL, tmp);
-            edit.commit();
-
-        }else if(lang!=null){
-            cfg.locale = new Locale(lang);
-            SharedPreferences.Editor edit = force_pref.edit();
-            edit.putString(FORCE_LOCAL, lang);
-            //set the language of tables in local database
-            if (lang.equals("en_US")){
-                DBController.walks = "walksE";
-                DBController.stations = "stationsE";
-            }
-            else{
+        if (TextUtils.isEmpty(lang)) {
+            //set the default language
+            Locale current = context.getResources().getConfiguration().locale;
+            Log.i("localeHERE", current.toString());
+            if (current.equals("el")){
+                Locale locale = new Locale("el");
+                Locale.setDefault(locale);
+                Configuration config = new Configuration();
+                config.locale = locale;
+                context.getResources().updateConfiguration(config, null);
                 DBController.walks = "walksG";
                 DBController.stations = "stationsG";
             }
-            edit.commit();
+            else{
+                Locale locale = new Locale("en_US");
+                Locale.setDefault(locale);
+                Configuration config = new Configuration();
+                config.locale = locale;
+                context.getResources().updateConfiguration(config, null);
+                DBController.walks = "walksE";
+                DBController.stations = "stationsE";
+            }
 
-        }else if(!TextUtils.isEmpty(language)){
-            cfg.locale = new Locale(language);
+        }else{
+            if (lang.equals("en_US")) {
+                Log.i("here1", "edw1");
+                Locale locale = new Locale("en_US");
+                Locale.setDefault(locale);
+                Configuration config = new Configuration();
+                config.locale = locale;
+                context.getResources().updateConfiguration(config, null);
+                DBController.walks = "walksE";
+                DBController.stations = "stationsE";
+            } else if (lang.equals("el")) {
+                Log.i("here2", "edw2");
+                Locale locale = new Locale("el");
+                Locale.setDefault(locale);
+                Configuration config = new Configuration();
+                config.locale = locale;
+                context.getResources().updateConfiguration(config, null);
+                DBController.walks = "walksG";
+                DBController.stations = "stationsG";
+            }
+
         }
-
-        ctx.getResources().updateConfiguration(cfg, null);
-    }
-
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig)
-    {
-        SharedPreferences force_pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext().getApplicationContext());
-
-        String language = force_pref.getString(FORCE_LOCAL, "");
-
-        super.onConfigurationChanged(newConfig);
-        updateLanguage(this,language);
     }
 }

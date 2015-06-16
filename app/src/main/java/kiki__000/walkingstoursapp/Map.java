@@ -37,9 +37,8 @@ public class Map extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-        //handles the language in orientation changes
-        MyApplication.updateLanguage(getApplicationContext(), Language.language);
+        //set the lang from sharedPreferences
+        MyApplication.updateLanguage(getApplicationContext());
 
         //full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);

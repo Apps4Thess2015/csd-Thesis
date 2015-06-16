@@ -27,10 +27,11 @@ public class ShowMeAWalk extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_me_awalk);
 
-        //handles the language in orientation changes
-        MyApplication.updateLanguage(getApplicationContext(), Language.language);
+        //set the lang from sharedPreferences
+        MyApplication.updateLanguage(getApplicationContext());
+
+        setContentView(R.layout.activity_show_me_awalk);
 
         //full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);

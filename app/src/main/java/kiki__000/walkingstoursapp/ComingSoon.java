@@ -26,10 +26,11 @@ public class ComingSoon extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_coming_soon);
 
-        //handles the language in orientation changes
-        MyApplication.updateLanguage(getApplicationContext(), Language.language);
+        //set the lang from sharedPreferences
+        MyApplication.updateLanguage(getApplicationContext());
+
+        setContentView(R.layout.activity_coming_soon);
 
         //full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
