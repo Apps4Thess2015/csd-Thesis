@@ -1,50 +1,41 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/fuschia"
     tools:context="kiki__000.walkingstoursapp.ThessalonikiWalkingTours">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/team_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/thessaloniki_walking_tour_team_text"
+            android:textSize="@dimen/text_size" />
+
+
+        <TableLayout
+            android:id="@+id/table"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_margin="5dp"
-            android:orientation="vertical">
+            android:layout_marginTop="300dp"
+            android:gravity="center"
+            android:shrinkColumns="*"
+            android:stretchColumns="*">
+
+        </TableLayout>
 
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size"
-                android:gravity="center"
-                android:visibility="visible"
-                android:layout_marginBottom="15dp"
-                android:text="@string/thessaloniki_walking_tour_team_text"
-                android:id="@+id/team_text"/>
+    </LinearLayout>
 
-            <TableLayout
-                android:id="@+id/table"
-                android:layout_weight="1.0"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="300dp"
-                android:layout_marginBottom="10dp"
-                android:paddingBottom="10dp"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:shrinkColumns="*"
-                android:stretchColumns="*" >
+</ScrollView>
 
-            </TableLayout>
-
-        </LinearLayout>
-
-    </ScrollView>
-
-
-</RelativeLayout>

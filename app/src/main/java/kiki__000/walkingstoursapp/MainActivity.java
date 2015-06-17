@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -77,7 +78,7 @@ public class MainActivity extends ActionBarActivity {
         });
 
         drawerOptions = new String[]{getResources().getString(R.string.left_scroll_item1), getResources().getString(R.string.left_scroll_item2), getResources().getString(R.string.left_scroll_item3), getResources().getString(R.string.left_scroll_item4)};
-        //dLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        dLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         ListViewAdapter adapterDrawer = new ListViewAdapter(MainActivity.this, drawerOptions);
         dList = (ListView) findViewById(R.id.left_drawer);
@@ -123,6 +124,14 @@ public class MainActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        if (id == R.id.menu_button) {
+            if (dLayout.isDrawerOpen(Gravity.LEFT)){
+                dLayout.closeDrawers();
+            }
+            else{
+                dLayout.openDrawer(Gravity.LEFT);
+            }
+        }
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {

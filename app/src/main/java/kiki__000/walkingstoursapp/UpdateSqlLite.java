@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -66,8 +67,13 @@ public class UpdateSqlLite {
         AsyncHttpClient client = new AsyncHttpClient();
         // Http Request Params Object
         RequestParams params = new RequestParams();
+        //get the email of user
+        SharedPreferences prefs = context.getSharedPreferences("UserDetails", Context.MODE_PRIVATE);
+        String email = prefs.getString("eMailId", "");
+        params.put("email", email);
+        Log.i("EMAIL", email);
         // Show ProgressBar
-        prgDialog.show();
+        //prgDialog.show();
         // Make Http call to remote php file
         client.post(url, params, new AsyncHttpResponseHandler() {
             @Override
@@ -79,7 +85,7 @@ public class UpdateSqlLite {
                     updateWalks(response, lang);
                 } else if (url.contains("Stations")) {
                     updateStations(response, lang);
-                }else{
+                } else {
                     updatePhotos(response);
                 }
             }
@@ -221,7 +227,6 @@ public class UpdateSqlLite {
         }
 
     }
-
 
 
 }

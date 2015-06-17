@@ -74,4 +74,8 @@
         δράσεις της ομάδας. Ξέροντας να συνδυάζει την άτυπη μάθηση με την χαρά και την διασκέδαση δίνει συμβουλές για τα προγράμματα
         που προορίζονται για μαθητές.</string>
     <string name="thessaloniki_walking_tour_team_text">Η ομάδα του Thessaloniki Walking Tour αποτελείται από τους</string>
+    <string name="up_date">Δε χρειάζεται ανανέωση</string>
+    <string name="start_update">Η ανανέωση ξεκινά</string>
+    <string name="go_to_register">Μεταβείτε στην οθόνη Εγγραφή έτσι, ώστε να εγγραφείται και να μπορείτε να ανανεώνετε τη βάση.</string>
+    <string name="menu_button">Κλικ</string>
 </resources>
