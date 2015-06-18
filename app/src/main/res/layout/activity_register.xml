@@ -11,20 +11,25 @@
         android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:orientation="vertical">
 
             <!-- register text -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="@string/resister_text"
+                android:textSize="@dimen/text_size"
                 android:id="@+id/register_text"/>
 
             <!-- e-mail -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="@dimen/text_size"
                 android:text="@string/mail"
                 android:paddingTop="100dp"
                 android:layout_gravity="center_horizontal"
@@ -34,6 +39,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/hint_mail"
                 android:id="@+id/edit_text"/>
 
             <!--ok Button -->

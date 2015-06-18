@@ -1,25 +1,164 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:background="@color/fuschia"
-    tools:context="kiki__000.walkingstoursapp.ComingSoon">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-
-    <!--ListView for the description of a walk-->
-    <ListView
-        android:id="@+id/listView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:choiceMode="none"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:gravity="center"
-        android:paddingTop="5dp" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/layout"
+        android:orientation="vertical">
 
-</RelativeLayout>
+        <!--title text-->
+        <TextView
+            android:id="@+id/text_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/walk"
+            android:layout_marginTop="150dp"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold" />
+
+        <!--title of walk-->
+        <TextView
+            android:id="@+id/walk_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingBottom="15dp"
+            android:textSize="@dimen/text_size" />
+
+        <!--when text-->
+       <TextView
+            android:id="@+id/text_when"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/when"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold" />
+
+        <!--when of walk-->
+        <TextView
+            android:id="@+id/walk_when"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingBottom="15dp"
+            android:textSize="@dimen/text_size" />
+
+        <!--time text-->
+        <TextView
+            android:id="@+id/text_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/time"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold" />
+
+        <!--time of walk-->
+        <TextView
+            android:id="@+id/walk_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingBottom="15dp"
+            android:textSize="@dimen/text_size" />
+
+        <!--venue text-->
+        <TextView
+            android:id="@+id/text_venue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/venue"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold" />
+
+        <!--venue of walk-->
+        <TextView
+            android:id="@+id/walk_venue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingBottom="15dp"
+            android:textSize="@dimen/text_size" />
+
+        <!--kind text-->
+        <TextView
+            android:id="@+id/text_kind"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/kind"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold" />
+
+        <!--kind of walk-->
+        <TextView
+            android:id="@+id/walk_kind"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingBottom="15dp"
+            android:textSize="@dimen/text_size" />
+
+        <!--guides text-->
+        <TextView
+            android:id="@+id/text_guides"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/guides"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold" />
+
+        <!--guides of walk-->
+        <TextView
+            android:id="@+id/walk_guides"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingBottom="15dp"
+            android:textSize="@dimen/text_size" />
+
+        <!--description text-->
+        <TextView
+            android:id="@+id/text_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/description"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold" />
+
+        <!--description of walk-->
+        <TextView
+            android:id="@+id/walk_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingBottom="15dp"
+            android:textSize="@dimen/text_size" />
+
+
+    </LinearLayout>
+
+</ScrollView>
+

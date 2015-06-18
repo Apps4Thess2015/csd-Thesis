@@ -45,7 +45,8 @@ public class GCMNotificationIntentService extends IntentService {
             } else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE
                     .equals(messageType)) {
 
-                sendNotification(""    + extras.get(ApplicationConstants.MSG_KEY)); //When Message is received normally from GCM Cloud Server
+                //When Message is received normally from GCM Cloud Server
+                sendNotification(""    + extras.get(ApplicationConstants.MSG_KEY));
             }
         }
         GcmBroadcastReceiver.completeWakefulIntent(intent);
@@ -66,8 +67,8 @@ public class GCMNotificationIntentService extends IntentService {
         mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         mNotifyBuilder = new NotificationCompat.Builder(this)
-                .setContentTitle("Alert")
-                .setContentText("You've received new messages.")
+                .setContentTitle(getResources().getString(R.string.app_title))
+                .setContentText(getResources().getString(R.string.new_message))
                 .setSmallIcon(R.mipmap.ic_launcher);
         // Set pending intent
         mNotifyBuilder.setContentIntent(resultPendingIntent);
@@ -80,7 +81,7 @@ public class GCMNotificationIntentService extends IntentService {
 
         mNotifyBuilder.setDefaults(defaults);
         // Set the content for Notification
-        mNotifyBuilder.setContentText("New message from Server");
+        mNotifyBuilder.setContentText(getResources().getString(R.string.new_message));
         // Set autocancel
         mNotifyBuilder.setAutoCancel(true);
         // Post a notification

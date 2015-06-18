@@ -81,11 +81,6 @@ public class Register extends ActionBarActivity {
             finish();
         }
 
-
-
-
-
-
     }
 
     @Override
@@ -114,7 +109,7 @@ public class Register extends ActionBarActivity {
     public void RegisterUser(View view) {
         String emailID = emailET.getText().toString();
 
-        if (!TextUtils.isEmpty(emailID) && Utility.validate(emailID)) {
+        if (!TextUtils.isEmpty(emailID) && MyApplication.validate(emailID)) {
             // Check if Google Play Service is installed in Device
             // Play services is needed to handle GCM stuffs
             if (checkPlayServices()) {
@@ -182,7 +177,7 @@ public class Register extends ActionBarActivity {
     }
 
     // Share RegID and Email ID with GCM Server Application (Php)
-    private void storeRegIdinServer(String regId2, String emailID) {
+    private void storeRegIdinServer(String regId2, final String emailID) {
         prgDialog.show();
         params.put("email", emailID);
         params.put("gcmId", regId);
@@ -205,7 +200,7 @@ public class Register extends ActionBarActivity {
                                 Toast.LENGTH_LONG).show();
                         Intent i = new Intent(applicationContext,
                                 GreetingActivity.class);
-                        i.putExtra("regId", regId);
+                        i.putExtra("emailId", emailID);
                         startActivity(i);
                         finish();
                     }
@@ -279,10 +274,5 @@ public class Register extends ActionBarActivity {
         super.onResume();
         checkPlayServices();
     }
-
-
-
-
-
 
 }

@@ -7,6 +7,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -15,10 +17,16 @@ import java.util.ArrayList;
 
 public class CSDescriptionOfAWalk extends ActionBarActivity {
 
-    //private int[] imagesId = {R.mipmap.walk, R.mipmap.date, R.mipmap.time, R.mipmap.venue, R.mipmap.kind, R.mipmap.guide, R.mipmap.description};
-    private int[] imagesId = {R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher};
+    private TextView title;
+    private TextView when;
+    private TextView time;
+    private TextView venue;
+    private TextView kind;
+    private TextView guides;
+    private TextView description;
+    private LinearLayout layout;
+    private Animation slideDown;
     private String[] walkData = new String[7];
-    private ListView dList;
     private Walk walk = new Walk();
     private String walkName;
     private DBController controller = new DBController(this);
@@ -44,7 +52,7 @@ public class CSDescriptionOfAWalk extends ActionBarActivity {
         //take the walk with name walkName
         walk = controller.getWalkByName(walkName);
 
-        //walk
+        //create the walk
         walkData[0] = walk.getName();
         walkData[1] = walk.getDate();
         walkData[2] = walk.getTime();
@@ -53,11 +61,40 @@ public class CSDescriptionOfAWalk extends ActionBarActivity {
         walkData[5] = walk.getGuide();
         walkData[6] = walk.getDescription();
 
-        //set the listView
-        ListViewAdapterCS adapter = new ListViewAdapterCS(CSDescriptionOfAWalk.this, walkData, imagesId);
-        dList = (ListView) findViewById(R.id.listView);
-        dList.setAdapter(adapter);
+        //create graphics and animation
 
+        // load animations in layout
+        slideDown = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_down);
+        layout = (LinearLayout)findViewById(R.id.layout);
+        layout.startAnimation(slideDown);
+
+        //title
+        title = (TextView)findViewById(R.id.walk_title);
+        title.setText(walkData[0]);
+
+        //when
+        when = (TextView)findViewById(R.id.walk_when);
+        when.setText(walkData[1]);
+
+        //time
+        time = (TextView)findViewById(R.id.walk_time);
+        time.setText(walkData[2]);
+
+        //venue
+        venue = (TextView)findViewById(R.id.walk_venue);
+        venue.setText(walkData[3]);
+
+        //kind
+        kind = (TextView)findViewById(R.id.walk_kind);
+        kind.setText(walkData[4]);
+
+        //guides
+        guides = (TextView)findViewById(R.id.walk_guides);
+        guides.setText(walkData[5]);
+
+        //description
+        description = (TextView)findViewById(R.id.walk_description);
+        description.setText(walkData[6]);
     }
 
     @Override

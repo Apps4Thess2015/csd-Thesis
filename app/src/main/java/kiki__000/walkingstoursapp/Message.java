@@ -21,8 +21,6 @@ import org.json.JSONObject;
 public class Message extends ActionBarActivity {
 
     private TextView serverText;
-    // Progress Dialog bar object
-    ProgressDialog prgDialog;
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
     @Override
@@ -61,11 +59,15 @@ public class Message extends ActionBarActivity {
                 JSONObject jsonObj = new JSONObject(json);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putString("greetmsg", jsonObj.getString("greetMsg"));
+                editor.putString("messageG", jsonObj.getString("messageG"));
                 editor.commit();
 
-                serverText.setText(prefs.getString("greetmsg", ""));
-
-
+                //get the language in order to set the message in right language
+                if (MyApplication.language == "el"){
+                    serverText.setText(prefs.getString("messageG", ""));
+                }else{
+                    serverText.setText(prefs.getString("greetmsg", ""));
+                }
             } catch (JSONException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

@@ -76,4 +76,7 @@
     <string name="start_update">Update starts</string>
     <string name="go_to_register">Go to register screen in order to register and be able for update</string>
     <string name="menu_button">Click</string>
+    <string name="app_title">Thessaloniki Walking Tours</string>
+    <string name="new_message">New message</string>
+    <string name="hint_mail">someone@gmail.com</string>
 </resources>

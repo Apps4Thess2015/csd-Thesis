@@ -20,13 +20,13 @@
             android:layout_marginRight="15dp"
             android:orientation="vertical">
 
-
             <!--server text-->
             <TextView
                 android:id="@+id/server_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:textSize="@dimen/text_size"
                 android:gravity="center" />
         </LinearLayout>
 
