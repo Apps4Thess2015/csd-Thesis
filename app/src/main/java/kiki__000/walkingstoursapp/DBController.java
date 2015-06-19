@@ -26,7 +26,7 @@ public class DBController extends SQLiteOpenHelper {
     public static String stations;
 
     public DBController(Context applicationcontext) {
-        super(applicationcontext, "walks.db", null, 37);
+        super(applicationcontext, "walks.db", null, 39);
     }
 
     //Create Table
@@ -76,6 +76,31 @@ public class DBController extends SQLiteOpenHelper {
         database.execSQL(query);
 
         onCreate(database);
+    }
+
+    /** Delete walk from SQLite with this id
+     *
+     * @param walkId
+     */
+    public void deleteWalk(int walkId){
+
+        SQLiteDatabase database = this.getWritableDatabase();
+        String[] whereArgs = new String[]{Integer.toString(walkId)};
+
+        //delete walk from table walksG
+        database.delete("walksG", "id=?", whereArgs);
+
+        //delete walk from table walksE
+        database.delete("walksE", "id=?", whereArgs);
+
+        //delete all the stations of walk from table stationsG
+        database.delete("stationsG", "walkId=?", whereArgs);
+
+        //delete all the stations of walk from table stationsE
+        database.delete("stationsE", "walkId=?", whereArgs);
+
+        //delete all the photos of walk from table photos
+        database.delete("photos", "walkId=?", whereArgs);
     }
 
     /**
