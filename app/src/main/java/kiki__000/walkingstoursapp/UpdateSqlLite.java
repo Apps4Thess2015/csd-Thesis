@@ -76,7 +76,7 @@ public class UpdateSqlLite {
         params.put("email", email);
         Log.i("EMAIL", email);
         // Show ProgressBar
-        //prgDialog.show();
+        prgDialog.show();
         // Make Http call to remote php file
         client.post(url, params, new AsyncHttpResponseHandler() {
             @Override

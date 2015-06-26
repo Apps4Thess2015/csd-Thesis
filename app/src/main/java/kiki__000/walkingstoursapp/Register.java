@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +23,9 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -114,8 +118,8 @@ public class Register extends ActionBarActivity {
             // Play services is needed to handle GCM stuffs
             if (checkPlayServices()) {
 
-                // Register Device in GCM Server
-                registerInBackground(emailID);
+                //Check if user exists
+                checkUser(emailID);
             }
         }
         // When Email is invalid
@@ -124,6 +128,56 @@ public class Register extends ActionBarActivity {
                     Toast.LENGTH_LONG).show();
         }
     }
+
+    /**
+     * check if user already exists
+     * */
+    public void checkUser(final String mail){
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("email", mail);
+        Log.i("EMAIL check", mail);
+        // Checks if user exists
+        client.post(ApplicationConstants.CHECH_FOR_USER, params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+                System.out.println(response);
+                try {
+                    // Create JSON object out of the response sent by getdbrowcount.php
+                    JSONObject obj = new JSONObject(response);
+                    System.out.println(obj.get("exist"));
+                    // If the exist value is 1 then it means that user already exists
+                    if (obj.getInt("exist") == 1) {
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.user_exists), Toast.LENGTH_SHORT).show();
+                    } else {
+                        // Register Device in GCM Server
+                        registerInBackground(mail);
+                    }
+                } catch (JSONException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Throwable error,
+                                  String content) {
+                // TODO Auto-generated method stub
+                if (statusCode == 404) {
+                    Toast.makeText(getApplicationContext(), "404", Toast.LENGTH_SHORT).show();
+                } else if (statusCode == 500) {
+                    Toast.makeText(getApplicationContext(), "500", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error occured!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+    }
+
+
+
 
     // AsyncTask to register Device in GCM Server
     private void registerInBackground(final String emailID) {

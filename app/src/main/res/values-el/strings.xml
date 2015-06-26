@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">WalkingsToursApp</string>
+    <string name="app_name">Thessaloniki Walking Tours</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Ρυθμίσεις</string>
     <string name="menu1">Περίπατοι που έγιναν</string>
@@ -22,8 +22,9 @@
     <string name="refresh">Ανανέωση</string>
     <string name="left_scroll_item1">Γλώσσα</string>
     <string name="left_scroll_item2">Εγγραφή</string>
-    <string name="left_scroll_item3">Thessaloniki Walking Tours</string>
-    <string name="left_scroll_item4">Σχετικά</string>
+    <string name="left_scroll_item3">Ανανέωση Βάσης</string>
+    <string name="left_scroll_item4">Thessaloniki Walking Tours</string>
+    <string name="left_scroll_item5">Σχετικά</string>
     <string name="title_activity_language">Γλώσσα</string>
     <string name="title_activity_about">Σχετικά</string>
     <string name="stay_tuned">Σύντομα κοντά σας με έναν νέο περίπατο!</string>
@@ -81,4 +82,8 @@
     <string name="app_title">Thessaloniki Walking Tours</string>
     <string name="new_message">Νέο Μήνυμα</string>
     <string name="hint_mail">someone@gmail.com</string>
+    <string name="title_activity_refresh_database">Ανανέωση Βάσης</string>
+    <string name="refresh_activity_text">Πατώντας το κουμπί ανανέωσης, που βρίσκεται πάνω δεξιά, μπορείτε να ανανεώσετε το περιεχόμενο
+     σε περίπτωση που υπάρχουν νέες εγγραφές.</string>
+    <string name="user_exists">Ο χρήστης υπάρχει ήδη</string>
 </resources>

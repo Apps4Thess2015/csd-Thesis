@@ -109,6 +109,10 @@
             android:name=".CSDescriptionOfAWalk"
             android:label="@string/title_activity_csdescription_of_awalk" >
         </activity>
+        <activity
+            android:name=".RefreshDatabaseActivity"
+            android:label="@string/title_activity_refresh_database" >
+        </activity>
     </application>
 
 </manifest>
