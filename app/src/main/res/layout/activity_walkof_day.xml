@@ -16,7 +16,17 @@
         android:gravity="center"
         android:id="@+id/noWalk"/>
 
-    <!--inforamtion for walk of day-->
+    <!--message if there is walk of day about time-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:id="@+id/walkTimeMessage"/>
+
+    <!--information for walk of day-->
     <GridView
         android:numColumns="1"
         android:gravity="center"

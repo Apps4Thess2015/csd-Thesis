@@ -17,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 /**
@@ -30,7 +31,7 @@ public class UpdateSqlLite {
     Walk queryValues;
     Station qValuesStation;
     Photo qValuesPhoto;
-    ArrayList<Integer> deletedWalks = new ArrayList<>();
+    ArrayList<String> deletedWalks = new ArrayList<>();
     Context context;
 
     public UpdateSqlLite(Context context) {
@@ -86,12 +87,16 @@ public class UpdateSqlLite {
                 // Update SQLite DB with response sent by php file
                 if (url.contains("Walks")) {
                     updateWalks(response, lang);
+                    Log.i("responce", response);
                 } else if (url.contains("Stations")) {
                     updateStations(response, lang);
-                } else if (url.contains("Deleted")){
+                    Log.i("responce", response);
+                } else if (url.contains("Deleted")) {
                     updateDeleted(response);
-                }else {
+                    Log.i("responce", response);
+                } else {
                     updatePhotos(response);
+                    Log.i("responce", response);
                 }
             }
 
@@ -132,7 +137,7 @@ public class UpdateSqlLite {
                     // Get JSON object
                     JSONObject obj = (JSONObject) arr.get(i);
                     // Add fields extracted from Object
-                    deletedWalks.add(Integer.parseInt(obj.get("walkId").toString()));
+                    deletedWalks.add(obj.get("walkId").toString());
                     controller.deleteWalk(deletedWalks.get(i));
                 }
             }
@@ -162,10 +167,16 @@ public class UpdateSqlLite {
                 for (int i = 0; i < arr.length(); i++) {
                     // Get JSON object
                     JSONObject obj = (JSONObject) arr.get(i);
+                    //check first if this walk already exists, if yes then deleted
+                    String walkId = obj.get("id").toString();
+                    if (controller.recordExists(walkId) && lang.equals("gr")){
+                        Log.i("EXISTS","yes");
+                        controller.deleteWalk(walkId);
+                    }
                     // DB QueryValues Object to insert into SQLite
                     queryValues = new Walk();
                     // Add fields extracted from Object
-                    queryValues.setId(obj.get("id").toString());
+                    queryValues.setId(walkId);
                     queryValues.setName(obj.get("name").toString());
                     queryValues.setDate(obj.get("date").toString());
                     queryValues.setTime(obj.get("time").toString());

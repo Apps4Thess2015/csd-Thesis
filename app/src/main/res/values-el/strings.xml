@@ -84,6 +84,9 @@
     <string name="hint_mail">someone@gmail.com</string>
     <string name="title_activity_refresh_database">Ανανέωση Βάσης</string>
     <string name="refresh_activity_text">Πατώντας το κουμπί ανανέωσης, που βρίσκεται πάνω δεξιά, μπορείτε να ανανεώσετε το περιεχόμενο
-     σε περίπτωση που υπάρχουν νέες εγγραφές.</string>
+     σε περίπτωση που υπάρχουν νέες εγγραφές. Απαιτείται σύνδεση στο διαδίκτυο.</string>
     <string name="user_exists">Ο χρήστης υπάρχει ήδη</string>
+    <string name="walk_time_message">Ο περίπατος θα ξεκινήσει στις</string>
+    <string name="time_remaining">Ο περίπατος ξεκινάει σε </string>
+    <string name="walk_starts">Ο περίπατος ξεκινάει τώρα</string>
 </resources>

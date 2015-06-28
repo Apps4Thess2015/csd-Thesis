@@ -82,6 +82,9 @@
     <string name="hint_mail">someone@gmail.com</string>
     <string name="title_activity_refresh_database">RefreshDatabase</string>
     <string name="refresh_activity_text">Pressing the refresh button at the top right, you can refresh the content
-      if there are new entries.</string>
+      if there are new entries. Requires internet connection.</string>
     <string name="user_exists">This user already exists</string>
+    <string name="walk_time_message">The walk starts at</string>
+    <string name="time_remaining">Walk starts at</string>
+    <string name="walk_starts">Walk starts now</string>
 </resources>

@@ -82,10 +82,10 @@ public class DBController extends SQLiteOpenHelper {
      *
      * @param walkId
      */
-    public void deleteWalk(int walkId){
+    public void deleteWalk(String walkId){
 
         SQLiteDatabase database = this.getWritableDatabase();
-        String[] whereArgs = new String[]{Integer.toString(walkId)};
+        String[] whereArgs = new String[]{walkId};
 
         //delete walk from table walksG
         database.delete("walksG", "id=?", whereArgs);
@@ -326,6 +326,62 @@ public class DBController extends SQLiteOpenHelper {
         }
         cursor.close();
         return  null;
+    }
+
+    /**
+     * update the status of the
+     * walk with this walkId and set this status
+     *
+     * @param walkId
+     * @param status
+     */
+    public void updateStatus(String walkId, int status){
+
+        SQLiteDatabase database = this.getReadableDatabase();
+
+        // New value for one column
+        ContentValues values = new ContentValues();
+        values.put("status", status);
+
+        // Which row to update, based on the ID
+        String selection = "id" + " LIKE ?";
+        String[] selectionArgs = { walkId };
+
+        //update table walksG
+        int countG = database.update(
+                        "walksG",
+                        values,
+                        selection,
+                        selectionArgs);
+
+        //update table walksE
+        int countE = database.update(
+                "walksE",
+                values,
+                selection,
+                selectionArgs);
+    }
+
+    /**
+     * chech if record with this id
+     * already exists in local database
+     *
+     * @param id
+     * @return
+     */
+    public boolean recordExists(String id){
+
+        SQLiteDatabase database = this.getReadableDatabase();
+        String query = "SELECT * FROM walksG  WHERE id = " + id;
+        Cursor cursor = database.rawQuery(query, null);
+        if (cursor.getCount() <= 0) {
+            Log.i("EXISTS1","no");
+            cursor.close();
+            return false;
+        }
+        Log.i("EXISTS1","yes");
+        cursor.close();
+        return true;
     }
 
 

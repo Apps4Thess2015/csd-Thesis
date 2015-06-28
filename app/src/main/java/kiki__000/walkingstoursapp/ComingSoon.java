@@ -139,7 +139,7 @@ public class ComingSoon extends ActionBarActivity {
                             if (obj.getInt("count") != 0) {
                                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.start_update), Toast.LENGTH_SHORT).show();
                                 // Transfer data from remote MySQL DB to SQLite on Android and perform Sync
-                                UpdateSqlLite updateSQL = new UpdateSqlLite(getApplicationContext());
+                                UpdateSqlLite updateSQL = new UpdateSqlLite(ComingSoon.this);
                                 updateSQL.update();
                                 reloadActivity();
                             } else {

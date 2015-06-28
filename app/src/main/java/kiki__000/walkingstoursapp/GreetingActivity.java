@@ -6,6 +6,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 
@@ -13,6 +15,7 @@ public class GreetingActivity extends ActionBarActivity {
 
     private TextView mail;
     private String emailId;
+    private Animation fadeIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,10 @@ public class GreetingActivity extends ActionBarActivity {
 
         mail = (TextView) findViewById(R.id.mail);
         mail.setText(emailId);
+
+        //animation
+        fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+        mail.startAnimation(fadeIn);
 
 
     }
