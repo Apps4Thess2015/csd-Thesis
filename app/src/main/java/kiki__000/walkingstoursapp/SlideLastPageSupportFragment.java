@@ -92,7 +92,7 @@ public class SlideLastPageSupportFragment extends Fragment {
             plusOne.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    plusOne.setTextColor(getResources().getColor(R.color.gold));
+                    plusOne.setTextColor(getResources().getColor(R.color.fuchsia));
                     plusOne.setClickable(false);
                     lessOne.setClickable(false);
                 }
@@ -101,7 +101,7 @@ public class SlideLastPageSupportFragment extends Fragment {
             lessOne.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    lessOne.setTextColor(getResources().getColor(R.color.gold));
+                    lessOne.setTextColor(getResources().getColor(R.color.fuchsia));
                     lessOne.setClickable(false);
                     plusOne.setClickable(false);
                 }

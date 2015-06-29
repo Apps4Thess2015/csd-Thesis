@@ -9,7 +9,7 @@
         android:height="150dp"
         android:width="150dp" />
     <gradient
-        android:centerColor="@color/fuschia"
+        android:centerColor="@color/fuchsia"
         android:startColor="#FFFF0000"
         android:endColor="#80FF00FF"
         android:angle="45"/>

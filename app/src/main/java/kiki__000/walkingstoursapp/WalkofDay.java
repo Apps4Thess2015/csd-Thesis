@@ -29,8 +29,6 @@ import java.util.Locale;
 
 public class WalkofDay extends ActionBarActivity {
 
-
-    private int[] imageId = {R.mipmap.map, R.mipmap.ic_launcher};
     private String walkName;
     private TextView walkTimeMessage;
     DBController controller = new DBController(this);
@@ -154,7 +152,7 @@ public class WalkofDay extends ActionBarActivity {
 
         menuOptions = new String[]{getResources().getString(R.string.map), getResources().getString(R.string.stations)};
 
-        CustomGrid adapter = new CustomGrid(WalkofDay.this, menuOptions, imageId);
+        CustomGrid adapter = new CustomGrid(WalkofDay.this, menuOptions);
         grid = (GridView) findViewById(R.id.grid);
         grid.setAdapter(adapter);
 
