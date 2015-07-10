@@ -1,82 +1,65 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.v4.widget.SlidingPaneLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/slidingPanel"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <!--Sliding Navigation Drawer-->
-    <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/drawer_layout"
+    <!-- left panel -->
+    <LinearLayout
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start">
+
+        <!--ListView for sliding options-->
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+    <!-- main panel -->
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <FrameLayout
-            android:id="@+id/content_frame"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:orientation="vertical">
 
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <!-- past walks button-->
+            <TextView
+                android:id="@+id/menu1"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="start"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/circle_button"
+                android:text="@string/menu1" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
-                    android:layout_gravity="center"
-                    android:orientation="vertical">
+            <!-- walk of day button-->
+            <TextView
+                android:id="@+id/menu2"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="end"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/circle_button"
+                android:text="@string/menu2" />
 
-                    <!-- pasted walks button-->
-                    <TextView
-                        android:id="@+id/menu1"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_gravity="start"
-                        android:layout_marginBottom="10dp"
-                        android:background="@drawable/circle_button"
+            <!-- coming soon button-->
+            <TextView
+                android:id="@+id/menu3"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="start"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/circle_button"
+                android:text="@string/menu3" />
 
-                        android:text="@string/menu1"/>
-
-                    <!-- walk of day button-->
-                    <TextView
-                        android:id="@+id/menu2"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_gravity="end"
-                        android:layout_marginBottom="10dp"
-                        android:background="@drawable/circle_button"
-                        android:text="@string/menu2"/>
-
-                    <!-- coming soon button-->
-                    <TextView
-                        android:id="@+id/menu3"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_gravity="start"
-                        android:layout_marginBottom="10dp"
-                        android:background="@drawable/circle_button"
-                        android:text="@string/menu3"/>
-
-                </LinearLayout>
-            </ScrollView>
+        </LinearLayout>
+    </ScrollView>
 
 
-        </FrameLayout>
-
-        <!--ListView for sliding drawer oprions-->
-        <ListView
-            android:id="@+id/left_drawer"
-            android:layout_width="200dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:background="@color/black_low_opacity"
-            android:choiceMode="singleChoice"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="0dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="5dp" />
-    </android.support.v4.widget.DrawerLayout>
-
-
-</RelativeLayout>
+</android.support.v4.widget.SlidingPaneLayout>

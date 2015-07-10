@@ -1,11 +1,10 @@
 package kiki__000.walkingstoursapp;
 
 import android.content.Intent;
-import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SlidingPaneLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,24 +12,15 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Locale;
 
 public class MainActivity extends ActionBarActivity {
 
-    private String[] drawerOptions;
-    private DrawerLayout dLayout;
-    private ListView dList;
-    private TextView menu1;
-    private TextView menu2;
-    private TextView menu3;
+    private SlidingPaneLayout slidingPanel;
     private DBController controller;
 
     @Override
@@ -45,6 +35,7 @@ public class MainActivity extends ActionBarActivity {
         //full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        //check for walks status
         controller = new DBController(this);
         try {
             checkWalksStatus();
@@ -53,7 +44,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
         //button for first menu option - missed walks
-        menu1 = (TextView)findViewById(R.id.menu1);
+        TextView menu1 = (TextView) findViewById(R.id.menu1);
         menu1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,7 +54,7 @@ public class MainActivity extends ActionBarActivity {
         });
 
         //button for second menu option - walk of day
-        menu2 = (TextView)findViewById(R.id.menu2);
+        TextView menu2 = (TextView) findViewById(R.id.menu2);
         menu2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,7 +64,7 @@ public class MainActivity extends ActionBarActivity {
         });
 
         //button for third menu option - coming soon
-        menu3 = (TextView)findViewById(R.id.menu3);
+        TextView menu3 = (TextView) findViewById(R.id.menu3);
         menu3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,16 +73,17 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-        drawerOptions = new String[]{getResources().getString(R.string.left_scroll_item1), getResources().getString(R.string.left_scroll_item2), getResources().getString(R.string.left_scroll_item3), getResources().getString(R.string.left_scroll_item4), getResources().getString(R.string.left_scroll_item5)};
-        dLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        slidingPanel = (SlidingPaneLayout) findViewById(R.id.slidingPanel);
+        slidingPanel.setParallaxDistance(200);
 
-        ListViewAdapter adapterDrawer = new ListViewAdapter(MainActivity.this, drawerOptions);
-        dList = (ListView) findViewById(R.id.left_drawer);
-        dList.setAdapter(adapterDrawer);
-        dList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        //set the listview
+        ListView list = (ListView) findViewById(R.id.list);
+        String[] listOptions = new String[]{getResources().getString(R.string.left_scroll_item1), getResources().getString(R.string.left_scroll_item2), getResources().getString(R.string.left_scroll_item3), getResources().getString(R.string.left_scroll_item4), getResources().getString(R.string.left_scroll_item5)};
+        ListViewAdapter adapterDrawer = new ListViewAdapter(MainActivity.this, listOptions);
+        list.setAdapter(adapterDrawer);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-                //dLayout.closeDrawers();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
                     Intent intent = new Intent(MainActivity.this, Language.class);
                     startActivity(intent);
@@ -134,11 +126,11 @@ public class MainActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.menu_button) {
-            if (dLayout.isDrawerOpen(Gravity.LEFT)){
-                dLayout.closeDrawers();
+            if (slidingPanel.isOpen()){
+                slidingPanel.closePane();
             }
             else{
-                dLayout.openDrawer(Gravity.LEFT);
+                slidingPanel.openPane();
             }
         }
 
