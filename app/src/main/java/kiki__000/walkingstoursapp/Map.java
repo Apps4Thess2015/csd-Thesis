@@ -1,20 +1,42 @@
 package kiki__000.walkingstoursapp;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SlidingPaneLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.Toast;
+
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
 import java.util.ArrayList;
 
 import static com.google.android.gms.maps.GoogleMap.*;
@@ -26,11 +48,14 @@ public class Map extends ActionBarActivity {
     private Button showRoute;
     private Marker marker;
     DBController controller;
-    Walk walk;
+    Walk walk = new Walk();
     ArrayList<String> titles = new ArrayList<>();
     ArrayList<Station> stations = new ArrayList<>();
     ArrayList<LatLng> listPoint = new ArrayList<>();
     int currentPt;
+    public static int NUM_PAGES;
+    private ViewPager mPager;
+    private PagerAdapter mPagerAdapter;
 
 
     @Override
@@ -40,26 +65,80 @@ public class Map extends ActionBarActivity {
         //set the lang from sharedPreferences
         MyApplication.updateLanguage(getApplicationContext());
 
+        setContentView(R.layout.activity_map);
+
         //full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         //set the action bar for the right language
         getSupportActionBar().setTitle(getResources().getString(R.string.title_activity_map));
 
-        setContentView(R.layout.activity_map);
-
         //get the walkName
         Intent intent = getIntent();
         walkName = intent.getStringExtra("walkName");
 
-
         controller = new DBController(getApplicationContext());
         // Get walk from SQLite DB
         walk = controller.getWalkByName(walkName);
-        if (walk == null){
+        if (walk == null) {
             Log.i("station_name", "null");
-        }
-        else {
+        } else {
+            //get the station's number of walk and set the NUM_PAGES
+            NUM_PAGES = walk.getStations();
+
+            //view pager for every station of walk
+            mPager = (ViewPager) findViewById(R.id.stationsPanel);
+            mPagerAdapter = new MyFragmentStatePagerAdapter(getSupportFragmentManager());
+            mPager.setAdapter(mPagerAdapter);
+
+            //animation for station's panel in order to slide up-down
+
+          /**  ViewTreeObserver viewTreeObserver = mPager.getViewTreeObserver();
+            viewTreeObserver
+                    .addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+                        @Override
+                        public void onGlobalLayout() {
+
+                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                            int viewPagerWidth = mViewPager.getWidth();
+                            float viewPagerHeight = (float) (viewPagerWidth * FEATURED_IMAGE_RATIO);
+
+                            layoutParams.width = viewPagerWidth;
+                            layoutParams.height = (int) viewPagerHeight;
+
+                            mViewPager.setLayoutParams(layoutParams);
+                            mViewPager.getViewTreeObserver()
+                                    .removeGlobalOnLayoutListener(this);
+                        }
+                    });*/
+
+
+            Animation animationSlideDownIn;
+            animationSlideDownIn = AnimationUtils.loadAnimation(this, R.anim.panel_slide_down);
+            animationSlideDownIn.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+
+           mPager.startAnimation(animationSlideDownIn);
+
+
             stations = controller.getStationsByWalkId(walk.getId());
             Log.i("walkId", walk.getId());
             if (stations != null) {
@@ -76,9 +155,19 @@ public class Map extends ActionBarActivity {
         }
 
         //button in order to start the animation of route
-        showRoute = (Button)findViewById(R.id.show_route);
+        showRoute = (Button) findViewById(R.id.show_route);
 
         setUpMapIfNeeded();
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mPager.getCurrentItem() == 0) {
+            super.onBackPressed();
+        } else {
+            mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+        }
     }
 
     @Override
@@ -136,43 +225,80 @@ public class Map extends ActionBarActivity {
         mMap.moveCamera(center);
         mMap.animateCamera(zoom);
 
-       showRoute.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               if(stations == null){
-                   Toast.makeText(getApplicationContext(),getResources().getString(R.string.no_route),Toast.LENGTH_LONG).show();
-               }else{
-                   int zoomValue = 15;
-                   mMap.animateCamera(CameraUpdateFactory.zoomTo(zoomValue),4000,MyCancelableCallback);
-                   currentPt = 0;
-               }
-           }
-       });
+        showRoute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (stations == null) {
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_route), Toast.LENGTH_LONG).show();
+                } else {
+                    int zoomValue = 15;
+                    mMap.animateCamera(CameraUpdateFactory.zoomTo(zoomValue), 4000, MyCancelableCallback);
+                    currentPt = 0;
+                }
+            }
+        });
 
     }
 
 
-    CancelableCallback MyCancelableCallback = new CancelableCallback(){
+    CancelableCallback MyCancelableCallback = new CancelableCallback() {
 
         @Override
-        public void onCancel() {}
+        public void onCancel() {
+        }
 
         @Override
         public void onFinish() {
-            if(currentPt < listPoint.size()){
+            if (currentPt < listPoint.size()) {
                 Log.i("current", "" + currentPt);
                 Log.i("listpointSize", "" + listPoint.size());
-                marker = mMap.addMarker(new MarkerOptions().position(listPoint.get(currentPt)).title(titles.get(currentPt)));
+
+                marker = mMap.addMarker(new MarkerOptions()
+                        .position(listPoint.get(currentPt))
+                        .title(titles.get(currentPt))
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
                 marker.showInfoWindow();
-                mMap.animateCamera(CameraUpdateFactory.newLatLng(listPoint.get(currentPt)),4000, MyCancelableCallback);
+                mMap.animateCamera(CameraUpdateFactory.newLatLng(listPoint.get(currentPt)), 4000, MyCancelableCallback);
                 currentPt++;
 
-            }else{
-                Toast.makeText(getApplicationContext(),getResources().getString(R.string.end_route),Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.end_route), Toast.LENGTH_LONG).show();
             }
 
         }
 
     };
 
+
+    private class MyFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
+        public MyFragmentStatePagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            Fragment tmpFragment;
+            if (position == NUM_PAGES) {
+                tmpFragment = new SlideLastPageSupportFragment();
+            } else {
+                tmpFragment = new SlidePageSupportFragment();
+                ((SlidePageSupportFragment) tmpFragment).setPageNumber(position);
+            }
+            return tmpFragment;
+        }
+
+        @Override
+        public int getCount() {
+            return NUM_PAGES;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+
+            String header;
+            header = getResources().getString(R.string.station) + " " + Integer.valueOf(position + 1);
+
+            return header;
+        }
+    }
 }

@@ -68,10 +68,6 @@
             android:label="@string/title_activity_about" >
         </activity>
         <activity
-            android:name=".ShowMeAWalk"
-            android:label="@string/title_activity_show_me_awalk" >
-        </activity>
-        <activity
             android:name=".ThessalonikiWalkingTours"
             android:label="@string/title_activity_thessaloniki_walking_tours" >
         </activity>

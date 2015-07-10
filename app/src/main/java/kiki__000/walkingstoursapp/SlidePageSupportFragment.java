@@ -1,50 +1,21 @@
 package kiki__000.walkingstoursapp;
 
-
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.SystemClock;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.util.Base64;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.BounceInterpolator;
-import android.view.animation.Interpolator;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+
 
 /**
  * Created by kiki__000 on 05-May-15.
@@ -56,22 +27,12 @@ public class SlidePageSupportFragment extends Fragment {
     //...NOT always valid
 
     int pageNumber = 0;  //default
-    private TextView title;
-    private ImageView image;
-    private TextView description;
     private String walkName;
-    private Button plusOne;
-    private Button lessOne;
-    private Button twitter;
     private String twitterText;
-    private SupportMapFragment fragment;
-    private GoogleMap miniMap;
     DBController controller;
     Walk walk = new Walk();
     ArrayList<Station> stations = new ArrayList<Station>();
     ArrayList<Photo> photos = new ArrayList<Photo>();
-    private Marker marker;
-    private LatLng latLng;
 
     public void setPageNumber(int num){
         pageNumber = num;
@@ -87,7 +48,7 @@ public class SlidePageSupportFragment extends Fragment {
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.slide_page, container, false);
 
-        walkName = ShowMeAWalk.walkName;
+        walkName = Map.walkName;
 
         controller = new DBController(getActivity().getApplicationContext());
 
@@ -102,11 +63,11 @@ public class SlidePageSupportFragment extends Fragment {
             if (stations != null) {
                 Log.i("STATIONS", "" + stations.size());
                 //station title
-                title = (TextView) rootView.findViewById(R.id.station_title);
+                TextView title = (TextView) rootView.findViewById(R.id.station_title);
                 title.setText(stations.get(getPageNumber()).getTitle());
 
                 //station image
-                image = (ImageView) rootView.findViewById(R.id.station_image);
+                ImageView image = (ImageView) rootView.findViewById(R.id.station_image);
                 photos = controller.getPhotosByWalkId(walk.getId());
 
                 if (photos == null) {
@@ -120,11 +81,8 @@ public class SlidePageSupportFragment extends Fragment {
                 }
 
                 //station description
-                description = (TextView) rootView.findViewById(R.id.station_description);
+                TextView description = (TextView) rootView.findViewById(R.id.station_description);
                 description.setText(stations.get(getPageNumber()).getDescription());
-
-                //lat & lng
-                latLng = new LatLng(stations.get(getPageNumber()).getLat(), stations.get(getPageNumber()).getLng());
 
                 //twitterText
                 twitterText = "Thessaloniki%23Walking%23Tours%23" + stations.get(getPageNumber()).getTitle() + "%23";
@@ -135,7 +93,7 @@ public class SlidePageSupportFragment extends Fragment {
             }
 
             //twitter button
-            twitter = (Button)rootView.findViewById(R.id.twitter);
+            Button twitter = (Button) rootView.findViewById(R.id.twitter);
             twitter.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -145,139 +103,13 @@ public class SlidePageSupportFragment extends Fragment {
                     startActivity(new Intent(Intent.ACTION_VIEW, uri));
                 }
             });
-
-
-            //plus one & less one buttons for rating
-            plusOne = (Button)rootView.findViewById(R.id.plus_one);
-            plusOne.setClickable(true);
-            lessOne = (Button)rootView.findViewById(R.id.less_one);
-            lessOne.setClickable(true);
-
-            plusOne.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    plusOne.setTextColor(getResources().getColor(R.color.fuchsia));
-                    plusOne.setClickable(false);
-                    lessOne.setClickable(false);
-                }
-            });
-
-            lessOne.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    lessOne.setTextColor(getResources().getColor(R.color.fuchsia));
-                    lessOne.setClickable(false);
-                    plusOne.setClickable(false);
-                }
-            });
-
         }
 
         return rootView;
     }
 
-
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
     }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        FragmentManager fm = getChildFragmentManager();
-        fragment = (SupportMapFragment) fm.findFragmentById(R.id.miniMap);
-        if (fragment == null) {
-            fragment = SupportMapFragment.newInstance();
-            fm.beginTransaction().replace(R.id.miniMap, fragment).commit();
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (miniMap == null) {
-            miniMap = fragment.getMap();
-            if (miniMap != null) {
-                setUpMap();
-            }
-        }
-    }
-
-    private void setUpMap() {
-
-        //enable zoom controls buttons
-        miniMap.getUiSettings().setZoomControlsEnabled(true);
-
-        //enable location button
-        miniMap.setMyLocationEnabled(true);
-        miniMap.getUiSettings().setMyLocationButtonEnabled(true);
-
-        //camera position and center
-        CameraUpdate center= CameraUpdateFactory.newLatLng(new LatLng(40.6312779, 22.9526476));
-        CameraUpdate zoom=CameraUpdateFactory.zoomTo(15);
-        miniMap.moveCamera(center);
-        miniMap.animateCamera(zoom);
-
-        //add marker
-        if (latLng != null) {
-            marker = miniMap.addMarker(new MarkerOptions().position(latLng).title(stations.get(getPageNumber()).getTitle()));
-            marker.showInfoWindow();
-            Timer timer = new Timer();
-            TimerTask updateProfile = new CustomTimerTask(getActivity().getApplicationContext());
-            timer.scheduleAtFixedRate(updateProfile, 10, 5000);
-            miniMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18.0f));
-        }
-
-    }
-
-    /**
-     * CustomTimerTask class for animate-bounce marker in map
-     * */
-    private class CustomTimerTask extends TimerTask {
-        private Context context;
-        private Handler mHandler = new Handler();
-
-        public CustomTimerTask(Context con) {
-            this.context = con;
-        }
-
-        @Override
-        public void run() {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            final Handler handler = new Handler();
-                            final long start = SystemClock.uptimeMillis();
-                            final long duration = 1500;
-                            final Interpolator interpolator = new BounceInterpolator();
-
-                            handler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    long elapsed = SystemClock.uptimeMillis() - start;
-                                    float t = Math.max(1 - interpolator.getInterpolation((float)elapsed/duration), 0);
-                                    marker.setAnchor(0.5f, 1.0f + 2 * t);
-
-                                    if (t > 0.0) {
-                                        // Post again 12ms later.
-                                        handler.postDelayed(this, 12);
-                                    }
-                                }
-                            });
-                        }
-                    });
-                }
-            }).start();
-        }
-    }
-
-
-
-
-
 }

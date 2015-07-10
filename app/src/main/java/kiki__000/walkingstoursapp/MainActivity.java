@@ -32,7 +32,6 @@ public class MainActivity extends ActionBarActivity {
     private TextView menu2;
     private TextView menu3;
     private DBController controller;
-    private GraphicsView graphics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +41,6 @@ public class MainActivity extends ActionBarActivity {
         MyApplication.updateLanguage(getApplicationContext());
 
         setContentView(R.layout.activity_main);
-        //setContentView(new GraphicsView(this, "lalal"));
 
         //full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);

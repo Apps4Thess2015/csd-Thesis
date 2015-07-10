@@ -13,13 +13,12 @@
             android:id="@+id/listName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#FFFFFF"
             android:layout_gravity="center_vertical"
             android:textSize="20sp" />
 
         <ImageView
             android:id="@+id/listImage"
-            android:layout_width="40dp"
+            android:layout_width="20dp"
             android:layout_height="50dp"
             android:layout_gravity="end"
             android:background="@mipmap/arrow"

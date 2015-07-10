@@ -9,7 +9,8 @@
         <LinearLayout
             android:id="@+id/content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:orientation="vertical">
 
             <!--station title-->
@@ -40,41 +41,7 @@
                 android:background="@mipmap/twitter"
                 android:id="@+id/twitter"/>
 
-            <!--rating-->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layout_gravity="center">
-
-            <!--plus one-->
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:text="+1"
-                android:textSize="40sp"
-                android:paddingLeft="10dp"
-                android:id="@+id/plus_one"/>
-
-            <!--less one-->
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:text="-1"
-                android:textSize="40sp"
-                android:id="@+id/less_one"/>
             </LinearLayout>
-
-
-            <!--mini Map-->
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:id="@+id/miniMap"/>
-
-        </LinearLayout>
 
     </ScrollView>
 </RelativeLayout>

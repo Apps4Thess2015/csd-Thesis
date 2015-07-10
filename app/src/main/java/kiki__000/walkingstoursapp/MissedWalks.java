@@ -57,11 +57,18 @@ public class MissedWalks extends ActionBarActivity {
             for (int i = 0; i < walkList.size(); i++) {
                 walksNames.add(walkList.get(i).getName());
                 ArrayList<Photo> temp = controller.getPhotosByWalkId(controller.getWalkByName(walkList.get(i).getName()).getId());
-                //convert bytes into array
-                byte[] decodedString = Base64.decode(temp.get(0).getImage(), Base64.DEFAULT);
-                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
-                drawableIds.add(decodedByte);
+                if (temp == null) {
+                    Bitmap b = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+                    drawableIds.add(b);
+                }else{
+                    byte[] decodedString = Base64.decode(temp.get(0).getImage(), Base64.DEFAULT);
+                    Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+                    drawableIds.add(decodedByte);
+                }
+
+
             }
 
             //set gridView
@@ -83,7 +90,7 @@ public class MissedWalks extends ActionBarActivity {
                     }
 
                     //open the new activity
-                    Intent intent = new Intent(MissedWalks.this, ShowMeAWalk.class);
+                    Intent intent = new Intent(MissedWalks.this, Map.class);
                     intent.putExtra("walkName", walkName);
                     startActivity(intent);
                 }

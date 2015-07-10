@@ -74,7 +74,7 @@ public class WalkofDay extends ActionBarActivity {
 
                 Log.i("TIME", currentTimeString);
 
-                Date fiveMinAgo=sdf.parse(sdf.format(walkTime.getTime() - (5*60000)));
+                Date fiveMinAgo = sdf.parse(sdf.format(walkTime.getTime() - (5 * 60000)));
                 String fiveMinAgoString = sdf.format(fiveMinAgo);
 
                 Log.i("after", fiveMinAgoString);
@@ -87,14 +87,14 @@ public class WalkofDay extends ActionBarActivity {
 
                     walkTimeMessage.setText(getResources().getString(R.string.walk_time_message) + walkTimeString);
 
-                } else if(currentTime.compareTo(walkTime) < 0 && fiveMinAgo.compareTo(currentTime) <= 0){ //5 minutes before the walk show the countdown timer
+                } else if (currentTime.compareTo(walkTime) < 0 && fiveMinAgo.compareTo(currentTime) <= 0) { //5 minutes before the walk show the countdown timer
                     //count down for walk
                     //long countDownInterval = walkTime.getTime() - currentTime.getTime();
                     new CountDownTimer(countDownInterval, 1000) {
 
                         public void onTick(long millisUntilFinished) {
-                            long minutes = (millisUntilFinished/1000) / 60;
-                            long seconds = (millisUntilFinished/1000) % 60;
+                            long minutes = (millisUntilFinished / 1000) / 60;
+                            long seconds = (millisUntilFinished / 1000) % 60;
                             walkTimeMessage.setText(getResources().getString(R.string.time_remaining) + " " + minutes + ":" + seconds);
                         }
 
@@ -147,29 +147,10 @@ public class WalkofDay extends ActionBarActivity {
      */
     public void showTheWalk(final String wN) {
 
-        GridView grid;
-        String[] menuOptions;
+        Intent intent = new Intent(WalkofDay.this, Map.class);
+        intent.putExtra("walkName", wN);
+        startActivity(intent);
 
-        menuOptions = new String[]{getResources().getString(R.string.map), getResources().getString(R.string.stations)};
-
-        CustomGrid adapter = new CustomGrid(WalkofDay.this, menuOptions);
-        grid = (GridView) findViewById(R.id.grid);
-        grid.setAdapter(adapter);
-
-        grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-
-                if (position == 0) {
-                    Intent intent = new Intent(WalkofDay.this, Map.class);
-                    intent.putExtra("walkName", wN);
-                    startActivity(intent);
-                } else if (position == 1) {
-                    Intent intent = new Intent(WalkofDay.this, ShowMeAWalk.class);
-                    intent.putExtra("walkName", wN);
-                    startActivity(intent);
-                }
-            }
-        });
     }
 
 }

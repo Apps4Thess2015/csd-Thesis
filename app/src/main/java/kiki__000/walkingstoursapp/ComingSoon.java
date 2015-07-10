@@ -107,74 +107,14 @@ public class ComingSoon extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-
-        // Handle action bar item clicks here.
         int id = item.getItemId();
-        // When Sync action button is clicked
-        if (id == R.id.refresh) {
 
-            //check if user is registered
-            SharedPreferences prefs = getSharedPreferences("UserDetails",
-                    Context.MODE_PRIVATE);
-            mail = prefs.getString("eMailId", "");
-            if (TextUtils.isEmpty(mail)) {
-                //go to register screen in order to register
-                Toast.makeText(getApplicationContext(), getResources().getString(R.string.go_to_register), Toast.LENGTH_SHORT).show();
-            } else {
-                //check if update needs
-                AsyncHttpClient client = new AsyncHttpClient();
-                RequestParams params = new RequestParams();
-                params.put("email", mail);
-                Log.i("EMAIL check", mail);
-                // Checks if new records are inserted in Remote MySQL DB to proceed with Sync operation
-                client.post(ApplicationConstants.CHECH_FOR_UPDATE, params, new AsyncHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(String response) {
-                        System.out.println(response);
-                        try {
-                            // Create JSON object out of the response sent by getdbrowcount.php
-                            JSONObject obj = new JSONObject(response);
-                            System.out.println(obj.get("count"));
-                            // If the count value is not zero, update the local database
-                            if (obj.getInt("count") != 0) {
-                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.start_update), Toast.LENGTH_SHORT).show();
-                                // Transfer data from remote MySQL DB to SQLite on Android and perform Sync
-                                UpdateSqlLite updateSQL = new UpdateSqlLite(ComingSoon.this);
-                                updateSQL.update();
-                                reloadActivity();
-                            } else {
-                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.up_date), Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (JSONException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(int statusCode, Throwable error,
-                                          String content) {
-                        // TODO Auto-generated method stub
-                        if (statusCode == 404) {
-                            Toast.makeText(getApplicationContext(), "404", Toast.LENGTH_SHORT).show();
-                        } else if (statusCode == 500) {
-                            Toast.makeText(getApplicationContext(), "500", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Error occured!", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-            }
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
             return true;
-
         }
-        return super.onOptionsItemSelected(item);
-    }
 
-    // Reload MainActivity
-    public void reloadActivity() {
-        Intent objIntent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(objIntent);
+        return super.onOptionsItemSelected(item);
     }
 
 }
