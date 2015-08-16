@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Thessaloniki Walking Tours</string>
+    <string name="app_name">TWT</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Ρυθμίσεις</string>
     <string name="menu1">Περίπατοι που έγιναν</string>
@@ -89,4 +89,7 @@
     <string name="walk_time_message">Ο περίπατος θα ξεκινήσει στις</string>
     <string name="time_remaining">Ο περίπατος ξεκινάει σε </string>
     <string name="walk_starts">Ο περίπατος ξεκινάει τώρα</string>
+    <string name="title_activity_this_walk">Περίπατος</string>
+    <string name="no_participation">Δεν έχετε συμμετέχει σε κανέναν περίπατο.</string>
+    <string name="joined_walks">Εδώ εμφανίζονται οι περίπατοι στους οποίους έχετε συμμετάσχει.</string>
 </resources>

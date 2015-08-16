@@ -186,6 +186,7 @@ public class UpdateSqlLite {
                     queryValues.setDescription(obj.get("description").toString());
                     queryValues.setStations(Integer.parseInt(obj.get("stations").toString()));
                     queryValues.setStatus(Integer.parseInt(obj.get("status").toString()));
+                    queryValues.setJoinIn("0");
 
                     // Insert Walk into SQLite DB
                     controller.insertWalk(queryValues, lang);
@@ -228,6 +229,7 @@ public class UpdateSqlLite {
                     qValuesStation.setLat(Double.parseDouble(obj.get("lat").toString()));
                     qValuesStation.setLng(Double.valueOf(obj.get("lng").toString()));
                     qValuesStation.setWalkId(obj.get("walkId").toString());
+                    qValuesStation.setTurn(obj.get("turn").toString());
 
                     // Insert Station into SQLite DB
                     controller.insertStation(qValuesStation, lang);

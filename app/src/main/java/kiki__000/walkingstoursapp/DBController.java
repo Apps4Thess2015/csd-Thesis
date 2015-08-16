@@ -15,9 +15,9 @@ import java.util.ArrayList;
 public class DBController extends SQLiteOpenHelper {
 
     //columns' names of table walks
-    private static final String[] COLUMNSWalks = {"id", "name", "date", "time", "venue", "kind", "guide", "description", "stations", "status"};
+    private static final String[] COLUMNSWalks = {"id", "name", "date", "time", "venue", "kind", "guide", "description", "stations", "status", "joinIn"};
     //columns' names of table stations
-    private static final String[] COLUMNSStations = {"id", "title", "description", "lat", "lng", "walkId"};
+    private static final String[] COLUMNSStations = {"id", "title", "description", "lat", "lng", "walkId", "turn"};
     //columns' names of table photos
     private static final String[] COLUMNSPhotos = {"id", "stationId", "walkId", "image"};
     //set the string walks as walksG for greek or walksE for english
@@ -26,7 +26,7 @@ public class DBController extends SQLiteOpenHelper {
     public static String stations;
 
     public DBController(Context applicationcontext) {
-        super(applicationcontext, "walks.db", null, 39);
+        super(applicationcontext, "walks.db", null, 40);
     }
 
     //Create Table
@@ -35,19 +35,19 @@ public class DBController extends SQLiteOpenHelper {
         String query;
 
         //create table walksG (table walks with greek content)
-        query = "CREATE TABLE walksG ( id TEXT, name TEXT, date TEXT, time TEXT, venue TEXT, kind TEXT, guide TEXT, description TEXT, stations INTEGER, status INTEGER)";
+        query = "CREATE TABLE walksG ( id TEXT, name TEXT, date TEXT, time TEXT, venue TEXT, kind TEXT, guide TEXT, description TEXT, stations INTEGER, status INTEGER, joinIn TEXT)";
         database.execSQL(query);
 
         //create table stationsG (table stations with greek content)
-        query = "CREATE TABLE stationsG ( id TEXT, title TEXT, description TEXT, lat DOUBLE, lng DOUBLE, walkId TEXT)";
+        query = "CREATE TABLE stationsG ( id TEXT, title TEXT, description TEXT, lat DOUBLE, lng DOUBLE, walkId TEXT, turn TEXT)";
         database.execSQL(query);
 
         //create table walksE (table walks with english content)
-        query = "CREATE TABLE walksE ( id TEXT, name TEXT, date TEXT, time TEXT, venue TEXT, kind TEXT, guide TEXT, description TEXT, stations INTEGER, status INTEGER)";
+        query = "CREATE TABLE walksE ( id TEXT, name TEXT, date TEXT, time TEXT, venue TEXT, kind TEXT, guide TEXT, description TEXT, stations INTEGER, status INTEGER, joinIn TEXT)";
         database.execSQL(query);
 
         //create table stationsE (table stations with english content)
-        query = "CREATE TABLE stationsE ( id TEXT, title TEXT, description TEXT, lat DOUBLE, lng DOUBLE, walkId TEXT)";
+        query = "CREATE TABLE stationsE ( id TEXT, title TEXT, description TEXT, lat DOUBLE, lng DOUBLE, walkId TEXT, turn TEXT)";
         database.execSQL(query);
 
         //create table photos
@@ -130,6 +130,7 @@ public class DBController extends SQLiteOpenHelper {
         values.put("description", queryValues.getDescription());
         values.put("stations", queryValues.getStations());
         values.put("status", queryValues.getStatus());
+        values.put("joinIn", queryValues.getJoinIn());
         database.insert(table, null, values);
         database.close();
     }
@@ -157,6 +158,7 @@ public class DBController extends SQLiteOpenHelper {
         values.put("lat", queryValues.getLat());
         values.put("lng", queryValues.getLng());
         values.put("walkId", queryValues.getWalkId());
+        values.put("turn", queryValues.getTurn());
         database.insert(table, null, values);
         Log.i("station_id", queryValues.getId());
         Log.i("station_walkId", queryValues.getWalkId());
@@ -210,12 +212,50 @@ public class DBController extends SQLiteOpenHelper {
                 walk.setDescription(cursor.getString(cursor.getColumnIndex("description")));
                 walk.setStations(cursor.getInt(cursor.getColumnIndex("stations")));
                 walk.setStatus(cursor.getInt(cursor.getColumnIndex("status")));
+                walk.setJoinIn(cursor.getString(cursor.getColumnIndex("joinIn")));
                 walksList.add(walk);
 
             } while (cursor.moveToNext());
         }
         database.close();
         return  walksList;
+    }
+
+    /**
+     * get the walks which have been past
+     * and the field joinIn = 1 (true)
+     *
+     * @return joinedWalksList
+     */
+    public ArrayList<Walk> getJoinedWalks(){
+        ArrayList<Walk> joinedWalksList;
+        joinedWalksList = new ArrayList<>();
+        String selectQuery = "SELECT  * FROM " + walks + " WHERE status = 0 AND joinIn = 1 ORDER BY id";
+        SQLiteDatabase database = this.getWritableDatabase();
+        Cursor cursor = database.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            for (String s : cursor.getColumnNames()) {
+                Log.i("name ", s);
+            }
+            do {
+                Walk walk = new Walk();
+                walk.setId(cursor.getString(cursor.getColumnIndex("id")));
+                walk.setName(cursor.getString(cursor.getColumnIndex("name")));
+                walk.setDate(cursor.getString(cursor.getColumnIndex("date")));
+                walk.setTime(cursor.getString(cursor.getColumnIndex("time")));
+                walk.setVenue(cursor.getString(cursor.getColumnIndex("venue")));
+                walk.setKind(cursor.getString(cursor.getColumnIndex("kind")));
+                walk.setGuide(cursor.getString(cursor.getColumnIndex("guide")));
+                walk.setDescription(cursor.getString(cursor.getColumnIndex("description")));
+                walk.setStations(cursor.getInt(cursor.getColumnIndex("stations")));
+                walk.setStatus(cursor.getInt(cursor.getColumnIndex("status")));
+                walk.setJoinIn(cursor.getString(cursor.getColumnIndex("joinIn")));
+                joinedWalksList.add(walk);
+
+            } while (cursor.moveToNext());
+        }
+        database.close();
+        return  joinedWalksList;
     }
 
     /**
@@ -252,6 +292,7 @@ public class DBController extends SQLiteOpenHelper {
             walk.setDescription(cursor.getString(cursor.getColumnIndex("description")));
             walk.setStations(cursor.getInt(cursor.getColumnIndex("stations")));
             walk.setStatus(cursor.getInt(cursor.getColumnIndex("status")));
+            walk.setJoinIn(cursor.getString(cursor.getColumnIndex("joinIn")));
 
             cursor.close();
             return walk;
@@ -270,7 +311,7 @@ public class DBController extends SQLiteOpenHelper {
     public ArrayList<Station> getStationsByWalkId(String walkId){
 
         ArrayList<Station> stationsList = new ArrayList<Station>();
-        String selectQuery = "SELECT  * FROM " + stations + " WHERE walkId = " + walkId + " ORDER BY id";
+        String selectQuery = "SELECT  * FROM " + stations + " WHERE walkId = " + walkId + " ORDER BY turn";
         SQLiteDatabase database = this.getReadableDatabase();
 
         Cursor cursor = database.rawQuery(selectQuery, null);
@@ -286,6 +327,7 @@ public class DBController extends SQLiteOpenHelper {
                 station.setLat(cursor.getDouble(cursor.getColumnIndex("lat")));
                 station.setLng(cursor.getDouble(cursor.getColumnIndex("lng")));
                 station.setWalkId(cursor.getString(cursor.getColumnIndex("walkId")));
+                station.setTurn(cursor.getString(cursor.getColumnIndex("turn")));
                 stationsList.add(station);
             } while (cursor.moveToNext());
 

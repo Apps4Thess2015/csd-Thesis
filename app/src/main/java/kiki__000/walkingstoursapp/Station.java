@@ -13,17 +13,19 @@ public class Station {
     private Double lat; //latitude
     private Double lng; //longitude
     private String walkId;
+    private String turn;
 
     public Station(){}
 
-    public Station(String id, String title, String description, Double lat, Double lng, String walkId){
+    public Station(String id, String title, String description, Double lat, Double lng, String walkId, String turn){
 
         this.id = id;
         this.title = title;
         this.description = description;
         this.lat = lat;
         this.lng = lng;
-        walkId = walkId;
+        this.walkId = walkId;
+        this.turn = turn;
     }
 
     public String getId(){return id;}
@@ -38,6 +40,8 @@ public class Station {
 
     public String getWalkId(){return walkId;}
 
+    public String getTurn(){return turn;}
+
     public void setId(String id){this.id = id;}
 
     public void setTitle(String title){this.title = title;}
@@ -49,4 +53,6 @@ public class Station {
     public void setLng(Double lng){this.lng = lng;}
 
     public void setWalkId(String walkId){this.walkId = walkId;}
+
+    public void setTurn(String turn){this.turn = turn;}
 }

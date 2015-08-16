@@ -62,6 +62,10 @@ public class SlidePageSupportFragment extends Fragment {
             Log.i("walkId",walk.getId());
             if (stations != null) {
                 Log.i("STATIONS", "" + stations.size());
+
+                //move camera to station's marker on map
+                //Map.moveCameraToMarker(stations.get(getPageNumber()).getLat(), stations.get(getPageNumber()).getLng());
+
                 //station title
                 TextView title = (TextView) rootView.findViewById(R.id.station_title);
                 title.setText(stations.get(getPageNumber()).getTitle());

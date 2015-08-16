@@ -1,31 +1,22 @@
 package kiki__000.walkingstoursapp;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
-import android.content.Context;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SlidingPaneLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -36,12 +27,13 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.ui.IconGenerator;
 
 import java.util.ArrayList;
 
 import static com.google.android.gms.maps.GoogleMap.*;
 
-public class Map extends ActionBarActivity {
+public class Map extends ActionBarActivity implements OnMarkerClickListener {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     public static String walkName;
@@ -55,7 +47,8 @@ public class Map extends ActionBarActivity {
     int currentPt;
     public static int NUM_PAGES;
     private ViewPager mPager;
-    private PagerAdapter mPagerAdapter;
+    Button up;
+    Button down;
 
 
     @Override
@@ -88,56 +81,20 @@ public class Map extends ActionBarActivity {
 
             //view pager for every station of walk
             mPager = (ViewPager) findViewById(R.id.stationsPanel);
-            mPagerAdapter = new MyFragmentStatePagerAdapter(getSupportFragmentManager());
+            PagerAdapter mPagerAdapter = new MyFragmentStatePagerAdapter(getSupportFragmentManager());
             mPager.setAdapter(mPagerAdapter);
-
-            //animation for station's panel in order to slide up-down
-
-          /**  ViewTreeObserver viewTreeObserver = mPager.getViewTreeObserver();
-            viewTreeObserver
-                    .addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-
-                        @Override
-                        public void onGlobalLayout() {
-
-                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                                    LinearLayout.LayoutParams.WRAP_CONTENT);
-
-                            int viewPagerWidth = mViewPager.getWidth();
-                            float viewPagerHeight = (float) (viewPagerWidth * FEATURED_IMAGE_RATIO);
-
-                            layoutParams.width = viewPagerWidth;
-                            layoutParams.height = (int) viewPagerHeight;
-
-                            mViewPager.setLayoutParams(layoutParams);
-                            mViewPager.getViewTreeObserver()
-                                    .removeGlobalOnLayoutListener(this);
-                        }
-                    });*/
-
-
-            Animation animationSlideDownIn;
-            animationSlideDownIn = AnimationUtils.loadAnimation(this, R.anim.panel_slide_down);
-            animationSlideDownIn.setAnimationListener(new Animation.AnimationListener() {
+            mPager.setOnDragListener(new View.OnDragListener() {
                 @Override
-                public void onAnimationStart(Animation animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
+                public boolean onDrag(View v, DragEvent event) {
+                    return false;
                 }
             });
 
-           mPager.startAnimation(animationSlideDownIn);
 
+            //animation for station's panel in order to slide up-down
+            Animation animationSlideDownIn;
+            animationSlideDownIn = AnimationUtils.loadAnimation(this, R.anim.panel_slide_up);
+            mPager.startAnimation(animationSlideDownIn);
 
             stations = controller.getStationsByWalkId(walk.getId());
             Log.i("walkId", walk.getId());
@@ -156,6 +113,35 @@ public class Map extends ActionBarActivity {
 
         //button in order to start the animation of route
         showRoute = (Button) findViewById(R.id.show_route);
+
+        up = (Button)findViewById(R.id.up);
+        up.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //animation for station's panel in order to slide up-down
+                Animation animationSlideUp;
+                animationSlideUp = AnimationUtils.loadAnimation(Map.this, R.anim.panel_slide_up);
+                mPager.startAnimation(animationSlideUp);
+                mPager.setVisibility(View.VISIBLE);
+
+            }
+        });
+
+        down = (Button)findViewById(R.id.down);
+        down.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //animation for station's panel in order to slide up-down
+                Animation animationSlideDown;
+                animationSlideDown = AnimationUtils.loadAnimation(Map.this, R.anim.panel_slide_down);
+                mPager.startAnimation(animationSlideDown);
+                mPager.setVisibility(View.INVISIBLE);
+
+
+            }
+        });
 
         setUpMapIfNeeded();
 
@@ -225,6 +211,10 @@ public class Map extends ActionBarActivity {
         mMap.moveCamera(center);
         mMap.animateCamera(zoom);
 
+        //onMarkerClick go to station's view
+        mMap.setOnMarkerClickListener(this);
+
+        //clickListener for showRoute button
         showRoute.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -240,7 +230,9 @@ public class Map extends ActionBarActivity {
 
     }
 
-
+    /**
+     * add markers to map with animation
+     **/
     CancelableCallback MyCancelableCallback = new CancelableCallback() {
 
         @Override
@@ -253,11 +245,16 @@ public class Map extends ActionBarActivity {
                 Log.i("current", "" + currentPt);
                 Log.i("listpointSize", "" + listPoint.size());
 
+                //set number of station inside of marker
+                IconGenerator tc = new IconGenerator(Map.this);
+                Bitmap bmp = tc.makeIcon("" + (currentPt + 1));
+
                 marker = mMap.addMarker(new MarkerOptions()
                         .position(listPoint.get(currentPt))
                         .title(titles.get(currentPt))
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                        .icon(BitmapDescriptorFactory.fromBitmap(bmp)));
                 marker.showInfoWindow();
+
                 mMap.animateCamera(CameraUpdateFactory.newLatLng(listPoint.get(currentPt)), 4000, MyCancelableCallback);
                 currentPt++;
 
@@ -269,7 +266,31 @@ public class Map extends ActionBarActivity {
 
     };
 
+    /**
+     * clicking the marker go to
+     * the corresponding station-page
+     *
+     * @param marker
+     *
+     * @return
+     */
+    @Override
+    public boolean onMarkerClick(Marker marker) {
 
+        int viewNumber = 0;
+        for (int i = 0; i < titles.size(); i++) {
+            if (marker.getTitle().equals(titles.get(i))) {
+                viewNumber = i;
+            }
+        }
+        mPager.setCurrentItem(viewNumber, true);
+
+        return false;
+    }
+
+    /**
+     * class for the fragment of viewpager
+     **/
     private class MyFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
         public MyFragmentStatePagerAdapter(FragmentManager fm) {
             super(fm);
@@ -301,4 +322,14 @@ public class Map extends ActionBarActivity {
             return header;
         }
     }
+
+    /**
+     * move camera to marker of station
+     * inside of viewPager
+     *
+     * @param lat
+     * @param lng
+     */
+
+
 }

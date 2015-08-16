@@ -29,13 +29,8 @@ import java.util.ArrayList;
 
 public class ComingSoon extends ActionBarActivity {
 
-    private ListView dList;
-    private TextView stayTuned;
-    private Animation fadeIn;
     private ArrayList<String> namesOfWalksCS = new ArrayList<String>();
     private DBController controller = new DBController(this);
-    private String mail;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +65,7 @@ public class ComingSoon extends ActionBarActivity {
 
             //set the listView
             ListViewAdapter adapter = new ListViewAdapter(ComingSoon.this, names);
-            dList = (ListView) findViewById(R.id.listView);
+            ListView dList = (ListView) findViewById(R.id.listView);
             dList.setAdapter(adapter);
             dList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -85,11 +80,11 @@ public class ComingSoon extends ActionBarActivity {
             });
         } else {
             //stay tuned
-            stayTuned = (TextView) findViewById(R.id.stayTuned);
+            TextView stayTuned = (TextView) findViewById(R.id.stayTuned);
             stayTuned.setText(getResources().getString(R.string.stay_tuned));
 
             //animation
-            fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+            Animation fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
             stayTuned.startAnimation(fadeIn);
         }
     }

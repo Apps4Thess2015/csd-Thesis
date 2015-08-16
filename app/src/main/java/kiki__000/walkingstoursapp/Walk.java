@@ -17,8 +17,9 @@ public class Walk {
     private String description;
     private int stations;
     private int status;
+    private String joinIn;
 
-    public Walk(String id, String name, String date, String time, String venue, String kind, String guide, String description, int stations, int status){
+    public Walk(String id, String name, String date, String time, String venue, String kind, String guide, String description, int stations, int status, String joinIn){
 
         this.id = id;
         this.name = name;
@@ -30,6 +31,7 @@ public class Walk {
         this.description = description;
         this.stations = stations;
         this.status = status;
+        this.joinIn = joinIn;
 
     }
 
@@ -55,6 +57,8 @@ public class Walk {
 
     public int getStatus(){return status;}
 
+    public String getJoinIn(){return joinIn;}
+
     public void setId(String id){this.id = id;}
 
     public void setName(String name){this.name = name;}
@@ -74,5 +78,7 @@ public class Walk {
     public void setStations(int stations){this.stations = stations;}
 
     public void setStatus(int status){this.status = status;}
+
+    public void setJoinIn(String joinIn){this.joinIn = joinIn;}
 
 }

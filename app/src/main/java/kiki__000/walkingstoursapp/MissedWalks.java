@@ -21,6 +21,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,8 +50,12 @@ public class MissedWalks extends ActionBarActivity {
         //set the action bar for the right language
         getSupportActionBar().setTitle(getResources().getString(R.string.title_activity_missed_walks));
 
-        // Get walks from SQLite DB where STATUS = 0
-        ArrayList<Walk> walkList = controller.getAllWalks(0);
+        // Get walks from SQLite DB where STATUS = 0 and joinIn = 1
+        ArrayList<Walk> walkList = controller.getJoinedWalks();
+
+        //message
+        Toast.makeText(getApplicationContext(), getResources().getString(R.string.joined_walks), Toast.LENGTH_LONG).show();
+
         // If walks exists in SQLite DB
         if (walkList.size() != 0) {
             //get the names and photos
@@ -98,7 +103,7 @@ public class MissedWalks extends ActionBarActivity {
         } else {
             //stay tuned
             TextView stayTuned = (TextView) findViewById(R.id.stayTuned);
-            stayTuned.setText(getString(R.string.stay_tuned));
+            stayTuned.setText(getString(R.string.no_participation));
 
             //animation
             Animation fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);

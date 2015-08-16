@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,24 +12,21 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
-import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Locale;
 
 
 public class WalkofDay extends ActionBarActivity {
 
     private String walkName;
-    private TextView walkTimeMessage;
+    private ArrayList<String> namesOfWalksDay = new ArrayList<String>();
     DBController controller = new DBController(this);
 
 
@@ -59,59 +55,41 @@ public class WalkofDay extends ActionBarActivity {
             Animation fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
             stayTuned.startAnimation(fadeIn);
 
-        } else { //else show the walk of day
+        } else if (walkList.size() == 1) { //show the walk of day
 
-            String walkTimeString = walkList.get(0).getTime();
             walkName = walkList.get(0).getName();
 
-            //get the current time
-            SimpleDateFormat sdf = new SimpleDateFormat("kk:mm", Locale.ENGLISH);
-            String currentTimeString = sdf.format(new Date());
+            Intent intent = new Intent(WalkofDay.this, ThisWalk.class);
+            intent.putExtra("walkName", walkName);
+            startActivity(intent);
 
-            try {
-                Date currentTime = sdf.parse(currentTimeString);
-                Date walkTime = sdf.parse(walkTimeString);
+        } else if (walkList.size() > 1) {  // show the listView in order to select the walk
 
-                Log.i("TIME", currentTimeString);
-
-                Date fiveMinAgo = sdf.parse(sdf.format(walkTime.getTime() - (5 * 60000)));
-                String fiveMinAgoString = sdf.format(fiveMinAgo);
-
-                Log.i("after", fiveMinAgoString);
-                long countDownInterval = walkTime.getTime() - currentTime.getTime();
-                Log.i("long", String.valueOf(countDownInterval));
-
-                walkTimeMessage = (TextView) findViewById(R.id.walkTimeMessage);
-
-                if (currentTime.compareTo(walkTime) < 0 && currentTime.compareTo(fiveMinAgo) < 0) { //currentTime < walkTime therefore, show a TextView with walkTime
-
-                    walkTimeMessage.setText(getResources().getString(R.string.walk_time_message) + walkTimeString);
-
-                } else if (currentTime.compareTo(walkTime) < 0 && fiveMinAgo.compareTo(currentTime) <= 0) { //5 minutes before the walk show the countdown timer
-                    //count down for walk
-                    //long countDownInterval = walkTime.getTime() - currentTime.getTime();
-                    new CountDownTimer(countDownInterval, 1000) {
-
-                        public void onTick(long millisUntilFinished) {
-                            long minutes = (millisUntilFinished / 1000) / 60;
-                            long seconds = (millisUntilFinished / 1000) % 60;
-                            walkTimeMessage.setText(getResources().getString(R.string.time_remaining) + " " + minutes + ":" + seconds);
-                        }
-
-                        public void onFinish() { //show start message and show the walk
-                            //hide textView, show toast message and show the walk
-                            walkTimeMessage.setText("");
-                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.walk_starts), Toast.LENGTH_SHORT).show();
-                            showTheWalk(walkName);
-                        }
-                    }.start();
-
-                } else if (currentTime.compareTo(walkTime) >= 0) { //currentTime >= walkTime therefore, show the walk
-                    showTheWalk(walkName);
-                }
-            } catch (ParseException e) {
-                e.printStackTrace();
+            //get the names of walks of day
+            for (int i = 0; i < walkList.size(); i++) {
+                namesOfWalksDay.add(walkList.get(i).getName());
             }
+
+            //convert the arrayList to array of strings
+            String[] names = new String[namesOfWalksDay.size()];
+            names = namesOfWalksDay.toArray(names);
+
+            //set the listView
+            ListViewAdapter adapter = new ListViewAdapter(WalkofDay.this, names);
+            ListView dList = (ListView) findViewById(R.id.listView);
+            dList.setAdapter(adapter);
+            dList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    walkName = namesOfWalksDay.get(position);
+
+                    Intent intent = new Intent(WalkofDay.this, ThisWalk.class);
+                    intent.putExtra("walkName", walkName);
+                    startActivity(intent);
+                }
+            });
+
         }
 
     }
@@ -137,20 +115,6 @@ public class WalkofDay extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * show the walk with this wN name
-     * when it's time
-     *
-     * @param wN
-     */
-    public void showTheWalk(final String wN) {
-
-        Intent intent = new Intent(WalkofDay.this, Map.class);
-        intent.putExtra("walkName", wN);
-        startActivity(intent);
-
     }
 
 }

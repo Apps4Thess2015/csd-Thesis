@@ -109,6 +109,10 @@
             android:name=".RefreshDatabaseActivity"
             android:label="@string/title_activity_refresh_database" >
         </activity>
+        <activity
+            android:name=".ThisWalk"
+            android:label="@string/title_activity_this_walk" >
+        </activity>
     </application>
 
 </manifest>

@@ -47,6 +47,10 @@ public class SlideLastPageSupportFragment extends Fragment {
         } else {
             stations = controller.getStationsByWalkId(walk.getId());
             if (stations != null) {
+
+                //move camera to station's marker on map
+                //Map.moveCameraToMarker(stations.get(stations.size()).getLat(), stations.get(stations.size()).getLng());
+
                 //station title
                 TextView title = (TextView) rootView.findViewById(R.id.station_title);
                 title.setText(stations.get(stations.size()).getTitle());
