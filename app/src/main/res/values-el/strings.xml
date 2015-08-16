@@ -92,4 +92,7 @@
     <string name="title_activity_this_walk">Περίπατος</string>
     <string name="no_participation">Δεν έχετε συμμετέχει σε κανέναν περίπατο.</string>
     <string name="joined_walks">Εδώ εμφανίζονται οι περίπατοι στους οποίους έχετε συμμετάσχει.</string>
+    <string name="question_join">Θα συμμετέχετε;</string>
+    <string name="join_in">Έχετε δηλώσει συμμετοχή.</string>
+    <string name="no_join_in">Δεν έχετε δηλώσει συμμετοχή.</string>
 </resources>

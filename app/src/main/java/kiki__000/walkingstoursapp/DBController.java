@@ -426,10 +426,40 @@ public class DBController extends SQLiteOpenHelper {
         return true;
     }
 
+    /**
+     * join the walk with this id
+     * set the field joinIn = 1 in
+     * tables walkG and walkE
+     *
+     * @param walkId
+     */
+    public void joinInWalk(String walkId){
 
 
+        SQLiteDatabase database = this.getReadableDatabase();
 
+        // New value for one column
+        ContentValues values = new ContentValues();
+        values.put("joinIn", "1");
 
+        // Which row to update, based on the ID
+        String selection = "id" + " LIKE ?";
+        String[] selectionArgs = { walkId };
 
+        //update table walksG
+        int countG = database.update(
+                "walksG",
+                values,
+                selection,
+                selectionArgs);
+
+        //update table walksE
+        int countE = database.update(
+                "walksE",
+                values,
+                selection,
+                selectionArgs);
+
+    }
 
 }

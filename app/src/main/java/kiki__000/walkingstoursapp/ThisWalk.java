@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +23,8 @@ public class ThisWalk extends ActionBarActivity {
 
     private TextView walkTimeMessage;
     private String walkName;
+    private Button joinIn;
+    private String join;
     DBController controller = new DBController(this);
 
     @Override
@@ -43,6 +47,31 @@ public class ThisWalk extends ActionBarActivity {
 
         //take the walk with name walkName
         Walk walk = controller.getWalkByName(walkName);
+
+        //joinIn button
+        joinIn = (Button)findViewById(R.id.joinIn);
+
+        final String id = walk.getId();
+        join = walk.getJoinIn();
+
+        if (join.equals("0")){
+            joinIn.setText(getResources().getString(R.string.question_join));
+            joinIn.setEnabled(true);
+        }else{
+            joinIn.setText(getResources().getString(R.string.join_in));
+            joinIn.setEnabled(false);
+        }
+
+        joinIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                controller.joinInWalk(id);
+                joinIn.setText(getResources().getString(R.string.join_in));
+                joinIn.setEnabled(false);
+            }
+        });
+
 
         String walkTimeString = walk.getTime();
 
@@ -70,6 +99,10 @@ public class ThisWalk extends ActionBarActivity {
                 walkTimeMessage.setText(getResources().getString(R.string.walk_time_message) + walkTimeString);
 
             } else if (currentTime.compareTo(walkTime) < 0 && fiveMinAgo.compareTo(currentTime) <= 0) { //5 minutes before the walk show the countdown timer
+
+                //hide the joinIn button
+                joinIn.setVisibility(View.INVISIBLE);
+
                 //count down for walk
                 //long countDownInterval = walkTime.getTime() - currentTime.getTime();
                 new CountDownTimer(countDownInterval, 1000) {
@@ -84,12 +117,21 @@ public class ThisWalk extends ActionBarActivity {
                         //hide textView, show toast message and show the walk
                         walkTimeMessage.setText("");
                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.walk_starts), Toast.LENGTH_SHORT).show();
-                        showTheWalk(walkName);
+
+                        if (join.equals("1")) {
+                            showTheWalk(walkName);
+                        }else{
+                            walkTimeMessage.setText(getResources().getString(R.string.no_join_in));
+                        }
                     }
                 }.start();
 
             } else if (currentTime.compareTo(walkTime) >= 0) { //currentTime >= walkTime therefore, show the walk
-                showTheWalk(walkName);
+                if (join.equals("1")) {
+                    showTheWalk(walkName);
+                }else{
+                    walkTimeMessage.setText(getResources().getString(R.string.no_join_in));
+                }
             }
         } catch (ParseException e) {
             e.printStackTrace();

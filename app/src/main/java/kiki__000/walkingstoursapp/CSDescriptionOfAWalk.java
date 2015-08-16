@@ -5,31 +5,20 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
-
-import java.util.ArrayList;
 
 
 public class CSDescriptionOfAWalk extends ActionBarActivity {
 
-    private TextView title;
-    private TextView when;
-    private TextView time;
-    private TextView venue;
-    private TextView kind;
-    private TextView guides;
-    private TextView description;
-    private LinearLayout layout;
-    private Animation slideDown;
     private String[] walkData = new String[7];
-    private Walk walk = new Walk();
-    private String walkName;
     private DBController controller = new DBController(this);
+    private Button joinIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +36,10 @@ public class CSDescriptionOfAWalk extends ActionBarActivity {
 
         //get the walkName
         Intent intent = getIntent();
-        walkName = intent.getStringExtra("walkName");
+        String walkName = intent.getStringExtra("walkName");
 
         //take the walk with name walkName
+        Walk walk = new Walk();
         walk = controller.getWalkByName(walkName);
 
         //create the walk
@@ -64,36 +54,60 @@ public class CSDescriptionOfAWalk extends ActionBarActivity {
         //create graphics and animation
 
         // load animations in layout
-        slideDown = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_down);
-        layout = (LinearLayout)findViewById(R.id.layout);
+        Animation slideDown = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_down);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.layout);
         layout.startAnimation(slideDown);
 
+        //joinIn button
+        joinIn = (Button)findViewById(R.id.joinIn);
+
+        final String id = walk.getId();
+        String join = walk.getJoinIn();
+
+        if (join.equals("0")){
+            joinIn.setText(getResources().getString(R.string.question_join));
+            joinIn.setEnabled(true);
+        }else{
+            joinIn.setText(getResources().getString(R.string.join_in));
+            joinIn.setEnabled(false);
+        }
+
+        joinIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                controller.joinInWalk(id);
+                joinIn.setText(getResources().getString(R.string.join_in));
+                joinIn.setEnabled(false);
+            }
+        });
+
         //title
-        title = (TextView)findViewById(R.id.walk_title);
+        TextView title = (TextView) findViewById(R.id.walk_title);
         title.setText(walkData[0]);
 
         //when
-        when = (TextView)findViewById(R.id.walk_when);
+        TextView when = (TextView) findViewById(R.id.walk_when);
         when.setText(walkData[1]);
 
         //time
-        time = (TextView)findViewById(R.id.walk_time);
+        TextView time = (TextView) findViewById(R.id.walk_time);
         time.setText(walkData[2]);
 
         //venue
-        venue = (TextView)findViewById(R.id.walk_venue);
+        TextView venue = (TextView) findViewById(R.id.walk_venue);
         venue.setText(walkData[3]);
 
         //kind
-        kind = (TextView)findViewById(R.id.walk_kind);
+        TextView kind = (TextView) findViewById(R.id.walk_kind);
         kind.setText(walkData[4]);
 
         //guides
-        guides = (TextView)findViewById(R.id.walk_guides);
+        TextView guides = (TextView) findViewById(R.id.walk_guides);
         guides.setText(walkData[5]);
 
         //description
-        description = (TextView)findViewById(R.id.walk_description);
+        TextView description = (TextView) findViewById(R.id.walk_description);
         description.setText(walkData[6]);
     }
 
