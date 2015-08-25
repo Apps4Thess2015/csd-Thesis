@@ -5,4 +5,11 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <!-- pressed marker on Map -->
+    <style name="pressedMarker">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#fff72579</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>

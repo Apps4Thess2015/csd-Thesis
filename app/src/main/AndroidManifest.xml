@@ -49,7 +49,7 @@
         </activity>
         <activity
             android:name=".Map"
-            android:label="@string/title_activity_map" >
+            android:label="@string/title_activity_map">
         </activity>
 
         <meta-data

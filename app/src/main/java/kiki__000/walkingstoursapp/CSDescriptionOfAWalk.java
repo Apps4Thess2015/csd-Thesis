@@ -1,5 +1,7 @@
 package kiki__000.walkingstoursapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ public class CSDescriptionOfAWalk extends ActionBarActivity {
     private String[] walkData = new String[7];
     private DBController controller = new DBController(this);
     private Button joinIn;
+    private AlertDialog.Builder dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,30 +61,6 @@ public class CSDescriptionOfAWalk extends ActionBarActivity {
         LinearLayout layout = (LinearLayout) findViewById(R.id.layout);
         layout.startAnimation(slideDown);
 
-        //joinIn button
-        joinIn = (Button)findViewById(R.id.joinIn);
-
-        final String id = walk.getId();
-        String join = walk.getJoinIn();
-
-        if (join.equals("0")){
-            joinIn.setText(getResources().getString(R.string.question_join));
-            joinIn.setEnabled(true);
-        }else{
-            joinIn.setText(getResources().getString(R.string.join_in));
-            joinIn.setEnabled(false);
-        }
-
-        joinIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                controller.joinInWalk(id);
-                joinIn.setText(getResources().getString(R.string.join_in));
-                joinIn.setEnabled(false);
-            }
-        });
-
         //title
         TextView title = (TextView) findViewById(R.id.walk_title);
         title.setText(walkData[0]);
@@ -109,6 +88,46 @@ public class CSDescriptionOfAWalk extends ActionBarActivity {
         //description
         TextView description = (TextView) findViewById(R.id.walk_description);
         description.setText(walkData[6]);
+
+        //joinIn button
+        joinIn = (Button)findViewById(R.id.joinIn);
+
+        final String id = walk.getId();
+        String join = walk.getJoinIn();
+
+        if (join.equals("0")){
+            joinIn.setText(getResources().getString(R.string.question_join));
+            joinIn.setEnabled(true);
+        }else{
+            joinIn.setText(getResources().getString(R.string.join_in));
+            joinIn.setEnabled(false);
+        }
+
+        joinIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                controller.joinInWalk(id);
+                joinIn.setText(getResources().getString(R.string.join_in));
+                joinIn.setEnabled(false);
+            }
+        });
+
+        //dialog window with joinIn message
+        if(join.equals("0")) {
+            dialog = new AlertDialog.Builder(this);
+
+            dialog.setTitle(getResources().getString(R.string.message));
+            dialog.setMessage(getResources().getString(R.string.joinIn_message));
+            dialog.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialog.setCancelable(true);
+                }
+            });
+            AlertDialog alert = dialog.create();
+            alert.show();
+        }
     }
 
     @Override

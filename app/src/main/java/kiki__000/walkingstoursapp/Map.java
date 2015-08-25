@@ -3,6 +3,7 @@ package kiki__000.walkingstoursapp;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -38,7 +39,6 @@ public class Map extends ActionBarActivity implements OnMarkerClickListener {
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     public static String walkName;
     private Button showRoute;
-    private Marker marker;
     DBController controller;
     Walk walk = new Walk();
     ArrayList<String> titles = new ArrayList<>();
@@ -147,14 +147,14 @@ public class Map extends ActionBarActivity implements OnMarkerClickListener {
 
     }
 
-    @Override
+   /** @Override
     public void onBackPressed() {
         if (mPager.getCurrentItem() == 0) {
             super.onBackPressed();
         } else {
             mPager.setCurrentItem(mPager.getCurrentItem() - 1);
         }
-    }
+    }*/
 
     @Override
     protected void onResume() {
@@ -249,7 +249,7 @@ public class Map extends ActionBarActivity implements OnMarkerClickListener {
                 IconGenerator tc = new IconGenerator(Map.this);
                 Bitmap bmp = tc.makeIcon("" + (currentPt + 1));
 
-                marker = mMap.addMarker(new MarkerOptions()
+                Marker marker = mMap.addMarker(new MarkerOptions()
                         .position(listPoint.get(currentPt))
                         .title(titles.get(currentPt))
                         .icon(BitmapDescriptorFactory.fromBitmap(bmp)));
@@ -278,11 +278,23 @@ public class Map extends ActionBarActivity implements OnMarkerClickListener {
     public boolean onMarkerClick(Marker marker) {
 
         int viewNumber = 0;
+
         for (int i = 0; i < titles.size(); i++) {
             if (marker.getTitle().equals(titles.get(i))) {
                 viewNumber = i;
             }
         }
+
+        //change the color of pressed marker
+        IconGenerator tc = new IconGenerator(Map.this);
+        tc.setTextAppearance(R.style.pressedMarker);
+        Bitmap bmp = tc.makeIcon("" + (viewNumber + 1));
+        marker.setIcon(BitmapDescriptorFactory.fromBitmap(bmp));
+
+        //set all others to unpressed markers
+
+
+        //set the viewPager to the right station
         mPager.setCurrentItem(viewNumber, true);
 
         return false;
@@ -323,13 +335,7 @@ public class Map extends ActionBarActivity implements OnMarkerClickListener {
         }
     }
 
-    /**
-     * move camera to marker of station
-     * inside of viewPager
-     *
-     * @param lat
-     * @param lng
-     */
+
 
 
 }

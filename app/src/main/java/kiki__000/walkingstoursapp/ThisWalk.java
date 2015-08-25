@@ -127,6 +127,10 @@ public class ThisWalk extends ActionBarActivity {
                 }.start();
 
             } else if (currentTime.compareTo(walkTime) >= 0) { //currentTime >= walkTime therefore, show the walk
+
+                //hide the joinIn button
+                joinIn.setVisibility(View.INVISIBLE);
+
                 if (join.equals("1")) {
                     showTheWalk(walkName);
                 }else{

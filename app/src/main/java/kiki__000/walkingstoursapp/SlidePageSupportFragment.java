@@ -1,11 +1,16 @@
 package kiki__000.walkingstoursapp;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,17 +19,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  * Created by kiki__000 on 05-May-15.
  */
 public class SlidePageSupportFragment extends Fragment {
-
-    //Share by SlidePageSupportFragment 0~3,
-    //and set pageNumber by calling setPageNumber()
-    //...NOT always valid
 
     int pageNumber = 0;  //default
     private String walkName;
@@ -62,9 +65,6 @@ public class SlidePageSupportFragment extends Fragment {
             Log.i("walkId",walk.getId());
             if (stations != null) {
                 Log.i("STATIONS", "" + stations.size());
-
-                //move camera to station's marker on map
-                //Map.moveCameraToMarker(stations.get(getPageNumber()).getLat(), stations.get(getPageNumber()).getLng());
 
                 //station title
                 TextView title = (TextView) rootView.findViewById(R.id.station_title);
@@ -107,6 +107,40 @@ public class SlidePageSupportFragment extends Fragment {
                     startActivity(new Intent(Intent.ACTION_VIEW, uri));
                 }
             });
+
+            //facebook button
+            Button facebook = (Button) rootView.findViewById(R.id.facebook);
+            facebook.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    boolean found = false;
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/html");
+                    shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, Html.fromHtml("<p>This is the text that will be shared.</p>"));
+
+
+
+                    PackageManager pm = v.getContext().getPackageManager();
+                    List<ResolveInfo> activityList = pm.queryIntentActivities(shareIntent, 0);
+                    for (final ResolveInfo app : activityList) {
+                        if ((app.activityInfo.name).contains("katana")) {
+                            final ActivityInfo activity = app.activityInfo;
+                            final ComponentName name = new ComponentName(activity.applicationInfo.packageName, activity.name);
+                            shareIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+                            shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                            shareIntent.setComponent(name);
+                            v.getContext().startActivity(shareIntent);
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (found == false) {
+                        Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.no_app), Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            });
         }
 
         return rootView;
@@ -116,4 +150,6 @@ public class SlidePageSupportFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
     }
+
+
 }

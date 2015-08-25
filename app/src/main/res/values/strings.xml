@@ -93,4 +93,8 @@
     <string name="question_join">Will you join?</string>
     <string name="join_in">You have signed in.</string>
     <string name="no_join_in">You haven\'t signed in.</string>
+    <string name="message">Message</string>
+    <string name="joinIn_message">You can register in walk by pressing the button
+     that you will find at the end of screen.</string>
+
 </resources>
