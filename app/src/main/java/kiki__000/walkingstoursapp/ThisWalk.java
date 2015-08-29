@@ -96,7 +96,7 @@ public class ThisWalk extends ActionBarActivity {
 
             if (currentTime.compareTo(walkTime) < 0 && currentTime.compareTo(fiveMinAgo) < 0) { //currentTime < walkTime therefore, show a TextView with walkTime
 
-                walkTimeMessage.setText(getResources().getString(R.string.walk_time_message) + walkTimeString);
+                walkTimeMessage.setText(getResources().getString(R.string.walk_time_message) + " " + walkTimeString);
 
             } else if (currentTime.compareTo(walkTime) < 0 && fiveMinAgo.compareTo(currentTime) <= 0) { //5 minutes before the walk show the countdown timer
 

@@ -20,13 +20,15 @@ public class DBController extends SQLiteOpenHelper {
     private static final String[] COLUMNSStations = {"id", "title", "description", "lat", "lng", "walkId", "turn"};
     //columns' names of table photos
     private static final String[] COLUMNSPhotos = {"id", "stationId", "walkId", "image"};
+    //columns' names of table rating
+    private static final String[] COLUMNSRating = {"id", "stationId", "walkId", "points", "rated"};
     //set the string walks as walksG for greek or walksE for english
     public static String walks;
     //set the string stations as stationsG for greek or stationsE for english
     public static String stations;
 
     public DBController(Context applicationcontext) {
-        super(applicationcontext, "walks.db", null, 40);
+        super(applicationcontext, "walks.db", null, 44);
     }
 
     //Create Table
@@ -54,6 +56,10 @@ public class DBController extends SQLiteOpenHelper {
         query = "CREATE TABLE photos ( id TEXT, stationId TEXT, walkId TEXT,  image TEXT)";
         database.execSQL(query);
 
+        //create table rating
+        query = "CREATE TABLE rating (id TEXT, stationId TEXT, walkId TEXT, points INTEGER, rated TEXT)";
+        database.execSQL(query);
+
     }
 
     @Override
@@ -73,6 +79,9 @@ public class DBController extends SQLiteOpenHelper {
         database.execSQL(query);
 
         query = "DROP TABLE IF EXISTS photos";
+        database.execSQL(query);
+
+        query = "DROP TABLE IF EXISTS rating";
         database.execSQL(query);
 
         onCreate(database);
@@ -101,6 +110,9 @@ public class DBController extends SQLiteOpenHelper {
 
         //delete all the photos of walk from table photos
         database.delete("photos", "walkId=?", whereArgs);
+
+        //delete all the records of walk from table rating
+        database.delete("rating", "walkId=?", whereArgs);
     }
 
     /**
@@ -180,6 +192,26 @@ public class DBController extends SQLiteOpenHelper {
         values.put("image", queryValues.getImage());
 
         database.insert("photos", null, values);
+
+        database.close();
+    }
+
+    /**
+     * Inserts Rating into SQLite DB
+     * @param queryValues
+     */
+    public void insertRating(Rating queryValues) {
+
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put("id", queryValues.getId());
+        values.put("stationId", queryValues.getStationId());
+        values.put("walkId", queryValues.getWalkId());
+        values.put("points", queryValues.getPoints());
+        values.put("rated", queryValues.getRated());
+
+        database.insert("rating", null, values);
 
         database.close();
     }
@@ -405,7 +437,7 @@ public class DBController extends SQLiteOpenHelper {
     }
 
     /**
-     * chech if record with this id
+     * check if record with this id
      * already exists in local database
      *
      * @param id
@@ -428,13 +460,11 @@ public class DBController extends SQLiteOpenHelper {
 
     /**
      * join the walk with this id
-     * set the field joinIn = 1 in
-     * tables walkG and walkE
+     * set the field joinIn = 1 in tables walkG and walkE
      *
      * @param walkId
      */
     public void joinInWalk(String walkId){
-
 
         SQLiteDatabase database = this.getReadableDatabase();
 
@@ -461,5 +491,121 @@ public class DBController extends SQLiteOpenHelper {
                 selectionArgs);
 
     }
+
+
+    /**
+     * check if the user has rated the
+     * station with this stationId
+     *
+     * @param stationId
+     * @return true or false
+     */
+    public boolean getRatedByStationId(String stationId){
+
+        SQLiteDatabase database = this.getReadableDatabase();
+        String query = "SELECT rated FROM rating  WHERE stationId = " + stationId;
+        Cursor cursor = database.rawQuery(query, null);
+
+        if (cursor.getCount() <= 0) {
+            Log.i("RATED","noResult");
+            cursor.close();
+            return false;
+        }else {
+            cursor.moveToFirst();
+            String rated = cursor.getString(cursor.getColumnIndex("rated"));
+            cursor.close();
+            if (rated.equals("1")){
+                Log.i("RATED","yes");
+                return true;
+            }else {
+                Log.i("RATED","no");
+                return false;
+            }
+        }
+    }
+
+    /**
+     * get the points of station with this stationId
+     *
+     * @param  stationId
+     * @return points
+     */
+    public int getPointsByStationId(String stationId) {
+
+        SQLiteDatabase database = this.getReadableDatabase();
+        String query = "SELECT points FROM rating  WHERE stationId = " + stationId;
+        Cursor cursor = database.rawQuery(query, null);
+
+        if (cursor.getCount() <= 0) {
+            Log.i("POINTS","noResult");
+            cursor.close();
+
+            return -1;
+        }else {
+            cursor.moveToFirst();
+            int points = Integer.parseInt(cursor.getString(cursor.getColumnIndex("points")));
+            cursor.close();
+
+            return points;
+
+        }
+    }
+
+    /**
+     * set field rated for station with this stationId
+     * set the field rated = 1 in table rating
+     *
+     * @param stationId
+     */
+    public void setRatedByStationId(String stationId){
+
+        SQLiteDatabase database = this.getReadableDatabase();
+
+        // New value for one column
+        ContentValues values = new ContentValues();
+        values.put("rated", "1");
+
+        // Which row to update, based on the ID
+        String selection = "stationId" + " LIKE ?";
+        String[] selectionArgs = { stationId };
+
+        //update table rating
+        int countG = database.update(
+                "rating",
+                values,
+                selection,
+                selectionArgs);
+
+    }
+
+    /**
+     * increase the points of station with this StationId by one
+     *
+     * @param stationId
+     */
+    public void setPointsByStationId(String stationId, int po){
+
+        SQLiteDatabase database = this.getReadableDatabase();
+
+        // New value for one column
+        ContentValues values = new ContentValues();
+        String points = String.valueOf(po + 1);
+        values.put("points", points);
+
+        // Which row to update, based on the ID
+        String selection = "stationId" + " LIKE ?";
+        String[] selectionArgs = { stationId };
+
+        //update table rating
+        int countG = database.update(
+                "rating",
+                values,
+                selection,
+                selectionArgs);
+
+
+    }
+
+
 
 }

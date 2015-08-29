@@ -48,12 +48,25 @@ public class SlideLastPageSupportFragment extends Fragment {
             stations = controller.getStationsByWalkId(walk.getId());
             if (stations != null) {
 
-                //move camera to station's marker on map
-                //Map.moveCameraToMarker(stations.get(stations.size()).getLat(), stations.get(stations.size()).getLng());
-
                 //station title
                 TextView title = (TextView) rootView.findViewById(R.id.station_title);
                 title.setText(stations.get(stations.size()).getTitle());
+
+                //star button
+                final Button star = (Button)rootView.findViewById(R.id.star_button);
+                star.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        star.setBackgroundResource(R.mipmap.pressed_star);
+                        star.setEnabled(false);
+                    }
+                });
+
+                //points of station
+                TextView points = (TextView)rootView.findViewById(R.id.points);
+                points.setText("0 " + getResources().getString(R.string.stars));
+
 
                 //station image
                 ImageView image = (ImageView) rootView.findViewById(R.id.station_image);
@@ -74,22 +87,23 @@ public class SlideLastPageSupportFragment extends Fragment {
 
                 //twitterText
                 twitterText = "Thessaloniki%23Walking%23Tours%23" + stations.get(stations.size()).getTitle() + "%23";
+
+                //twitter button
+                Button twitter = (Button) rootView.findViewById(R.id.twitter);
+                twitter.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        String tweetUrl = "https://twitter.com/intent/tweet?text=" + twitterText;
+                        Uri uri = Uri.parse(tweetUrl);
+                        startActivity(new Intent(Intent.ACTION_VIEW, uri));
+                    }
+                });
+
             } else {
                 Log.i("stations", "null");
                 twitterText = "Thessaloniki%23Walking%23Tours%23";
             }
-
-            //twitter button
-            Button twitter = (Button) rootView.findViewById(R.id.twitter);
-            twitter.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    String tweetUrl = "https://twitter.com/intent/tweet?text=" + twitterText;
-                    Uri uri = Uri.parse(tweetUrl);
-                    startActivity(new Intent(Intent.ACTION_VIEW, uri));
-                }
-            });
 
         }
         return rootView;

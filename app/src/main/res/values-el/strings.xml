@@ -97,5 +97,6 @@
     <string name="no_join_in">Δεν έχετε δηλώσει συμμετοχή.</string>
     <string name="message">Μήνυμα</string>
     <string name="joinIn_message">Μπορείτε να δηλώσετε εγγραφή στον περίπατο πατώντας το κουμπί
-    Εγγραφής που βρίσκετε στο τέλος της οθνόνης.</string>
+    Εγγραφής που βρίσκετε στο τέλος της οθόνης.</string>
+    <string name="stars">αστέρια</string>
 </resources>

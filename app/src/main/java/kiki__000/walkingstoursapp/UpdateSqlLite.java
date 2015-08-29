@@ -31,6 +31,7 @@ public class UpdateSqlLite {
     Walk queryValues;
     Station qValuesStation;
     Photo qValuesPhoto;
+    Rating qValuesRating;
     ArrayList<String> deletedWalks = new ArrayList<>();
     Context context;
 
@@ -57,6 +58,8 @@ public class UpdateSqlLite {
         syncSQLiteMySQLDB(ApplicationConstants.GET_STATIONS_G, lang[0]);
         //update table stationsE
         syncSQLiteMySQLDB(ApplicationConstants.GET_STATIONS_E, lang[1]);
+        //update table rating
+        syncSQLiteMySQLDB(ApplicationConstants.GET_RATING, lang[0]);
         //update table Photos
         syncSQLiteMySQLDB(ApplicationConstants.GET_PHOTOS, lang[0]);
     }
@@ -93,6 +96,9 @@ public class UpdateSqlLite {
                     Log.i("responce", response);
                 } else if (url.contains("Deleted")) {
                     updateDeleted(response);
+                    Log.i("responce", response);
+                } else if (url.contains("Rating")) {
+                    updateRating(response);
                     Log.i("responce", response);
                 } else {
                     updatePhotos(response);
@@ -279,6 +285,46 @@ public class UpdateSqlLite {
         }
 
     }
+
+    /** Update the table Rating
+     *
+     * @param response
+     */
+    public void updateRating(String response) {
+
+        // Create GSON object
+        Gson gson = new GsonBuilder().create();
+        try {
+            // Extract JSON array from the response
+            JSONArray arr = new JSONArray(response);
+            System.out.println(arr.length());
+            // If no of array elements is not zero
+            if (arr.length() != 0) {
+                // Loop through each array element, get JSON object
+                for (int i = 0; i < arr.length(); i++) {
+                    // Get JSON object
+                    JSONObject obj = (JSONObject) arr.get(i);
+                    // DB QueryValues Object to insert into SQLite
+                    qValuesRating = new Rating();
+                    // Add fields extracted from Object
+                    qValuesRating.setId(obj.get("id").toString());
+                    qValuesRating.setStationId(obj.get("stationId").toString());
+                    qValuesRating.setWalkId(obj.get("walkId").toString());
+                    qValuesRating.setPoints(Integer.parseInt(obj.get("points").toString()));
+                    qValuesRating.setRated("0");
+                    Log.i("points", obj.get("points").toString());
+                    // Insert Photo into SQLite DB
+                    controller.insertRating(qValuesRating);
+                }
+            }
+
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
+
 
 
 }
