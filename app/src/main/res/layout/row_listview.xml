@@ -1,33 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:shrinkColumns="*"
-    android:stretchColumns="*" >
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
-    <TableRow
+    <!-- text of list item -->
+    <TextView
+        android:id="@+id/listName"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="center">
-        <TextView
-            android:id="@+id/listName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:textSize="20sp" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:textSize="20sp"
+        android:typeface="sans" />
 
-        <ImageView
-            android:id="@+id/listImage"
-            android:layout_width="20dp"
-            android:layout_height="50dp"
-            android:layout_gravity="end"
-            android:background="@mipmap/arrow"
-            android:layout_column="5" />
-    </TableRow>
+    <!-- right arrow image -->
+    <ImageView
+        android:id="@+id/listImage"
+        android:layout_width="20dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="end"
+        android:layout_centerVertical="true"
+        android:background="@mipmap/arrow" />
 
-    <!-- Line -->
-    <View
-        android:layout_height="0.5dip"
-        android:background="#FFFFFF" />
-
-</TableLayout>
+</RelativeLayout>

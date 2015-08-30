@@ -1,9 +1,14 @@
 package kiki__000.walkingstoursapp;
 
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -69,6 +74,28 @@ public class Map extends ActionBarActivity implements OnMarkerClickListener {
         //get the walkName
         Intent intent = getIntent();
         walkName = intent.getStringExtra("walkName");
+
+        //check the internet status
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+
+        //if there isn't internet connection show a message
+        if (activeNetworkInfo == null || !activeNetworkInfo.isConnected()){
+
+            final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+
+            dialog.setTitle(getResources().getString(R.string.message));
+            dialog.setMessage(getResources().getString(R.string.internet_connection));
+            dialog.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialog.setCancelable(true);
+                }
+            });
+            AlertDialog alert = dialog.create();
+            alert.show();
+        }
+
 
         controller = new DBController(getApplicationContext());
         // Get walk from SQLite DB

@@ -97,5 +97,7 @@
     <string name="joinIn_message">You can register in walk by pressing the button
      that you will find at the end of screen.</string>
     <string name="stars">stars</string>
+    <string name="internet_connection">There isn\'t internet access. Enable the internet
+      connection in order to load the map.</string>
 
 </resources>

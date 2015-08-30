@@ -1,21 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     tools:context="kiki__000.walkingstoursapp.ComingSoon">
-
-    <!--Message if there isn't walk of day-->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:id="@+id/stayTuned"/>
-
 
     <!--ListView for the description of a walk-->
     <ListView
@@ -24,11 +11,19 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:choiceMode="none"
-        android:divider="@android:color/transparent"
+        android:background="@drawable/list_selector"
         android:dividerHeight="0dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+        android:gravity="center" />
+
+    <!--Message if there isn't walk of day-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:paddingTop="5dp" />
+        android:id="@+id/stayTuned"/>
 
 </RelativeLayout>
