@@ -15,20 +15,23 @@
 
     <!-- Button in order to start the animation of route-->
     <Button
+        android:id="@+id/show_route"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/transparent"
         android:text="@string/show_route"
-        android:id="@+id/show_route"/>
+        android:textStyle="bold"/>
 
     <!--station's panel -->
     <android.support.v4.view.ViewPager
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/stationsPanel"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="55dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
         android:background="@color/white"
         android:layout_gravity="bottom">
 
@@ -42,22 +45,15 @@
             android:textColor="@color/white"/>
     </android.support.v4.view.ViewPager>
 
-    <!-- Button up -->
+    <!-- Button for the slide up and down of stations' panel -->
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:text="up"
-        android:id="@+id/up"
-        android:layout_gravity="center_horizontal|top" />
-
-    <!-- Button down-->
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:text="down"
-        android:id="@+id/down"
-        android:layout_gravity="right|top" />
+        android:id="@+id/up_down"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="start"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:background="@mipmap/down_arrow" />
 
 </FrameLayout>

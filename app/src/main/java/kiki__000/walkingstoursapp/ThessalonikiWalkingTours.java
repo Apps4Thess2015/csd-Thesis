@@ -79,8 +79,7 @@ public class ThessalonikiWalkingTours extends ActionBarActivity {
             Button more = new Button(this);
             TableRow.LayoutParams buttonParams = new TableRow.LayoutParams(20, 20);
             more.setLayoutParams(buttonParams);
-           // more.setBackgroundResource(R.mipmap.down_arrow);
-            more.setBackgroundResource(android.R.drawable.arrow_down_float);
+            more.setBackgroundResource(R.mipmap.down_arrow);
             more.setTag("more");
             more.setId(i);
             more.setOnClickListener(infoButtonClickListener(more));
@@ -159,15 +158,13 @@ public class ThessalonikiWalkingTours extends ActionBarActivity {
                             hiddenRows.get(i).setVisibility(View.VISIBLE);
                             TableRow.LayoutParams buttonParams = new TableRow.LayoutParams(20, 20);
                             buttons.get(i).setLayoutParams(buttonParams);
-                            //buttons.get(i).setBackgroundResource(R.mipmap.up_arrow);
-                            buttons.get(i).setBackgroundResource(android.R.drawable.arrow_up_float);
+                            buttons.get(i).setBackgroundResource(R.mipmap.up_arrow);
                             buttons.get(i).setTag("less");
                         } else {
                             hiddenRows.get(i).setVisibility(View.GONE);
                             TableRow.LayoutParams buttonParams = new TableRow.LayoutParams(20, 20);
                             buttons.get(i).setLayoutParams(buttonParams);
-                            //buttons.get(i).setBackgroundResource(R.mipmap.down_arrow);
-                            buttons.get(i).setBackgroundResource(android.R.drawable.arrow_down_float);
+                            buttons.get(i).setBackgroundResource(R.mipmap.down_arrow);
                             buttons.get(i).setTag("more");
                         }
                     }
@@ -177,8 +174,7 @@ public class ThessalonikiWalkingTours extends ActionBarActivity {
                             hiddenRows.get(i).setVisibility(View.GONE);
                             TableRow.LayoutParams buttonParams = new TableRow.LayoutParams(20, 20);
                             buttons.get(i).setLayoutParams(buttonParams);
-                            //buttons.get(i).setBackgroundResource(R.mipmap.down_arrow);
-                            buttons.get(i).setBackgroundResource(android.R.drawable.arrow_down_float);
+                            buttons.get(i).setBackgroundResource(R.mipmap.down_arrow);
                             buttons.get(i).setTag("more");
                         }
                     }
