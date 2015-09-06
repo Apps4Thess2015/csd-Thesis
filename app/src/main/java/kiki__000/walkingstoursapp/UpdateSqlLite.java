@@ -304,17 +304,22 @@ public class UpdateSqlLite {
                 for (int i = 0; i < arr.length(); i++) {
                     // Get JSON object
                     JSONObject obj = (JSONObject) arr.get(i);
-                    // DB QueryValues Object to insert into SQLite
-                    qValuesRating = new Rating();
-                    // Add fields extracted from Object
-                    qValuesRating.setId(obj.get("id").toString());
-                    qValuesRating.setStationId(obj.get("stationId").toString());
-                    qValuesRating.setWalkId(obj.get("walkId").toString());
-                    qValuesRating.setPoints(Integer.parseInt(obj.get("points").toString()));
-                    qValuesRating.setRated("0");
-                    Log.i("points", obj.get("points").toString());
-                    // Insert Photo into SQLite DB
-                    controller.insertRating(qValuesRating);
+                    //first check if this record already exists in table rating
+                    String stationId = obj.get("stationId").toString();
+                    if (!controller.recordRating(stationId)){
+                        // DB QueryValues Object to insert into SQLite
+                        qValuesRating = new Rating();
+                        // Add fields extracted from Object
+                        qValuesRating.setId(obj.get("id").toString());
+                        qValuesRating.setStationId(obj.get("stationId").toString());
+                        qValuesRating.setWalkId(obj.get("walkId").toString());
+                        qValuesRating.setPoints(Integer.parseInt(obj.get("points").toString()));
+                        qValuesRating.setRated("0");
+                        qValuesRating.setSent("0");
+                        Log.i("points", obj.get("points").toString());
+                        // Insert Photo into SQLite DB
+                        controller.insertRating(qValuesRating);
+                    }
                 }
             }
 

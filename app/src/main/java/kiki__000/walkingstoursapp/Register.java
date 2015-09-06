@@ -139,7 +139,7 @@ public class Register extends ActionBarActivity {
         params.put("email", mail);
         Log.i("EMAIL check", mail);
         // Checks if user exists
-        client.post(ApplicationConstants.CHECH_FOR_USER, params, new AsyncHttpResponseHandler() {
+        client.post(ApplicationConstants.CHECK_FOR_USER, params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 System.out.println(response);

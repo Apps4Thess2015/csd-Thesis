@@ -1,6 +1,9 @@
 package kiki__000.walkingstoursapp;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.widget.SlidingPaneLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -12,6 +15,18 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,6 +57,9 @@ public class MainActivity extends ActionBarActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
+        sentPointsToServer();
+        getPointsFromServer();
 
         //button for first menu option - missed walks
         TextView menu1 = (TextView) findViewById(R.id.menu1);
@@ -190,6 +208,135 @@ public class MainActivity extends ActionBarActivity {
             }
         }
     }
+
+    /**
+     * sent the points of stations to Server
+     */
+    public void sentPointsToServer(){
+
+        ArrayList<String> stationIds = new ArrayList<String>();
+        RequestParams params = new RequestParams();
+
+        stationIds = controller.getAllRatedStations();
+
+        if (stationIds == null){
+            Log.i("setPoints", "noResult");
+        }else{
+            params.put("stationIds", stationIds);
+            // Make RESTful webservice call using AsyncHttpClient object
+            AsyncHttpClient client = new AsyncHttpClient();
+            client.post(ApplicationConstants.SENT_POINTS, params,
+                    new AsyncHttpResponseHandler() {
+                        // When the response returned by REST has Http
+                        // response code '200'
+                        @Override
+                        public void onSuccess(String response) {
+                            Toast.makeText(getApplicationContext(),
+                                    "Succesful sent points",
+                                    Toast.LENGTH_LONG).show();
+                        }
+
+                        // When the response returned by REST has Http
+                        // response code other than '200' such as '404',
+                        // '500' or '403' etc
+                        @Override
+                        public void onFailure(int statusCode, Throwable error,
+                                              String content) {
+                            // When Http response code is '404'
+                            if (statusCode == 404) {
+                                Toast.makeText(getApplicationContext(),
+                                        "Requested resource not found for sent points",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                            // When Http response code is '500'
+                            else if (statusCode == 500) {
+                                Toast.makeText(getApplicationContext(),
+                                        "Something went wrong at server end for sent points",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                            // When Http response code other than 404, 500
+                            else {
+                                Toast.makeText(
+                                        getApplicationContext(),
+                                        "Unexpected Error occcured senting points! [Most common Error: Device might "
+                                                + "not be connected to Internet or remote server is not up and running], check for other errors as well",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+        }
+    }
+
+    /**
+     * get the points of stations from Server
+     * in order to update the local database
+     */
+    public void getPointsFromServer(){
+
+        // Create AsycHttpClient object
+        AsyncHttpClient client = new AsyncHttpClient();
+        // Http Request Params Object
+        RequestParams params = new RequestParams();
+
+        // Make Http call to remote php file
+        client.post(ApplicationConstants.GET_POINTS, params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+
+                // Create GSON object
+                Gson gson = new GsonBuilder().create();
+                try {
+                    // Extract JSON array from the response
+                    JSONArray arr = new JSONArray(response);
+                    System.out.println(arr.length());
+                    // If no of array elements is not zero
+                    if (arr.length() != 0) {
+                        // Loop through each array element, get JSON object
+                        for (int i = 0; i < arr.length(); i++) {
+                            // Get JSON object
+                            JSONObject obj = (JSONObject) arr.get(i);
+                            // Add fields extracted from Object
+                            String stationId = obj.get("stationId").toString();
+                            int points = Integer.parseInt(obj.get("points").toString());
+
+                            //update the field points for the station with this stationId
+                            controller.updatePointsByStationId(stationId,points);
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+
+
+
+
+
+            }
+
+            // When error occured
+            @Override
+            public void onFailure(int statusCode, Throwable error, String content) {
+                if (statusCode == 404) {
+                    Toast.makeText(getApplicationContext(), "Requested resource not found getPoints", Toast.LENGTH_LONG).show();
+                } else if (statusCode == 500) {
+                    Toast.makeText(getApplicationContext(), "Something went wrong at server end getPoints", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), " getPoints Unexpected Error occcured! [Most common Error: Device might not be connected to Internet]",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+
+
+
+    }
+
+
+
 
 
 }

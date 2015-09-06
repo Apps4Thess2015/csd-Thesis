@@ -21,14 +21,14 @@ public class DBController extends SQLiteOpenHelper {
     //columns' names of table photos
     private static final String[] COLUMNSPhotos = {"id", "stationId", "walkId", "image"};
     //columns' names of table rating
-    private static final String[] COLUMNSRating = {"id", "stationId", "walkId", "points", "rated"};
+    private static final String[] COLUMNSRating = {"id", "stationId", "walkId", "points", "rated", "sent"};
     //set the string walks as walksG for greek or walksE for english
     public static String walks;
     //set the string stations as stationsG for greek or stationsE for english
     public static String stations;
 
     public DBController(Context applicationcontext) {
-        super(applicationcontext, "walks.db", null, 44);
+        super(applicationcontext, "walks.db", null, 46);
     }
 
     //Create Table
@@ -57,7 +57,7 @@ public class DBController extends SQLiteOpenHelper {
         database.execSQL(query);
 
         //create table rating
-        query = "CREATE TABLE rating (id TEXT, stationId TEXT, walkId TEXT, points INTEGER, rated TEXT)";
+        query = "CREATE TABLE rating (id TEXT, stationId TEXT, walkId TEXT, points INTEGER, rated TEXT, sent TEXT)";
         database.execSQL(query);
 
     }
@@ -210,6 +210,7 @@ public class DBController extends SQLiteOpenHelper {
         values.put("walkId", queryValues.getWalkId());
         values.put("points", queryValues.getPoints());
         values.put("rated", queryValues.getRated());
+        values.put("sent", queryValues.getSent());
 
         database.insert("rating", null, values);
 
@@ -602,8 +603,106 @@ public class DBController extends SQLiteOpenHelper {
                 values,
                 selection,
                 selectionArgs);
+    }
 
 
+    /**
+     * get all the stations where rated == 1 AND sent == 0
+     * in order to sent the points to server
+     * also set sent == 1
+     *
+     * @return stationIds
+     */
+    public ArrayList<String> getAllRatedStations(){
+
+        ArrayList<String> stationIds = new ArrayList<String>();
+
+        //build query
+        String selectQuery = "SELECT stationId FROM rating WHERE rated = 1 AND sent = 0";
+        SQLiteDatabase database = this.getReadableDatabase();
+
+        Cursor cursor = database.rawQuery(selectQuery, null);
+
+        // if we got results get them
+        if (cursor.moveToFirst()) {
+            do {
+                // add to stationIds arrayList
+                String stationId = cursor.getString(cursor.getColumnIndex("stationId"));
+                stationIds.add(stationId);
+                Log.i("RatedStationID", stationId);
+
+                //set sent = 1 for this station
+                // New value for one column
+                ContentValues values = new ContentValues();
+                values.put("sent", "1");
+
+                // Which row to update, based on the ID
+                String selection = "stationId" + " LIKE ?";
+                String[] selectionArgs = { stationId };
+
+                //update table rating
+                int countG = database.update(
+                        "rating",
+                        values,
+                        selection,
+                        selectionArgs);
+
+            } while (cursor.moveToNext());
+
+            cursor.close();
+            return  stationIds;
+        }
+        cursor.close();
+        return  null;
+    }
+
+
+    /**
+     * update table rating
+     * set points to station with this stationId
+     *
+     * @param stationId
+     */
+    public void updatePointsByStationId(String stationId, int points){
+
+        SQLiteDatabase database = this.getReadableDatabase();
+
+        // New value for one column
+        ContentValues values = new ContentValues();
+        values.put("points", points);
+
+        // Which row to update, based on the ID
+        String selection = "stationId" + " LIKE ?";
+        String[] selectionArgs = { stationId };
+
+        //update table rating
+        int countG = database.update(
+                "rating",
+                values,
+                selection,
+                selectionArgs);
+    }
+
+    /**
+     * check if record with this stationId
+     * already exists in local database in table rating
+     *
+     * @param stationId
+     * @return
+     */
+    public boolean recordRating(String stationId){
+
+        SQLiteDatabase database = this.getReadableDatabase();
+        String query = "SELECT * FROM rating  WHERE stationId = " + stationId;
+        Cursor cursor = database.rawQuery(query, null);
+        if (cursor.getCount() <= 0) {
+            Log.i("EXISTSRATING","no");
+            cursor.close();
+            return false;
+        }
+        Log.i("EXISTSRATING","yes");
+        cursor.close();
+        return true;
     }
 
 

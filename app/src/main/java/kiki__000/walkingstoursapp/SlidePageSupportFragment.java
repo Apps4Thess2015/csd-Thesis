@@ -170,6 +170,8 @@ public class SlidePageSupportFragment extends Fragment {
             }
         }
 
+        setRetainInstance(true);
+
         return rootView;
     }
 

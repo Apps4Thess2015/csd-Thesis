@@ -106,6 +106,8 @@ public class SlideLastPageSupportFragment extends Fragment {
             }
 
         }
+        setRetainInstance(true);
+
         return rootView;
     }
 
