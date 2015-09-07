@@ -3,8 +3,8 @@
     <string name="app_name">TWT</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Ρυθμίσεις</string>
-    <string name="menu1">Περίπατοι που έγιναν</string>
-    <string name="menu2">Περίπατος της ημέρας</string>
+    <string name="menu1">Οι περίπατοι μου</string>
+    <string name="menu2">Σήμερα</string>
     <string name="menu3">Σύντομα</string>
     <string name="title_activity_coming_soon">Σύντομα</string>
     <string name="title_activity_walkof_day">Περίπατος της Ημέρας</string>

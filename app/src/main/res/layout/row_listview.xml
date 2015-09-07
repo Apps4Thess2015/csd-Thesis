@@ -14,7 +14,8 @@
         android:gravity="center_vertical"
         android:padding="10dp"
         android:textSize="20sp"
-        android:typeface="sans" />
+        android:textStyle="bold"
+        android:textColor="@color/white" />
 
     <!-- right arrow image -->
     <ImageView

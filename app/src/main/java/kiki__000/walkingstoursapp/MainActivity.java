@@ -1,9 +1,6 @@
 package kiki__000.walkingstoursapp;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v4.widget.SlidingPaneLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -12,9 +9,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -62,7 +62,11 @@ public class MainActivity extends ActionBarActivity {
         getPointsFromServer();
 
         //button for first menu option - missed walks
-        TextView menu1 = (TextView) findViewById(R.id.menu1);
+        Button menu1 = (Button) findViewById(R.id.menu1);
+        // load animation in layout
+        Animation leftToRight = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.left_to_right);
+        menu1.startAnimation(leftToRight);
+        //set listener
         menu1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,7 +76,11 @@ public class MainActivity extends ActionBarActivity {
         });
 
         //button for second menu option - walk of day
-        TextView menu2 = (TextView) findViewById(R.id.menu2);
+        Button menu2 = (Button) findViewById(R.id.menu2);
+        // load animation in layout
+       // Animation rightToLeft = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.right_to_left);
+        menu2.startAnimation(leftToRight);
+        //set listener
         menu2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,7 +90,11 @@ public class MainActivity extends ActionBarActivity {
         });
 
         //button for third menu option - coming soon
-        TextView menu3 = (TextView) findViewById(R.id.menu3);
+        Button menu3 = (Button) findViewById(R.id.menu3);
+        // load animation in layout
+        //Animation leftToRight = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.left_to_right);
+        menu3.startAnimation(leftToRight);
+        //set listener
         menu3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,10 +103,15 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+        ImageView ballarina = (ImageView)findViewById(R.id.ballarina);
+        // load animation in imageView
+        Animation bottomToUp = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.bottom_to_up);
+        ballarina.startAnimation(bottomToUp);
+
         slidingPanel = (SlidingPaneLayout) findViewById(R.id.slidingPanel);
         slidingPanel.setParallaxDistance(200);
 
-        //set the listview
+        //set the listView
         ListView list = (ListView) findViewById(R.id.list);
         String[] listOptions = new String[]{getResources().getString(R.string.left_scroll_item1), getResources().getString(R.string.left_scroll_item2), getResources().getString(R.string.left_scroll_item3), getResources().getString(R.string.left_scroll_item4), getResources().getString(R.string.left_scroll_item5)};
         ListViewAdapter adapterDrawer = new ListViewAdapter(MainActivity.this, listOptions);

@@ -11,9 +11,9 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:choiceMode="none"
-        android:background="@drawable/list_selector"
         android:dividerHeight="0dp"
-        android:gravity="center" />
+        android:gravity="center"
+        android:background="@mipmap/violi"/>
 
     <!--Message if there isn't walk of day-->
     <TextView
