@@ -12,8 +12,7 @@
         android:layout_gravity="start"
         android:choiceMode="none"
         android:dividerHeight="0dp"
-        android:gravity="center"
-        android:background="@mipmap/violi"/>
+        android:gravity="center"/>
 
     <!--Message if there isn't walk of day-->
     <TextView

@@ -41,6 +41,11 @@ public class Map extends ActionBarActivity implements OnMarkerClickListener {
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     public static String walkName;
     private Button showRoute;
+    private ViewPager mPager;
+    private boolean panelVisibility = true;
+    private Animation animationSlideUp;
+    private Animation animationSlideDown;
+    private Button upDown;
     DBController controller;
     Walk walk = new Walk();
     ArrayList<String> titles = new ArrayList<>();
@@ -48,7 +53,7 @@ public class Map extends ActionBarActivity implements OnMarkerClickListener {
     ArrayList<LatLng> listPoint = new ArrayList<>();
     int currentPt;
     public static int NUM_PAGES;
-    private ViewPager mPager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,9 +109,12 @@ public class Map extends ActionBarActivity implements OnMarkerClickListener {
             PagerAdapter mPagerAdapter = new MyFragmentStatePagerAdapter(getSupportFragmentManager());
             mPager.setAdapter(mPagerAdapter);
 
-            //animation for station's panel in order to slide up
-            Animation animationSlideUp;
+            //animation for sliding up the panel
             animationSlideUp = AnimationUtils.loadAnimation(this, R.anim.panel_slide_up);
+            //animation for sliding down the panel
+            animationSlideDown = AnimationUtils.loadAnimation(Map.this, R.anim.panel_slide_down);
+
+            //animation for station's panel in order to slide up
             mPager.startAnimation(animationSlideUp);
 
             stations = controller.getStationsByWalkId(walk.getId());
@@ -128,7 +136,7 @@ public class Map extends ActionBarActivity implements OnMarkerClickListener {
         showRoute = (Button) findViewById(R.id.show_route);
 
         //button for the up and down sliding of panel
-        final Button upDown = (Button)findViewById(R.id.up_down);
+        upDown = (Button)findViewById(R.id.up_down);
         upDown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,23 +146,21 @@ public class Map extends ActionBarActivity implements OnMarkerClickListener {
 
                 if (visibility == View.INVISIBLE){
                     //animation for station's panel in order to slide up
-                    Animation animationSlideUp;
-                    animationSlideUp = AnimationUtils.loadAnimation(Map.this, R.anim.panel_slide_up);
                     mPager.startAnimation(animationSlideUp);
                     mPager.setVisibility(View.VISIBLE);
 
                     //change the background of upDown button
                     upDown.setBackgroundResource(R.mipmap.down_arrow);
+                    panelVisibility = true;
 
                 }else{
                     //animation for station's panel in order to slide down
-                    Animation animationSlideDown;
-                    animationSlideDown = AnimationUtils.loadAnimation(Map.this, R.anim.panel_slide_down);
                     mPager.startAnimation(animationSlideDown);
                     mPager.setVisibility(View.INVISIBLE);
 
                     //change the background of upDown button
                     upDown.setBackgroundResource(R.mipmap.up_arrow);
+                    panelVisibility = false;
                 }
             }
         });
@@ -238,6 +244,17 @@ public class Map extends ActionBarActivity implements OnMarkerClickListener {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_route), Toast.LENGTH_LONG).show();
                 } else {
                     int zoomValue = 15;
+
+                    //if panel is up then slide down the panel
+                    if (panelVisibility){
+                        //animation for station's panel in order to slide down
+                        mPager.startAnimation(animationSlideDown);
+                        mPager.setVisibility(View.INVISIBLE);
+
+                        //change the background of upDown button
+                        upDown.setBackgroundResource(R.mipmap.up_arrow);
+                        panelVisibility = false;
+                    }
                     mMap.animateCamera(CameraUpdateFactory.zoomTo(zoomValue), 4000, MyCancelableCallback);
                     currentPt = 0;
                 }
@@ -306,6 +323,17 @@ public class Map extends ActionBarActivity implements OnMarkerClickListener {
         tc.setTextAppearance(R.style.pressedMarker);
         Bitmap bmp = tc.makeIcon("" + (viewNumber + 1));
         marker.setIcon(BitmapDescriptorFactory.fromBitmap(bmp));
+
+        //if panel is down then slide panel up
+        if(!panelVisibility){
+            //animation for station's panel in order to slide up
+            mPager.startAnimation(animationSlideUp);
+            mPager.setVisibility(View.VISIBLE);
+
+            //change the background of upDown button
+            upDown.setBackgroundResource(R.mipmap.down_arrow);
+            panelVisibility = true;
+        }
 
         //set the viewPager to the right station
         mPager.setCurrentItem(viewNumber, true);

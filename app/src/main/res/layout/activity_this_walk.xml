@@ -2,30 +2,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:id="@+id/layout"
-        android:orientation="vertical">
+        android:layout_gravity="center">
 
-    <!--message if there is walk of day about time-->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:id="@+id/walkTimeMessage"/>
+        <!--message if there is walk of day about time-->
+        <TextView
+            android:id="@+id/walkTimeMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textSize="20sp" />
 
-    <!-- joinIn button-->
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_gravity="center"
-        android:id="@+id/joinIn" />
+        <!-- joinIn button-->
+        <Button
+            android:id="@+id/joinIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_below="@+id/walkTimeMessage"
+            android:layout_marginTop="40dp" />
 
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/rhombus1"
+            android:layout_height="130dp"
+            android:layout_width="150dp"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/joinIn"
+            android:background="@mipmap/rhombus1" />
+
+    </RelativeLayout>
 
 </ScrollView>

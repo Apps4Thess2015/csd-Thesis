@@ -27,6 +27,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textSize="20sp"
+                android:textColor="@color/bright_green"
+                android:textStyle="bold"
                 android:text="@string/refresh_activity_text"
                 android:gravity="center" />
 

@@ -28,6 +28,7 @@
                 android:layout_marginBottom="40dp"
                 android:gravity="center"
                 android:textSize="20sp"
+                android:textColor="@color/fuchsia"
                 android:text="@string/welcome_text"/>
 
             <!--register as -->
@@ -37,6 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="40dp"
                 android:textSize="20sp"
+                android:textColor="@color/fuchsia"
                 android:text="@string/register_as"/>
 
             <!--mail text -->
@@ -45,7 +47,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="40dp"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textColor="@color/fuchsia"/>
 
 
         </LinearLayout>

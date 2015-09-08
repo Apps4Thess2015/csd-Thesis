@@ -6,4 +6,8 @@
     <color name="transparent">#00000000</color>
     <color name="black">#000000</color>
     <color name="temp">#55000000</color>
+    <color name="bright_green">#ffa6e3c0</color>
+    <color name="black_ballarina">#ff484848</color>
+    <color name="gold">#ffe1b808</color>
+    <color name="blue">#ff4422ff</color>
 </resources>
