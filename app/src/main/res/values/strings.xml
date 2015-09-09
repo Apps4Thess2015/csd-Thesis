@@ -40,7 +40,8 @@
     <string name="no_app">This application does not exist.</string>
     <string name="text_about">The application has been designed by student Kyriaki Paniskaki
         for her thesis, under the supervision of professor Athina Vakali.
-        "\n" "\n" "\n" Informatics School "\n" "\n" Aristotle University of Thessaloniki
+        "\n" "\n" "\n" Informatics School "\n""\n" Aristotle University of Thessaloniki
+        "\n""\n" Research group Oswinds "\n""\n" &#169;2015 Oswinds "\n" kiki_paniskaki@hotmail.com
     </string>
     <string name="title_activity_register">Register</string>
     <string name="resister_text">Register in order to receive messages and to be able to update the database.</string>
@@ -90,7 +91,7 @@
     <string name="title_activity_this_walk">ThisWalk</string>
     <string name="no_participation">You haven\'t participate in anyone walk.</string>
     <string name="joined_walks">Here are appeared the walks in which you have participated.</string>
-    <string name="question_join">Will you join?</string>
+    <string name="question_join">I will go</string>
     <string name="join_in">You have signed in.</string>
     <string name="no_join_in">You haven\'t signed in.</string>
     <string name="message">Message</string>

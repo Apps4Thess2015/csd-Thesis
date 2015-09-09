@@ -1,6 +1,9 @@
 package kiki__000.walkingstoursapp;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
+import android.renderscript.Allocation;
 import android.support.v4.widget.SlidingPaneLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -113,6 +116,7 @@ public class MainActivity extends ActionBarActivity {
 
         //set the listView
         ListView list = (ListView) findViewById(R.id.list);
+        //get the listView strings
         String[] listOptions = new String[]{getResources().getString(R.string.left_scroll_item1), getResources().getString(R.string.left_scroll_item2), getResources().getString(R.string.left_scroll_item3), getResources().getString(R.string.left_scroll_item4), getResources().getString(R.string.left_scroll_item5)};
         ListViewAdapter adapterDrawer = new ListViewAdapter(MainActivity.this, listOptions);
         list.setAdapter(adapterDrawer);

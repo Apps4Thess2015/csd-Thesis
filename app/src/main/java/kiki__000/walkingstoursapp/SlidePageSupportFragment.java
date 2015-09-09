@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,14 +38,16 @@ public class SlidePageSupportFragment extends Fragment {
     ArrayList<Station> stations = new ArrayList<Station>();
     ArrayList<Photo> photos = new ArrayList<Photo>();
 
-    public void setPageNumber(int num){
+    public void setPageNumber(int num) {
         pageNumber = num;
     }
 
-    public int getPageNumber(){return pageNumber;}
+    public int getPageNumber() {
+        return pageNumber;
+    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         //set the lang from sharedPreferences
         MyApplication.updateLanguage(getActivity().getApplicationContext());
@@ -57,10 +60,9 @@ public class SlidePageSupportFragment extends Fragment {
 
         // Get walk from SQLite DB
         walk = controller.getWalkByName(walkName);
-        if (walk == null){
+        if (walk == null) {
             Log.i("station_name", "null");
-        }
-        else{
+        } else {
             stations = controller.getStationsByWalkId(walk.getId());
             Log.i("walkId", walk.getId());
             if (stations != null) {
@@ -71,17 +73,17 @@ public class SlidePageSupportFragment extends Fragment {
                 title.setText(stations.get(getPageNumber()).getTitle());
 
                 //points of station
-                final TextView points = (TextView)rootView.findViewById(R.id.points);
+                final TextView points = (TextView) rootView.findViewById(R.id.points);
                 final int p = controller.getPointsByStationId(stations.get(getPageNumber()).getId());
                 points.setText(String.valueOf(p) + " " + getResources().getString(R.string.stars));
 
                 //star button
-                final Button star = (Button)rootView.findViewById(R.id.star_button);
+                final Button star = (Button) rootView.findViewById(R.id.star_button);
                 Boolean rated = controller.getRatedByStationId(stations.get(getPageNumber()).getId());
-                if (rated){
+                if (rated) {
                     star.setBackgroundResource(R.mipmap.pressed_star);
                     star.setEnabled(false);
-                }else{
+                } else {
                     star.setBackgroundResource(R.mipmap.unpressed_star);
                     star.setEnabled(true);
                 }
@@ -104,7 +106,7 @@ public class SlidePageSupportFragment extends Fragment {
 
                 if (photos == null) {
                     image.setImageResource(R.mipmap.ic_launcher);
-                }else{
+                } else {
                     //convert bytes into array
                     byte[] decodedString = Base64.decode(photos.get(getPageNumber()).getImage(), Base64.DEFAULT);
                     Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
@@ -137,15 +139,15 @@ public class SlidePageSupportFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
 
-                       /** boolean found = false;
+                        boolean found = false;
                         Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                        shareIntent.setType("text/html");
-                        shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, Html.fromHtml("<p>This is the text that will be shared.</p>"));
+                        shareIntent.setType("text/plain");
+                        shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "This is the text that will be shared.");
 
                         PackageManager pm = v.getContext().getPackageManager();
                         List<ResolveInfo> activityList = pm.queryIntentActivities(shareIntent, 0);
                         for (final ResolveInfo app : activityList) {
-                            if ((app.activityInfo.name).contains("com.facebook.katana")) {
+                            if ((app.activityInfo.name).contains("acebook")) {
                                 final ActivityInfo activity = app.activityInfo;
                                 final ComponentName name = new ComponentName(activity.applicationInfo.packageName, activity.name);
                                 shareIntent.addCategory(Intent.CATEGORY_LAUNCHER);
@@ -158,13 +160,12 @@ public class SlidePageSupportFragment extends Fragment {
                         }
                         if (found == false) {
                             Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.no_app), Toast.LENGTH_SHORT).show();
-                        }*/
+                        }
 
                     }
                 });
 
-            }
-            else{
+            } else {
                 Log.i("stations", "null");
                 twitterText = "Thessaloniki%23Walking%23Tours%23";
             }
