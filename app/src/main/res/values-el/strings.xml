@@ -104,4 +104,8 @@
     <string name="stars">αστέρια</string>
     <string name="internet_connection">Δεν υπάρχει σύνδεση στο διαδίκτυο. Ενεργοποίησε την σύνδεση
     στο διαδίκτυο για να φορτώσει ο χάρτης.</string>
+    <string name="title_activity_splash_screen">SplashScreen</string>
+    <string name="splash_text1">Thessaloniki Walking Tours</string>
+    <string name="splash_text2">TWT</string>
+    <string name="splash_text3">Ταξίδεψε Διαφορετικά</string>
 </resources>

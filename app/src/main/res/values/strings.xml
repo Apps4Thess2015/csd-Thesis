@@ -100,5 +100,9 @@
     <string name="stars">stars</string>
     <string name="internet_connection">There isn\'t internet access. Enable the internet
       connection in order to load the map.</string>
+    <string name="title_activity_splash_screen">SplashScreen</string>
+    <string name="splash_text1">Thessaloniki Walking Tours</string>
+    <string name="splash_text2">TWT</string>
+    <string name="splash_text3">Travel Differently</string>
 
 </resources>
