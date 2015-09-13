@@ -28,7 +28,7 @@ public class DBController extends SQLiteOpenHelper {
     public static String stations;
 
     public DBController(Context applicationcontext) {
-        super(applicationcontext, "walks.db", null, 46);
+        super(applicationcontext, "walks.db", null, 47);
     }
 
     //Create Table
@@ -113,6 +113,8 @@ public class DBController extends SQLiteOpenHelper {
 
         //delete all the records of walk from table rating
         database.delete("rating", "walkId=?", whereArgs);
+
+        database.close();
     }
 
     /**
@@ -250,6 +252,7 @@ public class DBController extends SQLiteOpenHelper {
 
             } while (cursor.moveToNext());
         }
+        cursor.close();
         database.close();
         return  walksList;
     }
@@ -287,6 +290,7 @@ public class DBController extends SQLiteOpenHelper {
 
             } while (cursor.moveToNext());
         }
+        cursor.close();
         database.close();
         return  joinedWalksList;
     }
@@ -328,10 +332,12 @@ public class DBController extends SQLiteOpenHelper {
             walk.setJoinIn(cursor.getString(cursor.getColumnIndex("joinIn")));
 
             cursor.close();
+            db.close();
             return walk;
         }
 
         cursor.close();
+        db.close();
         // 5. return walk
         return null;
     }
@@ -365,9 +371,11 @@ public class DBController extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
 
             cursor.close();
+            database.close();
             return  stationsList;
         }
         cursor.close();
+        database.close();
         return  null;
     }
 
@@ -397,9 +405,11 @@ public class DBController extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
 
             cursor.close();
+            database.close();
             return  photosList;
         }
         cursor.close();
+        database.close();
         return  null;
     }
 
@@ -435,6 +445,8 @@ public class DBController extends SQLiteOpenHelper {
                 values,
                 selection,
                 selectionArgs);
+
+        database.close();
     }
 
     /**
@@ -452,10 +464,12 @@ public class DBController extends SQLiteOpenHelper {
         if (cursor.getCount() <= 0) {
             Log.i("EXISTS1","no");
             cursor.close();
+            database.close();
             return false;
         }
         Log.i("EXISTS1","yes");
         cursor.close();
+        database.close();
         return true;
     }
 
@@ -491,6 +505,8 @@ public class DBController extends SQLiteOpenHelper {
                 selection,
                 selectionArgs);
 
+        database.close();
+
     }
 
 
@@ -510,11 +526,13 @@ public class DBController extends SQLiteOpenHelper {
         if (cursor.getCount() <= 0) {
             Log.i("RATED","noResult");
             cursor.close();
+            database.close();
             return false;
         }else {
             cursor.moveToFirst();
             String rated = cursor.getString(cursor.getColumnIndex("rated"));
             cursor.close();
+            database.close();
             if (rated.equals("1")){
                 Log.i("RATED","yes");
                 return true;
@@ -540,12 +558,14 @@ public class DBController extends SQLiteOpenHelper {
         if (cursor.getCount() <= 0) {
             Log.i("POINTS","noResult");
             cursor.close();
+            database.close();
 
             return -1;
         }else {
             cursor.moveToFirst();
             int points = Integer.parseInt(cursor.getString(cursor.getColumnIndex("points")));
             cursor.close();
+            database.close();
 
             return points;
 
@@ -577,6 +597,8 @@ public class DBController extends SQLiteOpenHelper {
                 selection,
                 selectionArgs);
 
+        database.close();
+
     }
 
     /**
@@ -603,6 +625,8 @@ public class DBController extends SQLiteOpenHelper {
                 values,
                 selection,
                 selectionArgs);
+
+        database.close();
     }
 
 
@@ -650,9 +674,11 @@ public class DBController extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
 
             cursor.close();
+            database.close();
             return  stationIds;
         }
         cursor.close();
+        database.close();
         return  null;
     }
 
@@ -681,6 +707,8 @@ public class DBController extends SQLiteOpenHelper {
                 values,
                 selection,
                 selectionArgs);
+
+        database.close();
     }
 
     /**
@@ -698,10 +726,12 @@ public class DBController extends SQLiteOpenHelper {
         if (cursor.getCount() <= 0) {
             Log.i("EXISTSRATING","no");
             cursor.close();
+            database.close();
             return false;
         }
         Log.i("EXISTSRATING","yes");
         cursor.close();
+        database.close();
         return true;
     }
 

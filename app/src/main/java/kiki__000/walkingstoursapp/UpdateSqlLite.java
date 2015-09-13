@@ -136,17 +136,17 @@ public class UpdateSqlLite {
             // Extract JSON array from the response
             JSONArray arr = new JSONArray(response);
             System.out.println(arr.length());
-            // If no of array elements is not zero
-            if (arr.length() != 0) {
-                // Loop through each array element, get JSON object which has userid and username
-                for (int i = 0; i < arr.length(); i++) {
-                    // Get JSON object
-                    JSONObject obj = (JSONObject) arr.get(i);
-                    // Add fields extracted from Object
-                    deletedWalks.add(obj.get("walkId").toString());
-                    controller.deleteWalk(deletedWalks.get(i));
+                // If no of array elements is not zero
+                if (arr.length() != 0) {
+                    // Loop through each array element, get JSON object which has userid and username
+                    for (int i = 0; i < arr.length(); i++) {
+                        // Get JSON object
+                        JSONObject obj = (JSONObject) arr.get(i);
+                        // Add fields extracted from Object
+                        deletedWalks.add(obj.get("walkId").toString());
+                        controller.deleteWalk(deletedWalks.get(i));
+                    }
                 }
-            }
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
