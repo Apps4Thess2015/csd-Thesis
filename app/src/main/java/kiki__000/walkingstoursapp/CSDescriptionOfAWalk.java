@@ -1,10 +1,14 @@
 package kiki__000.walkingstoursapp;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +18,11 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 
 public class CSDescriptionOfAWalk extends ActionBarActivity {
@@ -21,6 +30,7 @@ public class CSDescriptionOfAWalk extends ActionBarActivity {
     private String[] walkData = new String[7];
     private DBController controller = new DBController(this);
     private Button joinIn;
+    private Walk walk = new Walk();
     private AlertDialog.Builder dialog;
 
     @Override
@@ -42,7 +52,6 @@ public class CSDescriptionOfAWalk extends ActionBarActivity {
         String walkName = intent.getStringExtra("walkName");
 
         //take the walk with name walkName
-        Walk walk = new Walk();
         walk = controller.getWalkByName(walkName);
 
         //create the walk
@@ -110,6 +119,7 @@ public class CSDescriptionOfAWalk extends ActionBarActivity {
                 controller.joinInWalk(id);
                 joinIn.setText(getResources().getString(R.string.join_in));
                 joinIn.setEnabled(false);
+                sentParticipantToServer(walk.getId());
             }
         });
 
@@ -151,4 +161,74 @@ public class CSDescriptionOfAWalk extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    /**
+     * sent participation for this walk to Server
+     *
+     * @param walkId
+     */
+    public void sentParticipantToServer(String walkId){
+
+        // Create AsycHttpClient object
+        AsyncHttpClient client = new AsyncHttpClient();
+        // Http Request Params Object
+        RequestParams params = new RequestParams();
+        //get the email of user
+        SharedPreferences prefs = getApplicationContext().getSharedPreferences("UserDetails", Context.MODE_PRIVATE);
+        String email = prefs.getString("eMailId", "");
+
+        final ProgressDialog prgDialog = new ProgressDialog(this);
+        // Set Progress Dialog Text
+        prgDialog.setMessage("Please wait...");
+        // Set Cancelable as False
+        prgDialog.setCancelable(false);
+
+        prgDialog.show();
+        params.put("email", email);
+        params.put("walkId", walkId);
+        System.out.println("Email id = " + email + " walkId = " + walkId);
+        client.post(ApplicationConstants.INSERT_PARTICIPANT, params,
+                new AsyncHttpResponseHandler() {
+                    // When the response returned by REST has Http
+                    // response code '200'
+                    @Override
+                    public void onSuccess(String response) {
+                        // Hide Progress Dialog
+                        prgDialog.hide();
+                        if (prgDialog != null) {
+                            prgDialog.dismiss();
+                        }
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.participation_ok), Toast.LENGTH_LONG).show();
+                    }
+
+                    // When the response returned by REST has Http
+                    // response code other than '200' such as '404',
+                    // '500' or '403' etc
+                    @Override
+                    public void onFailure(int statusCode, Throwable error,
+                                          String content) {
+                        // Hide Progress Dialog
+                        prgDialog.hide();
+                        if (prgDialog != null) {
+                            prgDialog.dismiss();
+                        }
+                        // When Http response code is '404'
+                        if (statusCode == 404) {
+                            Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
+                        }
+                        // When Http response code is '500'
+                        else if (statusCode == 500) {
+                            Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
+                        }
+                        // When Http response code other than 404, 500
+                        else {
+                            Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might "
+                                            + "not be connected to Internet or remote server is not up and running], check for other errors as well",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+    }
+
 }

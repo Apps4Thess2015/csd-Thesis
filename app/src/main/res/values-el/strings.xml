@@ -33,7 +33,7 @@
     <string name="title_activity_show_me_awalk">Ένας Περίπατος</string>
     <string name="station">Στάση</string>
     <string name="title_activity_thessaloniki_walking_tours">Thessaloniki Walking Tours</string>
-    <string name="choose_lang">Διάλεξε Γλώσσα</string>
+    <string name="choose_lang">Διαλέξτε Γλώσσα</string>
     <string name="ok">ΟΚ</string>
     <string name="en">English</string>
     <string name="gr">Ελληνικά</string>
@@ -47,7 +47,7 @@
         "\n""\n" Ερευνητική ομάδα Oswinds "\n""\n" &#169;2015 Oswinds "\n" kiki_paniskaki@hotmail.com
     </string>
     <string name="title_activity_register">Εγγραφή</string>
-    <string name="resister_text">Εγγράψου έτσι, ώστε να λαμβάνεις μηνύματα και να μπορείς να ανανεώσεις τη βάση.</string>
+    <string name="resister_text">Εγγραφείτε έτσι, ώστε να λαμβάνετε μηνύματα και να μπορείτε να ανανεώνετε τη βάση.</string>
     <string name="mail">E-mail</string>
     <string name="title_activity_greeting">Καλώς ήρθατε</string>
     <string name="title_activity_message">Μήνυμα</string>
@@ -100,12 +100,13 @@
     <string name="no_join_in">Δεν έχετε δηλώσει συμμετοχή.</string>
     <string name="message">Μήνυμα</string>
     <string name="joinIn_message">Μπορείτε να δηλώσετε εγγραφή στον περίπατο πατώντας το κουμπί
-    Εγγραφής που βρίσκετε στο τέλος της οθόνης.</string>
+    Εγγραφής που βρίσκετε στο τέλος της οθόνης. Απαιτείται σύνδεση στο διαδίκτυο.</string>
     <string name="stars">αστέρια</string>
-    <string name="internet_connection">Δεν υπάρχει σύνδεση στο διαδίκτυο. Ενεργοποίησε την σύνδεση
+    <string name="internet_connection">Δεν υπάρχει σύνδεση στο διαδίκτυο. Ενεργοποιείστε την σύνδεση
     στο διαδίκτυο για να φορτώσει ο χάρτης.</string>
     <string name="title_activity_splash_screen">SplashScreen</string>
     <string name="splash_text1">Thessaloniki Walking Tours</string>
     <string name="splash_text2">TWT</string>
     <string name="splash_text3">Ταξίδεψε Διαφορετικά</string>
+    <string name="participation_ok">Η συμμετοχή κατοχυρώθηκε</string>
 </resources>

@@ -96,7 +96,7 @@
     <string name="no_join_in">You haven\'t signed in.</string>
     <string name="message">Message</string>
     <string name="joinIn_message">You can register in walk by pressing the button
-     that you will find at the end of screen.</string>
+     that you will find at the end of screen. Requires internet connection.</string>
     <string name="stars">stars</string>
     <string name="internet_connection">There isn\'t internet access. Enable the internet
       connection in order to load the map.</string>
@@ -104,5 +104,6 @@
     <string name="splash_text1">Thessaloniki Walking Tours</string>
     <string name="splash_text2">TWT</string>
     <string name="splash_text3">Travel Differently</string>
+    <string name="participation_ok">Participation enshrined</string>
 
 </resources>
