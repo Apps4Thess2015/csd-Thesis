@@ -80,7 +80,7 @@
     <string name="thessaloniki_walking_tour_team_text">Η ομάδα του Thessaloniki Walking Tour αποτελείται από τους</string>
     <string name="up_date">Δε χρειάζεται ανανέωση</string>
     <string name="start_update">Η ανανέωση ξεκινά</string>
-    <string name="go_to_register">Μεταβείτε στην οθόνη Εγγραφή έτσι, ώστε να εγγραφείται και να μπορείτε να ανανεώνετε τη βάση.</string>
+    <string name="go_to_register">Απαιτείται εγγραφή. Μεταβείτε στην οθόνη εγγραφής για να πραγματοποιήσετε την εγγραφή.</string>
     <string name="menu_button">Κλικ</string>
     <string name="app_title">Thessaloniki Walking Tours</string>
     <string name="new_message">Νέο Μήνυμα</string>
@@ -109,4 +109,6 @@
     <string name="splash_text2">TWT</string>
     <string name="splash_text3">Ταξίδεψε Διαφορετικά</string>
     <string name="participation_ok">Η συμμετοχή κατοχυρώθηκε</string>
+    <string name="internet_connection_participation">Απαιτείται σύνδεση στο διαδίκτυο. Ενεργοποιείστε την σύνδεση
+    στο διαδίκτυο για να κατοχυρώσετε την συμμετοχή.</string>
 </resources>

@@ -6,8 +6,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +27,9 @@ import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+
+import javax.mail.AuthenticationFailedException;
+import javax.mail.MessagingException;
 
 
 public class CSDescriptionOfAWalk extends ActionBarActivity {
@@ -116,10 +123,40 @@ public class CSDescriptionOfAWalk extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                controller.joinInWalk(id);
-                joinIn.setText(getResources().getString(R.string.join_in));
-                joinIn.setEnabled(false);
-                sentParticipantToServer(walk.getId());
+                //check if user is registered
+                SharedPreferences prefs = getSharedPreferences("UserDetails", Context.MODE_PRIVATE);
+                String email = prefs.getString("eMailId", "");
+                if (TextUtils.isEmpty(email)) {
+                    //go to register screen in order to register
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.go_to_register), Toast.LENGTH_SHORT).show();
+                }else {
+                    //check the internet status
+                    ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+
+                    //if there isn't internet connection show a message
+                    if (activeNetworkInfo == null || !activeNetworkInfo.isConnected()) {
+
+                        final AlertDialog.Builder dialog = new AlertDialog.Builder(CSDescriptionOfAWalk.this);
+
+                        dialog.setTitle(getResources().getString(R.string.message));
+                        dialog.setMessage(getResources().getString(R.string.internet_connection_participation));
+                        dialog.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialog.setCancelable(true);
+                            }
+                        });
+                        AlertDialog alert = dialog.create();
+                        alert.show();
+                    } else {
+                        controller.joinInWalk(id);
+                        joinIn.setText(getResources().getString(R.string.join_in));
+                        joinIn.setEnabled(false);
+                        sentParticipantToServer(walk.getId());
+                        new SendEmailAsyncTask().execute();
+                    }
+                }
             }
         });
 
@@ -229,6 +266,50 @@ public class CSDescriptionOfAWalk extends ActionBarActivity {
                     }
                 });
 
+    }
+
+    /**
+     * sent email with the participation of user for the walk
+     * in background
+     */
+    class SendEmailAsyncTask extends AsyncTask<Void, Void, Boolean> {
+
+        public SendEmailAsyncTask() {
+            if (BuildConfig.DEBUG)
+                Log.v(SendEmailAsyncTask.class.getName(), "SendEmailAsyncTask()");
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+
+            if (BuildConfig.DEBUG) Log.v(SendEmailAsyncTask.class.getName(), "doInBackground()");
+
+            //get the mail of user
+            SharedPreferences prefs = getSharedPreferences("UserDetails",
+                    Context.MODE_PRIVATE);
+            String mailUser = prefs.getString("eMailId", "");
+
+            try {
+                GmailSender sender = new GmailSender(ApplicationConstants.EMAIL_ADDRESS, ApplicationConstants.EMAIL_PASSWORD);
+                sender.sendMail("TWT - New participation",
+                        "The user " + mailUser + " has enshrined participation for walk " + walk.getName() + "." ,
+                        "kiki_paniskaki@hotmail.com",
+                        "kiki_paniskaki@hotmail.com");
+                Log.i("EMAIL", "OK");
+                return true;
+            } catch (AuthenticationFailedException e) {
+                Log.e(SendEmailAsyncTask.class.getName(), "Bad account details");
+                e.printStackTrace();
+                return false;
+            } catch (MessagingException e) {
+                Log.e(SendEmailAsyncTask.class.getName(), e.getMessage() + "failed");
+                e.printStackTrace();
+                return false;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
     }
 
 }
