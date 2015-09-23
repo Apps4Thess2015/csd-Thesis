@@ -1,9 +1,6 @@
 package kiki__000.walkingstoursapp;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
-import android.renderscript.Allocation;
 import android.support.v4.widget.SlidingPaneLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -53,15 +50,18 @@ public class MainActivity extends ActionBarActivity {
         //full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        //check for walks status
         controller = new DBController(this);
+
+        //check for walks status
         try {
             checkWalksStatus();
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
+        //sent points to server
         sentPointsToServer();
+        //get points from server
         getPointsFromServer();
 
         //button for first menu option - missed walks
@@ -81,7 +81,7 @@ public class MainActivity extends ActionBarActivity {
         //button for second menu option - walk of day
         Button menu2 = (Button) findViewById(R.id.menu2);
         // load animation in layout
-       // Animation rightToLeft = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.right_to_left);
+        // Animation rightToLeft = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.right_to_left);
         menu2.startAnimation(leftToRight);
         //set listener
         menu2.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +106,7 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-        ImageView ballarina = (ImageView)findViewById(R.id.ballarina);
+        ImageView ballarina = (ImageView) findViewById(R.id.ballarina);
         // load animation in imageView
         Animation bottomToUp = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.bottom_to_up);
         ballarina.startAnimation(bottomToUp);
@@ -165,10 +165,9 @@ public class MainActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.menu_button) {
-            if (slidingPanel.isOpen()){
+            if (slidingPanel.isOpen()) {
                 slidingPanel.closePane();
-            }
-            else{
+            } else {
                 slidingPanel.openPane();
             }
         }
@@ -184,7 +183,7 @@ public class MainActivity extends ActionBarActivity {
     /**
      * check the status of walks
      * for current date in background
-     * */
+     */
     public void checkWalksStatus() throws ParseException {
 
         ArrayList<Walk> walksCS = new ArrayList<>();
@@ -201,16 +200,16 @@ public class MainActivity extends ActionBarActivity {
         //check the walks with status 2
         walksCS = controller.getAllWalks(2);
 
-        for (int i=0; i<walksCS.size(); i++){
+        for (int i = 0; i < walksCS.size(); i++) {
             walkDayString = walksCS.get(i).getDate();
             walkDate = sdf.parse(walkDayString);
             // if walkDate == currentDay then status = 1
-            if (walkDate.compareTo(currentDate) == 0){
+            if (walkDate.compareTo(currentDate) == 0) {
                 controller.updateStatus(walksCS.get(i).getId(), 1);
                 Log.i("here1", "change");
             }
             // if walkDate < currentDay then status = 0
-            if (walkDate.compareTo(currentDate) < 0){
+            if (walkDate.compareTo(currentDate) < 0) {
                 controller.updateStatus(walksCS.get(i).getId(), 0);
                 Log.i("here1", "change");
             }
@@ -219,11 +218,11 @@ public class MainActivity extends ActionBarActivity {
         //check the walks with status 1
         walksD = controller.getAllWalks(1);
 
-        for (int i=0; i<walksD.size(); i++){
+        for (int i = 0; i < walksD.size(); i++) {
             walkDayString = walksD.get(i).getDate();
             walkDate = sdf.parse(walkDayString);
             // if walkDate < currentDay then status = 0
-            if (walkDate.compareTo(currentDate) < 0){
+            if (walkDate.compareTo(currentDate) < 0) {
                 controller.updateStatus(walksD.get(i).getId(), 0);
                 Log.i("here2", "change");
             }
@@ -233,16 +232,16 @@ public class MainActivity extends ActionBarActivity {
     /**
      * sent the points of stations to Server
      */
-    public void sentPointsToServer(){
+    public void sentPointsToServer() {
 
         ArrayList<String> stationIds = new ArrayList<String>();
         RequestParams params = new RequestParams();
 
         stationIds = controller.getAllRatedStations();
 
-        if (stationIds == null){
+        if (stationIds == null) {
             Log.i("setPoints", "noResult");
-        }else{
+        } else {
             params.put("stationIds", stationIds);
             // Make RESTful webservice call using AsyncHttpClient object
             AsyncHttpClient client = new AsyncHttpClient();
@@ -292,7 +291,7 @@ public class MainActivity extends ActionBarActivity {
      * get the points of stations from Server
      * in order to update the local database
      */
-    public void getPointsFromServer(){
+    public void getPointsFromServer() {
 
         // Create AsycHttpClient object
         AsyncHttpClient client = new AsyncHttpClient();
@@ -321,7 +320,7 @@ public class MainActivity extends ActionBarActivity {
                             int points = Integer.parseInt(obj.get("points").toString());
 
                             //update the field points for the station with this stationId
-                            controller.updatePointsByStationId(stationId,points);
+                            controller.updatePointsByStationId(stationId, points);
                         }
                     }
 
@@ -329,10 +328,6 @@ public class MainActivity extends ActionBarActivity {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-
-
-
-
 
 
             }
@@ -350,14 +345,7 @@ public class MainActivity extends ActionBarActivity {
                 }
             }
         });
-
-
-
-
     }
-
-
-
 
 
 }
