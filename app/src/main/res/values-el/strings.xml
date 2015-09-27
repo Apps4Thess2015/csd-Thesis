@@ -21,7 +21,7 @@
     <string name="title_activity_map">Χάρτης</string>
     <string name="refresh">Ανανέωση</string>
     <string name="left_scroll_item1">Γλώσσα</string>
-    <string name="left_scroll_item2">Εγγραφή</string>
+    <string name="left_scroll_item2">Λογαριασμός</string>
     <string name="left_scroll_item3">Ανανέωση Βάσης</string>
     <string name="left_scroll_item4">Thessaloniki Walking Tours</string>
     <string name="left_scroll_item5">Σχετικά</string>
@@ -47,11 +47,15 @@
         "\n""\n" Ερευνητική ομάδα Oswinds "\n""\n" &#169;2015 Oswinds "\n" kiki_paniskaki@hotmail.com
     </string>
     <string name="title_activity_register">Εγγραφή</string>
-    <string name="resister_text">Εγγραφείτε έτσι, ώστε να λαμβάνετε μηνύματα και να μπορείτε να ανανεώνετε τη βάση.</string>
+    <string name="resister_text">Εγγραφείτε έτσι, ώστε να λαμβάνετε μηνύματα και να μπορείτε να ανανεώνετε τη βάση.
+        Επίσης θα μπορείτε να δηλώσετε συμμετοχή για κάποιον περίπατο. Απαιτείται σύνδεση στο διαδίκτυο.
+    </string>
     <string name="mail">E-mail</string>
     <string name="title_activity_greeting">Καλώς ήρθατε</string>
     <string name="title_activity_message">Μήνυμα</string>
-    <string name="welcome_text">Καλώς ήρθατε στην εφαρμογή Τhessaloniki Walking Tours. Τώρα μπορείτε να λαμβάνεται μηνύματα απο τον server.</string>
+    <string name="welcome_text">Καλώς ήρθατε στην εφαρμογή Τhessaloniki Walking Tours. Τώρα μπορείτε να λαμβάνεται
+        μηνύματα απο τον server, να ανανεώνετε το υλικό των περιπάτων καθώς και να δηλώνετε συμμετοχή για κάποιο
+        περίπατο στον οποίο επιθυμείτε να συμμετέχετε.</string>
     <string name="register_as">Είστε εγγεγραμμένος ως </string>
     <string name="member1">Εύη Καρκίτη</string>
     <string name="member2">Κωστής Ζαφειράκης</string>
@@ -111,4 +115,26 @@
     <string name="participation_ok">Η συμμετοχή κατοχυρώθηκε</string>
     <string name="internet_connection_participation">Απαιτείται σύνδεση στο διαδίκτυο. Ενεργοποιείστε την σύνδεση
     στο διαδίκτυο για να κατοχυρώσετε την συμμετοχή.</string>
+    <string name="password">Κωδικός</string>
+    <string name="confirm_password">Επιβεβαίωση κωδικού</string>
+    <string name="register_error">Παρακαλώ εισάγετε έγκυρο e-mail και ελέγξτε ξανά τον κωδικό.</string>
+    <string name="title_activity_register_gcm">Εγγραφή</string>
+    <string name="text_email_validation">Ένα e-mail στάλθηκε στην διεύθυνση e-mail που καταχωρήσατε. Παρακαλώ
+        επιβεβαιώστε το e-mail για να συνεχιστεί η εγγραφή. Μόλις επιβεβαιώσετε την διεύθυνση  e-mail, πατήστε
+        το κουμπί που βρίσκετε παρακάτω για να συνεχίσετε.
+    </string>
+    <string name="no_email_validation">Δεν έχετε επιβεβαιώσει την διεύθυνση e-mail. Παρακαλώ ελέγξτε το ηλεκτρονικό
+        ταχυδρομείο σας.
+    </string>
+    <string name="title_activity_log_in">Σύνδεση</string>
+    <string name="log_in_button">Σύνδεση</string>
+    <string name="login_fail">Η συνδέση απέτυχε επειδή το e-mail ή ο κωδικός δεν είναι σωστά. Δοκιμάστε πάλι.</string>
+    <string name="title_activity_account">Λογαριασμός</string>
+    <string name="account_text">Πραγματοποιήστε την εγγραφή έτσι, ώστε να λαμβάνεται μηνύματα, να μπορείτε να ανανεώνετε
+        το υλικό των περιπάτων και να κατοχυρώσετε συμμετοχή σε κάποιον περίπατο. Μπορείτε να δημιουργήσετε έναν λογαριασμό,
+        πατώντας το κουμπί εγγραφής ή μπορείτε να συνδεθείτε αν ήδη έχετε έναν λογαριασμό, πατώντας το κουμπί σύνδεση.
+        Απαιτείται σύνδεση στο διαδίκτυο.</string>
+    <string name="register_button">Εγγραφή</string>
+    <string name="empty_login">Παρακαλώ συμπληρώστε όλα τα πεδία.</string>
+
 </resources>

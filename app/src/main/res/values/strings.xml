@@ -20,7 +20,7 @@
     <string name="title_activity_map">Map</string>
     <string name="refresh">Refresh</string>
     <string name="left_scroll_item1">Language</string>
-    <string name="left_scroll_item2">Register</string>
+    <string name="left_scroll_item2">Account</string>
     <string name="left_scroll_item3">Update Database</string>
     <string name="left_scroll_item4">Thessaloniki Walking Tours</string>
     <string name="left_scroll_item5">About</string>
@@ -44,11 +44,14 @@
         "\n""\n" Research group Oswinds "\n""\n" &#169;2015 Oswinds "\n" kiki_paniskaki@hotmail.com
     </string>
     <string name="title_activity_register">Register</string>
-    <string name="resister_text">Register in order to receive messages and to be able to update the database.</string>
+    <string name="resister_text">Register in order to receive messages and to be able to update the database.
+        Also, you will be able to enshrine participation for a walk. Requires internet connection.
+    </string>
     <string name="mail">E-mail</string>
     <string name="title_activity_greeting">Welcome</string>
     <string name="title_activity_message">Message</string>
-    <string name="welcome_text">Welcome in Thessaloniki Walking Tours App. Now you will receive messages from server.</string>
+    <string name="welcome_text">Welcome in Thessaloniki Walking Tours App. Now you will receive messages from server,
+        you will be able to refresh the content of walks and also to enshrine participation for a walk.</string>
     <string name="register_as">You have register as </string>
     <string name="member1">Evi Karkiti</string>
     <string name="member2">Kostis Zafirakis</string>
@@ -107,5 +110,24 @@
     <string name="participation_ok">Participation enshrined</string>
     <string name="internet_connection_participation">There isn\'t internet access. Enable the internet
       connection in order to enshrine the participation.</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="register_error">Please enter valid email and check again the password.</string>
+    <string name="title_activity_register_gcm">Register</string>
+    <string name="text_email_validation">An email has sent to the e-mail address. Please confirm the e-mail
+        address in order to proceed with the registration. When you confirm the e-mail address click the button below
+        in order to continue.
+    </string>
+    <string name="no_email_validation">You haven\'t validate the e-mail address. Please check you mailbox.</string>
+    <string name="title_activity_log_in">LogIn</string>
+    <string name="log_in_button">Log In</string>
+    <string name="login_fail">Login failed because your username or password was entered incorrectly. Try again</string>
+    <string name="title_activity_account">Account</string>
+    <string name="account_text">Get an account in order to receive messages from server, to refresh the content of walks
+        and also you will be able to enshrine participation for a walk. You can create a new account by pressing the
+        register button or you can log in if you already have an account, by pressing the log in button.
+        Requires internet connection.</string>
+    <string name="register_button">Register</string>
+    <string name="empty_login">Please fill all the fields.</string>
 
 </resources>

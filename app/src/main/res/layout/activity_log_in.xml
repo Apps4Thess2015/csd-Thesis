@@ -1,31 +1,19 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin">
-
-        <!-- register text -->
-        <TextView
-            android:id="@+id/register_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="150dp"
-            android:gravity="center"
-            android:text="@string/resister_text"
-            android:textSize="@dimen/text_size" />
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp">
 
         <!-- e-mail -->
         <TextView
             android:id="@+id/mail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/register_text"
             android:layout_marginTop="50dp"
             android:layout_centerHorizontal="true"
             android:text="@string/mail"
@@ -58,39 +46,20 @@
             android:layout_below="@+id/password"
             android:inputType="textPassword" />
 
-        <!-- confirm password -->
-        <TextView
-            android:id="@+id/confirm_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_below="@+id/password_field"
-            android:layout_marginTop="50dp"
-            android:text="@string/confirm_password"
-            android:textSize="@dimen/text_size" />
 
-        <!-- password field -->
-        <EditText
-            android:id="@+id/confirm_password_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/confirm_password"
-            android:inputType="textPassword" />
-
-
-        <!--ok Button -->
+        <!-- Log in button -->
         <Button
-            android:id="@+id/ok_button"
+            android:id="@+id/log_in_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/password_field"
             android:layout_centerHorizontal="true"
-            android:layout_below="@+id/confirm_password_field"
             android:layout_marginTop="50dp"
-            android:onClick="RegisterEmail"
-            android:text="@string/ok" />
+            android:text="@string/log_in_button"/>
+
 
     </RelativeLayout>
-
 </ScrollView>
+
 
 

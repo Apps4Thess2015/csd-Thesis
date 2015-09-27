@@ -128,7 +128,7 @@ public class MainActivity extends ActionBarActivity {
                     startActivity(intent);
                 }
                 if (position == 1) {
-                    Intent intent = new Intent(MainActivity.this, Register.class);
+                    Intent intent = new Intent(MainActivity.this, Account.class);
                     startActivity(intent);
                 }
                 if (position == 2) {
