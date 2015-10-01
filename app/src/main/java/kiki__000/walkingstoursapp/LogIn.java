@@ -1,8 +1,12 @@
 package kiki__000.walkingstoursapp;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -41,6 +45,27 @@ public class LogIn extends ActionBarActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         //set the action bar for the right language
         getSupportActionBar().setTitle(getResources().getString(R.string.title_activity_log_in));
+
+        //check the internet status
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+
+        //if there isn't internet connection show a message
+        if (activeNetworkInfo == null || !activeNetworkInfo.isConnected()){
+
+            final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+
+            dialog.setTitle(getResources().getString(R.string.message));
+            dialog.setMessage(getResources().getString(R.string.no_internet));
+            dialog.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialog.setCancelable(true);
+                }
+            });
+            AlertDialog alert = dialog.create();
+            alert.show();
+        }
 
         //email editText
         emailET = (EditText)findViewById(R.id.edit_text);
@@ -121,11 +146,12 @@ public class LogIn extends ActionBarActivity {
                         SharedPreferences prefs = getSharedPreferences("UserDetails", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = prefs.edit();
                         editor.putString("eMailId", mail);
+                        editor.putString("regId", "exists");
                         editor.commit();
 
                         //go to the Greeting activity
                         Intent intent = new Intent(getApplicationContext(), GreetingActivity.class);
-                        intent.putExtra("emailId", mail);
+                        intent.putExtra("eMailId", mail);
                         startActivity(intent);
                         finish();
                     }

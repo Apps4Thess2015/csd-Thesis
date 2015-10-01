@@ -1,8 +1,12 @@
 package kiki__000.walkingstoursapp;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -22,13 +26,15 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import javax.mail.AuthenticationFailedException;
 import javax.mail.MessagingException;
 
 public class Register extends ActionBarActivity {
 
-    public static final String REG_ID = "regId";
-    public static final String EMAIL_ID = "eMailId";
     private EditText emailET;
     private EditText password;
     private EditText passwordConfirm;
@@ -51,22 +57,31 @@ public class Register extends ActionBarActivity {
         //set the action bar for the right language
         getSupportActionBar().setTitle(getResources().getString(R.string.title_activity_register));
 
+        //check the internet status
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+
+        //if there isn't internet connection show a message
+        if (activeNetworkInfo == null || !activeNetworkInfo.isConnected()){
+
+            final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+
+            dialog.setTitle(getResources().getString(R.string.message));
+            dialog.setMessage(getResources().getString(R.string.no_internet));
+            dialog.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialog.setCancelable(true);
+                }
+            });
+            AlertDialog alert = dialog.create();
+            alert.show();
+        }
+
         emailET = (EditText) findViewById(R.id.edit_text);
 
         password = (EditText) findViewById(R.id.password_field);
         passwordConfirm = (EditText) findViewById(R.id.confirm_password_field);
-
-        SharedPreferences prefs = getSharedPreferences("UserDetails", Context.MODE_PRIVATE);
-        String registrationId = prefs.getString(REG_ID, "");
-        String emailId = prefs.getString(EMAIL_ID, "");
-
-        if (!TextUtils.isEmpty(registrationId)) {
-            Intent i = new Intent(getApplicationContext(), GreetingActivity.class);
-            i.putExtra("regId", registrationId);
-            i.putExtra("emailId", emailId);
-            startActivity(i);
-            finish();
-        }
 
     }
 
@@ -135,10 +150,16 @@ public class Register extends ActionBarActivity {
                         //sent the validation email
                         new SendEmailAsyncTask().execute();
 
+                        //save in a var that the system wait for validation
+                        SharedPreferences prefs = getSharedPreferences("UserDetails", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString("validation", "wait");
+                        editor.putString("eMailId", email);
+                        editor.commit();
+
                         //go to the RegisterGCM activity
                         Intent intent = new Intent(getApplicationContext(), RegisterGCM.class);
-                        intent.putExtra("emailId", email);
-                        intent.putExtra("password", password1);
+                        intent.putExtra("eMailId", email);
                         startActivity(intent);
                         finish();
                     }
@@ -181,10 +202,18 @@ public class Register extends ActionBarActivity {
             if (BuildConfig.DEBUG) Log.v(SendEmailAsyncTask.class.getName(), "doInBackground()");
 
             try {
-                String link = ApplicationConstants.LINK_TO_VALIDATE + "?email=" + email + "&password=" + password1;
+
+                //get the date
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd", Locale.US);
+                String date = sdf.format(new Date());
+                //get the current time
+                SimpleDateFormat sdf1 = new SimpleDateFormat("kk:mm", Locale.ENGLISH);
+                String time = sdf1.format(new Date());
+
+                String link = ApplicationConstants.LINK_TO_VALIDATE + "?email=" + email + "&password=" + password1 + "&date=" + date + "&time=" + time;
                 GmailSender sender = new GmailSender(ApplicationConstants.EMAIL_ADDRESS, ApplicationConstants.EMAIL_PASSWORD);
                 sender.sendMail("TWT - Confirm the email address",
-                        link,
+                        "Please confirm the e-mail address by clicking the above link. The link will be available for 8 hours. \n " + link,
                         email,
                         email);
                 Log.i("EMAIL", "OK");

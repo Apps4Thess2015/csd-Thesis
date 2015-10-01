@@ -115,8 +115,8 @@
     <string name="register_error">Please enter valid email and check again the password.</string>
     <string name="title_activity_register_gcm">Register</string>
     <string name="text_email_validation">An email has sent to the e-mail address. Please confirm the e-mail
-        address in order to proceed with the registration. When you confirm the e-mail address click the button below
-        in order to continue.
+        address in order to proceed with the registration. You have 8 hours in order to confirm the e-mail address.
+        When you confirm the e-mail address click the button below in order to continue.
     </string>
     <string name="no_email_validation">You haven\'t validate the e-mail address. Please check you mailbox.</string>
     <string name="title_activity_log_in">LogIn</string>
@@ -129,5 +129,6 @@
         Requires internet connection.</string>
     <string name="register_button">Register</string>
     <string name="empty_login">Please fill all the fields.</string>
+    <string name="no_internet">Requires internet connection. Please enable Wifi or 3G.</string>
 
 </resources>

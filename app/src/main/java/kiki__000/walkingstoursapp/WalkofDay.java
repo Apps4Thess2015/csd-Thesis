@@ -62,6 +62,7 @@ public class WalkofDay extends ActionBarActivity {
             Intent intent = new Intent(WalkofDay.this, ThisWalk.class);
             intent.putExtra("walkName", walkName);
             startActivity(intent);
+            finish();
 
         } else if (walkList.size() > 1) {  // show the listView in order to select the walk
 
@@ -87,6 +88,7 @@ public class WalkofDay extends ActionBarActivity {
                     Intent intent = new Intent(WalkofDay.this, ThisWalk.class);
                     intent.putExtra("walkName", walkName);
                     startActivity(intent);
+                    finish();
                 }
             });
 

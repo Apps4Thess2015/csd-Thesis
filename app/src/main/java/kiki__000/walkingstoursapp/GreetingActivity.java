@@ -13,10 +13,6 @@ import android.widget.TextView;
 
 public class GreetingActivity extends ActionBarActivity {
 
-    private TextView mail;
-    private String emailId;
-    private Animation fadeIn;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,13 +30,13 @@ public class GreetingActivity extends ActionBarActivity {
 
         //get the emailID
         Intent intent = getIntent();
-        emailId = intent.getStringExtra("emailId");
+        String emailId = intent.getStringExtra("eMailId");
 
-        mail = (TextView) findViewById(R.id.mail);
+        TextView mail = (TextView) findViewById(R.id.mail);
         mail.setText(emailId);
 
         //animation
-        fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+        Animation fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
         mail.startAnimation(fadeIn);
 
 

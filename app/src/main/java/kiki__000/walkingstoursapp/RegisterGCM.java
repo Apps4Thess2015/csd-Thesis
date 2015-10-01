@@ -1,9 +1,13 @@
 package kiki__000.walkingstoursapp;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -38,7 +42,6 @@ public class RegisterGCM extends ActionBarActivity {
     Context applicationContext;
     String regId = "";
     String tempEmail;
-    String password;
 
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
@@ -61,12 +64,32 @@ public class RegisterGCM extends ActionBarActivity {
         //set the action bar for the right language
         getSupportActionBar().setTitle(getResources().getString(R.string.title_activity_register_gcm));
 
+        //check the internet status
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+
+        //if there isn't internet connection show a message
+        if (activeNetworkInfo == null || !activeNetworkInfo.isConnected()){
+
+            final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+
+            dialog.setTitle(getResources().getString(R.string.message));
+            dialog.setMessage(getResources().getString(R.string.no_internet));
+            dialog.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialog.setCancelable(true);
+                }
+            });
+            AlertDialog alert = dialog.create();
+            alert.show();
+        }
+
         applicationContext = getApplicationContext();
 
         //get the data
         Intent intent = getIntent();
-        tempEmail = intent.getStringExtra("emailId");
-        password = intent.getStringExtra("password");
+        tempEmail = intent.getStringExtra("eMailId");
 
         prgDialog = new ProgressDialog(this);
         // Set Progress Dialog Text
@@ -82,7 +105,7 @@ public class RegisterGCM extends ActionBarActivity {
         if (!TextUtils.isEmpty(registrationId)) {
             Intent i = new Intent(applicationContext, GreetingActivity.class);
             i.putExtra("regId", registrationId);
-            i.putExtra("emailId", emailId);
+            i.putExtra("eMailId", emailId);
             startActivity(i);
             finish();
         }
@@ -248,7 +271,7 @@ public class RegisterGCM extends ActionBarActivity {
                                 Toast.LENGTH_LONG).show();
                         Intent i = new Intent(applicationContext,
                                 GreetingActivity.class);
-                        i.putExtra("emailId", emailID);
+                        i.putExtra("eMailId", emailID);
                         startActivity(i);
                         finish();
                     }

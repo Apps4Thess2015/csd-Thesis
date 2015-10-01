@@ -34,12 +34,24 @@ public class Account extends ActionBarActivity {
         String registrationId = prefs.getString("regId", "");
         String emailId = prefs.getString("eMailId", "");
 
-        if (!TextUtils.isEmpty(emailId)) {
+        if (!TextUtils.isEmpty(emailId) && !TextUtils.isEmpty(registrationId)) {
             Intent i = new Intent(getApplicationContext(), GreetingActivity.class);
             i.putExtra("regId", registrationId);
-            i.putExtra("emailId", emailId);
+            i.putExtra("eMailId", emailId);
             startActivity(i);
             finish();
+        }
+
+
+        String validation = prefs.getString("validation", "");
+
+        if (!TextUtils.isEmpty(validation) && validation.equals("wait") && !TextUtils.isEmpty(emailId)) {
+
+            Intent i = new Intent(getApplicationContext(), RegisterGCM.class);
+            i.putExtra("eMailId", emailId);
+            startActivity(i);
+            finish();
+
         }
 
         //logIn button

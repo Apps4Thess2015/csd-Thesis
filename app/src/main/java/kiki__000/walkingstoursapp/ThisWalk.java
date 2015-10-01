@@ -224,6 +224,7 @@ public class ThisWalk extends ActionBarActivity {
         Intent intent = new Intent(ThisWalk.this, Map.class);
         intent.putExtra("walkName", wN);
         startActivity(intent);
+        finish();
 
     }
 
