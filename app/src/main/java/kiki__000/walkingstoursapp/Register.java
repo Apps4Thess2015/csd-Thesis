@@ -210,10 +210,15 @@ public class Register extends ActionBarActivity {
                 SimpleDateFormat sdf1 = new SimpleDateFormat("kk:mm", Locale.ENGLISH);
                 String time = sdf1.format(new Date());
 
-                String link = ApplicationConstants.LINK_TO_VALIDATE + "?email=" + email + "&password=" + password1 + "&date=" + date + "&time=" + time;
+                //encrypt password
+                MCrypt mcrypt = new MCrypt();
+                String passwordEncrypt = MCrypt.bytesToHex( mcrypt.encrypt(password1) );
+                Log.i("PASSWORD ENCRYPTED", passwordEncrypt);
+
+                String link = ApplicationConstants.LINK_TO_VALIDATE + "?email=" + email + "&password=" + passwordEncrypt + "&date=" + date + "&time=" + time;
                 GmailSender sender = new GmailSender(ApplicationConstants.EMAIL_ADDRESS, ApplicationConstants.EMAIL_PASSWORD);
                 sender.sendMail("TWT - Confirm the email address",
-                        "Please confirm the e-mail address by clicking the above link. The link will be available for 8 hours. \n " + link,
+                        "Please confirm the e-mail address by clicking the below link. The link will be available for 8 hours. \n " + link,
                         email,
                         email);
                 Log.i("EMAIL", "OK");
