@@ -1,40 +1,27 @@
 package kiki__000.walkingstoursapp;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Base64;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.GridView;
-import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class MissedWalks extends ActionBarActivity {
 
-    private GridView grid;
-    private ArrayList<String> walksNames = new ArrayList<String>();
-    private ArrayList<Bitmap> drawableIds = new ArrayList<Bitmap>();
-    private String walkName;
-    DBController controller = new DBController(this);
 
+    private ArrayList<String> walksNames = new ArrayList<String>();
+    private ArrayList<String> icons = new ArrayList<>();
+    DBController controller = new DBController(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,44 +49,32 @@ public class MissedWalks extends ActionBarActivity {
             for (int i = 0; i < walkList.size(); i++) {
                 walksNames.add(walkList.get(i).getName());
                 ArrayList<Photo> temp = controller.getPhotosByWalkId(controller.getWalkByName(walkList.get(i).getName()).getId());
-
-                if (temp == null) {
-                    Bitmap b = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-                    drawableIds.add(b);
-                }else{
-                    byte[] decodedString = Base64.decode(temp.get(0).getImage(), Base64.DEFAULT);
-                    Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-
-                    drawableIds.add(decodedByte);
-                }
-
-
+                icons.add(temp.get(0).getImage());
             }
 
-            //set gridView
-            grid = (GridView) findViewById(R.id.grid);
-            //grid.setAdapter(adapter);
-            grid.setAdapter(new MyAdapter(this, walksNames, drawableIds));
+            //set listView
+            ListView list = (ListView) findViewById(R.id.list);
+            final MyAdapter adapter = new MyAdapter(this, walksNames, icons);
+            list.setAdapter(adapter);
 
-            grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+            //set on item click
+            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                    //find the name of station which the user clicked
-                    ViewGroup gridChild = (ViewGroup) grid.getChildAt(position);
-                    int childSize = gridChild.getChildCount();
-                    for (int k = 0; k < childSize; k++) {
-                        if (gridChild.getChildAt(k) instanceof TextView) {
-                            walkName = ((TextView) gridChild.getChildAt(k)).getText().toString();
-                            Log.i("walkName", walkName);
-                        }
-                    }
+                    //get the card's name which user has clicked
+                    Object nameObject = adapter.getItem(position);
+                    String walkName = String.valueOf(nameObject);
 
-                    //open the new activity
+                    //open the new Activity
                     Intent intent = new Intent(MissedWalks.this, Map.class);
                     intent.putExtra("walkName", walkName);
                     startActivity(intent);
+
                 }
             });
+
+
         } else {
             //stay tuned
             TextView stayTuned = (TextView) findViewById(R.id.stayTuned);
@@ -133,79 +108,5 @@ public class MissedWalks extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-
-    private class MyAdapter extends BaseAdapter {
-        private List<Item> items = new ArrayList<Item>();
-        private LayoutInflater inflater;
-        private ArrayList<String> names = new ArrayList<String>();
-        private ArrayList<Bitmap> icons = new ArrayList<Bitmap>();
-
-        public MyAdapter(Context context, ArrayList<String> names, ArrayList<Bitmap> icons) {
-            inflater = LayoutInflater.from(context);
-            this.names = names;
-            this.icons = icons;
-
-            for (int i = 0; i < icons.size(); i++) {
-                items.add(new Item(names.get(i), icons.get(i)));
-            }
-        }
-
-        @Override
-        public int getCount() {
-            return items.size();
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return items.get(i);
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return i;
-        }
-
-        /**
-         * @Override public Bitmap getItemId(int i)
-         * {
-         * return items.get(i).drawableId;
-         * }
-         */
-
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            View v = view;
-            ImageView picture;
-            TextView name;
-
-            if (v == null) {
-                v = inflater.inflate(R.layout.grid_view_item, viewGroup, false);
-                v.setTag(R.id.picture, v.findViewById(R.id.picture));
-                v.setTag(R.id.text, v.findViewById(R.id.text));
-            }
-
-            picture = (ImageView) v.getTag(R.id.picture);
-            name = (TextView) v.getTag(R.id.text);
-
-            Item item = (Item) getItem(i);
-
-            picture.setImageBitmap(item.drawableId);
-            name.setText(item.name);
-
-            return v;
-        }
-
-        private class Item {
-            final String name;
-            final Bitmap drawableId;
-
-            Item(String name, Bitmap drawableId) {
-                this.name = name;
-                this.drawableId = drawableId;
-            }
-        }
-    }
-
 
 }
