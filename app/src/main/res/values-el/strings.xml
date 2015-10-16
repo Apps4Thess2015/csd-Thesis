@@ -90,7 +90,7 @@
     <string name="new_message">Νέο Μήνυμα</string>
     <string name="hint_mail">someone@gmail.com</string>
     <string name="title_activity_refresh_database">Ανανέωση Βάσης</string>
-    <string name="refresh_activity_text">Πατώντας το κουμπί ανανέωσης, που βρίσκεται πάνω δεξιά, μπορείτε να ανανεώσετε το περιεχόμενο
+    <string name="refresh_activity_text">Πατώντας το κουμπί ανανέωσης, που βρίσκεται παρακάτω, μπορείτε να ανανεώσετε το περιεχόμενο
      σε περίπτωση που υπάρχουν νέες εγγραφές. Απαιτείται σύνδεση στο διαδίκτυο.</string>
     <string name="user_exists">Ο χρήστης υπάρχει ήδη</string>
     <string name="walk_time_message">Ο περίπατος θα ξεκινήσει στις</string>
@@ -137,5 +137,12 @@
     <string name="register_button">Εγγραφή</string>
     <string name="empty_login">Παρακαλώ συμπληρώστε όλα τα πεδία.</string>
     <string name="no_internet">Απαιτείται σύνδεση στο διαδίκτυο. Παρακαλώ ενεργοποιήστε Wifi ή 3G.</string>
+    <string name="transfer">Μεταφορά δεδομένων από την απομακρυσμένη βάση και συγχρονισμός της τοπικής βάσης.
+        Παρακαλώ περιμένετε &#2830;</string>
+    <string name="try_again">Προσπαθήστε πάλι</string>
+    <string name="gone_internet">Σφάλμα. Ελέγξτε τη σύνδεση στο διαδύκτιο και
+        προσπαθήστε ξανά. </string>
+
+
 
 </resources>

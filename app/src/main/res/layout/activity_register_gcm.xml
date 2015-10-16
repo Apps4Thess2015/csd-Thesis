@@ -28,6 +28,17 @@
             android:onClick="RegisterUser"
             android:text="@string/ok"/>
 
+        <!-- try again button -->
+        <Button
+            android:id="@+id/send_again_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/confirm_button"
+            android:layout_marginTop="50dp"
+            android:layout_centerHorizontal="true"
+            android:onClick="tryAgain"
+            android:text="@string/try_again"/>
+
     </RelativeLayout>
 </ScrollView>
 

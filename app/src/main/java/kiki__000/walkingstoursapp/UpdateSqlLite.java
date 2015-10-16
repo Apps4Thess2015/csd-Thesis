@@ -2,6 +2,7 @@ package kiki__000.walkingstoursapp;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
@@ -12,10 +13,12 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -45,7 +48,7 @@ public class UpdateSqlLite {
 
         // Initialize Progress Dialog properties
         prgDialog = new ProgressDialog(context);
-        prgDialog.setMessage("Transferring Data from Remote MySQL DB and Syncing SQLite. Please wait...");
+        prgDialog.setMessage(context.getResources().getString(R.string.transfer));
         prgDialog.setCancelable(false);
 
         //first check for deleted walks
@@ -64,13 +67,14 @@ public class UpdateSqlLite {
         syncSQLiteMySQLDB(ApplicationConstants.GET_PHOTOS, lang[0]);
     }
 
-    /** Method to Sync MySQL to SQLite DB
+    /**
+     * Method to Sync MySQL to SQLite DB
      *
      * @param url
      * @param lang
      */
     public void syncSQLiteMySQLDB(final String url, final String lang) {
-        // Create AsycHttpClient object
+        // Create AsyncHttpClient object
         AsyncHttpClient client = new AsyncHttpClient();
         // Http Request Params Object
         RequestParams params = new RequestParams();
@@ -84,32 +88,40 @@ public class UpdateSqlLite {
         // Make Http call to remote php file
         client.post(url, params, new AsyncHttpResponseHandler() {
             @Override
-            public void onSuccess(String response) {
-                // Hide ProgressBar
-                prgDialog.hide();
-                // Update SQLite DB with response sent by php file
-                if (url.contains("Walks")) {
-                    updateWalks(response, lang);
-                    Log.i("responce", response);
-                } else if (url.contains("Stations")) {
-                    updateStations(response, lang);
-                    Log.i("responce", response);
-                } else if (url.contains("Deleted")) {
-                    updateDeleted(response);
-                    Log.i("responce", response);
-                } else if (url.contains("Rating")) {
-                    updateRating(response);
-                    Log.i("responce", response);
-                } else {
-                    updatePhotos(response);
-                    Log.i("responce", response);
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+
+                try {
+                    //convert response to string
+                    String responseString = new String(response, "UTF-8");
+
+                    // Update SQLite DB with response sent by php file
+                    if (url.contains("Walks")) {
+                        updateWalks(responseString, lang);
+                        Log.i("responce", responseString);
+                    } else if (url.contains("Stations")) {
+                        updateStations(responseString, lang);
+                        Log.i("responce", responseString);
+                    } else if (url.contains("Deleted")) {
+                        updateDeleted(responseString);
+                        Log.i("responce", responseString);
+                    } else if (url.contains("Rating")) {
+                        updateRating(responseString);
+                        Log.i("responce", responseString);
+                    } else {
+                        updatePhotos(responseString);
+                        Log.i("responce", responseString);
+                    }
+
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
                 }
+
+
             }
 
-            // When error occured
+            // When error occurred
             @Override
-            public void onFailure(int statusCode, Throwable error, String content) {
-                // TODO Auto-generated method stub
+            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
                 // Hide ProgressBar
                 prgDialog.hide();
                 if (statusCode == 404) {
@@ -117,52 +129,49 @@ public class UpdateSqlLite {
                 } else if (statusCode == 500) {
                     Toast.makeText(context, "Something went wrong at server end", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(context, "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet]",
+                    Toast.makeText(context, context.getResources().getString(R.string.gone_internet),
                             Toast.LENGTH_LONG).show();
                 }
             }
         });
     }
 
-    /** Update the deleted walks
+    /**
+     * Update the deleted walks
      *
      * @param response
      */
     public void updateDeleted(String response) {
 
-        // Create GSON object
-        Gson gson = new GsonBuilder().create();
         try {
             // Extract JSON array from the response
             JSONArray arr = new JSONArray(response);
             System.out.println(arr.length());
-                // If no of array elements is not zero
-                if (arr.length() != 0) {
-                    // Loop through each array element, get JSON object which has userid and username
-                    for (int i = 0; i < arr.length(); i++) {
-                        // Get JSON object
-                        JSONObject obj = (JSONObject) arr.get(i);
-                        // Add fields extracted from Object
-                        deletedWalks.add(obj.get("walkId").toString());
-                        controller.deleteWalk(deletedWalks.get(i));
-                    }
+            // If no of array elements is not zero
+            if (arr.length() != 0) {
+                // Loop through each array element, get JSON object which has userid and username
+                for (int i = 0; i < arr.length(); i++) {
+                    // Get JSON object
+                    JSONObject obj = (JSONObject) arr.get(i);
+                    // Add fields extracted from Object
+                    deletedWalks.add(obj.get("walkId").toString());
+                    controller.deleteWalk(deletedWalks.get(i));
                 }
+            }
         } catch (JSONException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
 
-    /** Update the table walks
+    /**
+     * Update the table walks
      *
      * @param response
      * @param lang
      */
     public void updateWalks(String response, String lang) {
 
-        // Create GSON object
-        Gson gson = new GsonBuilder().create();
         try {
             // Extract JSON array from the response
             JSONArray arr = new JSONArray(response);
@@ -175,8 +184,8 @@ public class UpdateSqlLite {
                     JSONObject obj = (JSONObject) arr.get(i);
                     //check first if this walk already exists, if yes then deleted
                     String walkId = obj.get("id").toString();
-                    if (controller.recordExists(walkId) && lang.equals("gr")){
-                        Log.i("EXISTS","yes");
+                    if (controller.recordExists(walkId) && lang.equals("gr")) {
+                        Log.i("EXISTS", "yes");
                         controller.deleteWalk(walkId);
                     }
                     // DB QueryValues Object to insert into SQLite
@@ -200,21 +209,19 @@ public class UpdateSqlLite {
             }
 
         } catch (JSONException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
     }
 
-    /** Update the table stations
+    /**
+     * Update the table stations
      *
      * @param response
      * @param lang
      */
     public void updateStations(String response, String lang) {
 
-        // Create GSON object
-        Gson gson = new GsonBuilder().create();
         try {
             // Extract JSON array from the response
             JSONArray arr = new JSONArray(response);
@@ -243,19 +250,61 @@ public class UpdateSqlLite {
             }
 
         } catch (JSONException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
-    /** Update the table Photos
+
+    /**
+     * Update the table Rating
+     *
+     * @param response
+     */
+    public void updateRating(String response) {
+
+        try {
+            // Extract JSON array from the response
+            JSONArray arr = new JSONArray(response);
+            System.out.println(arr.length());
+            // If no of array elements is not zero
+            if (arr.length() != 0) {
+                // Loop through each array element, get JSON object
+                for (int i = 0; i < arr.length(); i++) {
+                    // Get JSON object
+                    JSONObject obj = (JSONObject) arr.get(i);
+                    //first check if this record already exists in table rating
+                    String stationId = obj.get("stationId").toString();
+                    if (!controller.recordRating(stationId)) {
+                        // DB QueryValues Object to insert into SQLite
+                        qValuesRating = new Rating();
+                        // Add fields extracted from Object
+                        qValuesRating.setId(obj.get("id").toString());
+                        qValuesRating.setStationId(obj.get("stationId").toString());
+                        qValuesRating.setWalkId(obj.get("walkId").toString());
+                        qValuesRating.setPoints(Integer.parseInt(obj.get("points").toString()));
+                        qValuesRating.setRated("0");
+                        qValuesRating.setSent("0");
+                        Log.i("points", obj.get("points").toString());
+                        // Insert Photo into SQLite DB
+                        controller.insertRating(qValuesRating);
+                    }
+                }
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    /**
+     * Update the table Photos
      *
      * @param response
      */
     public void updatePhotos(String response) {
 
-        // Create GSON object
-        Gson gson = new GsonBuilder().create();
         try {
             // Extract JSON array from the response
             JSONArray arr = new JSONArray(response);
@@ -279,57 +328,21 @@ public class UpdateSqlLite {
                 }
             }
 
+            finish();
+
         } catch (JSONException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
     }
 
-    /** Update the table Rating
-     *
-     * @param response
-     */
-    public void updateRating(String response) {
+    public void finish() {
 
-        // Create GSON object
-        Gson gson = new GsonBuilder().create();
-        try {
-            // Extract JSON array from the response
-            JSONArray arr = new JSONArray(response);
-            System.out.println(arr.length());
-            // If no of array elements is not zero
-            if (arr.length() != 0) {
-                // Loop through each array element, get JSON object
-                for (int i = 0; i < arr.length(); i++) {
-                    // Get JSON object
-                    JSONObject obj = (JSONObject) arr.get(i);
-                    //first check if this record already exists in table rating
-                    String stationId = obj.get("stationId").toString();
-                    if (!controller.recordRating(stationId)){
-                        // DB QueryValues Object to insert into SQLite
-                        qValuesRating = new Rating();
-                        // Add fields extracted from Object
-                        qValuesRating.setId(obj.get("id").toString());
-                        qValuesRating.setStationId(obj.get("stationId").toString());
-                        qValuesRating.setWalkId(obj.get("walkId").toString());
-                        qValuesRating.setPoints(Integer.parseInt(obj.get("points").toString()));
-                        qValuesRating.setRated("0");
-                        qValuesRating.setSent("0");
-                        Log.i("points", obj.get("points").toString());
-                        // Insert Photo into SQLite DB
-                        controller.insertRating(qValuesRating);
-                    }
-                }
-            }
+        // Hide ProgressBar
+        prgDialog.hide();
 
-        } catch (JSONException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
+        // Reload MainActivity
+        Intent objIntent = new Intent(context.getApplicationContext(), MainActivity.class);
+        context.startActivity(objIntent);
     }
-
-
-
 }

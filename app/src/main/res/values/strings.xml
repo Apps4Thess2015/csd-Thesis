@@ -85,7 +85,7 @@
     <string name="new_message">New message</string>
     <string name="hint_mail">someone@gmail.com</string>
     <string name="title_activity_refresh_database">RefreshDatabase</string>
-    <string name="refresh_activity_text">Pressing the refresh button at the top right, you can refresh the content
+    <string name="refresh_activity_text">Pressing the below refresh button, you can refresh the content
       if there are new entries. Requires internet connection.</string>
     <string name="user_exists">This user already exists</string>
     <string name="walk_time_message">The walk starts at</string>
@@ -130,5 +130,9 @@
     <string name="register_button">Register</string>
     <string name="empty_login">Please fill all the fields.</string>
     <string name="no_internet">Requires internet connection. Please enable Wifi or 3G.</string>
+    <string name="transfer">Transferring data from remote database and syncing SQLite. Please wait &#2830;</string>
+    <string name="try_again">Try again</string>
+    <string name="gone_internet">Unexpected Error occurred!
+        Most common Error: Device might not be connected to Internet</string>
 
 </resources>

@@ -147,6 +147,22 @@ public class RegisterGCM extends ActionBarActivity {
 
     }
 
+    public void tryAgain(View view){
+
+        //save in a var that the system wait for validation
+        SharedPreferences prefs = getSharedPreferences("UserDetails", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("validation", "");
+        editor.putString("eMailId", "");
+        editor.commit();
+
+        Intent i = new Intent(applicationContext, Account.class);
+        startActivity(i);
+        finish();
+
+
+    }
+
 
     /**
      * check if user has validate the address
