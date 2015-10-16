@@ -166,5 +166,4 @@ public class RefreshDatabaseActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
 }

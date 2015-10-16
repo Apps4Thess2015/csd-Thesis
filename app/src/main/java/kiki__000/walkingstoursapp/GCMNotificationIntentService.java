@@ -82,7 +82,7 @@ public class GCMNotificationIntentService extends IntentService {
         mNotifyBuilder.setDefaults(defaults);
         // Set the content for Notification
         mNotifyBuilder.setContentText(getResources().getString(R.string.new_message));
-        // Set autocancel
+        // Set auto cancel
         mNotifyBuilder.setAutoCancel(true);
         // Post a notification
         mNotificationManager.notify(notifyID, mNotifyBuilder.build());

@@ -1,7 +1,5 @@
 package kiki__000.walkingstoursapp;
 
-import java.sql.Blob;
-
 /**
  * Created by kiki__000 on 27-May-15.
  *

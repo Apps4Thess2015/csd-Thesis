@@ -375,6 +375,4 @@ public class Map extends ActionBarActivity implements OnMarkerClickListener {
             return header;
         }
     }
-
-
 }

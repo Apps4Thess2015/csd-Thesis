@@ -130,9 +130,10 @@
     <string name="register_button">Register</string>
     <string name="empty_login">Please fill all the fields.</string>
     <string name="no_internet">Requires internet connection. Please enable Wifi or 3G.</string>
-    <string name="transfer">Transferring data from remote database and syncing SQLite. Please wait &#2830;</string>
+    <string name="transfer">Transferring data from remote database and syncing SQLite. Please wait &#8230;</string>
     <string name="try_again">Try again</string>
     <string name="gone_internet">Unexpected Error occurred!
         Most common Error: Device might not be connected to Internet</string>
+    <string name="please_wait">Please wait &#8230;</string>
 
 </resources>

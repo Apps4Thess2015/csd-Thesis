@@ -26,6 +26,8 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.apache.http.Header;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -228,15 +230,14 @@ public class ThisWalk extends ActionBarActivity {
 
     }
 
-
     /**
-     * sent participation for this walk to Server
+     * send participation for this walk to Server
      *
      * @param walkId
      */
     public void sentParticipantToServer(String walkId){
 
-        // Create AsycHttpClient object
+        // Create AsyncHttpClient object
         AsyncHttpClient client = new AsyncHttpClient();
         // Http Request Params Object
         RequestParams params = new RequestParams();
@@ -246,7 +247,7 @@ public class ThisWalk extends ActionBarActivity {
 
         final ProgressDialog prgDialog = new ProgressDialog(this);
         // Set Progress Dialog Text
-        prgDialog.setMessage("Please wait...");
+        prgDialog.setMessage(getResources().getString(R.string.please_wait));
         // Set Cancelable as False
         prgDialog.setCancelable(false);
 
@@ -259,7 +260,7 @@ public class ThisWalk extends ActionBarActivity {
                     // When the response returned by REST has Http
                     // response code '200'
                     @Override
-                    public void onSuccess(String response) {
+                    public void onSuccess(int statusCode, Header[] headers, byte[] response) {
                         // Hide Progress Dialog
                         prgDialog.hide();
                         if (prgDialog != null) {
@@ -272,25 +273,19 @@ public class ThisWalk extends ActionBarActivity {
                     // response code other than '200' such as '404',
                     // '500' or '403' etc
                     @Override
-                    public void onFailure(int statusCode, Throwable error,
-                                          String content) {
+                    public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+
                         // Hide Progress Dialog
                         prgDialog.hide();
                         if (prgDialog != null) {
                             prgDialog.dismiss();
                         }
-                        // When Http response code is '404'
                         if (statusCode == 404) {
                             Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
-                        }
-                        // When Http response code is '500'
-                        else if (statusCode == 500) {
+                        } else if (statusCode == 500) {
                             Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
-                        }
-                        // When Http response code other than 404, 500
-                        else {
-                            Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might "
-                                            + "not be connected to Internet or remote server is not up and running], check for other errors as well",
+                        } else {
+                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.gone_internet),
                                     Toast.LENGTH_LONG).show();
                         }
                     }
@@ -340,6 +335,5 @@ public class ThisWalk extends ActionBarActivity {
             }
         }
     }
-
 
 }

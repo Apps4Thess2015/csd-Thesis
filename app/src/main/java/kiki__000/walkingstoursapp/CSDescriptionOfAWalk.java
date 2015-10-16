@@ -28,13 +28,14 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.apache.http.Header;
+
 import javax.mail.AuthenticationFailedException;
 import javax.mail.MessagingException;
 
 
 public class CSDescriptionOfAWalk extends ActionBarActivity {
 
-    private String[] walkData = new String[7];
     private DBController controller = new DBController(this);
     private Button joinIn;
     private Walk walk = new Walk();
@@ -61,15 +62,6 @@ public class CSDescriptionOfAWalk extends ActionBarActivity {
         //take the walk with name walkName
         walk = controller.getWalkByName(walkName);
 
-        //create the walk
-        walkData[0] = walk.getName();
-        walkData[1] = walk.getDate();
-        walkData[2] = walk.getTime();
-        walkData[3] = walk.getVenue();
-        walkData[4] = walk.getKind();
-        walkData[5] = walk.getGuide();
-        walkData[6] = walk.getDescription();
-
         //create graphics and animation
 
         // load animations in layout
@@ -79,31 +71,31 @@ public class CSDescriptionOfAWalk extends ActionBarActivity {
 
         //title
         TextView title = (TextView) findViewById(R.id.walk_title);
-        title.setText(walkData[0]);
+        title.setText(walk.getName());
 
         //when
         TextView when = (TextView) findViewById(R.id.walk_when);
-        when.setText(walkData[1]);
+        when.setText(walk.getDate());
 
         //time
         TextView time = (TextView) findViewById(R.id.walk_time);
-        time.setText(walkData[2]);
+        time.setText(walk.getTime());
 
         //venue
         TextView venue = (TextView) findViewById(R.id.walk_venue);
-        venue.setText(walkData[3]);
+        venue.setText(walk.getVenue());
 
         //kind
         TextView kind = (TextView) findViewById(R.id.walk_kind);
-        kind.setText(walkData[4]);
+        kind.setText(walk.getKind());
 
         //guides
         TextView guides = (TextView) findViewById(R.id.walk_guides);
-        guides.setText(walkData[5]);
+        guides.setText(walk.getGuide());
 
         //description
         TextView description = (TextView) findViewById(R.id.walk_description);
-        description.setText(walkData[6]);
+        description.setText(walk.getDescription());
 
         //joinIn button
         joinIn = (Button)findViewById(R.id.joinIn);
@@ -206,7 +198,7 @@ public class CSDescriptionOfAWalk extends ActionBarActivity {
      */
     public void sentParticipantToServer(String walkId){
 
-        // Create AsycHttpClient object
+        // Create AsyncHttpClient object
         AsyncHttpClient client = new AsyncHttpClient();
         // Http Request Params Object
         RequestParams params = new RequestParams();
@@ -216,7 +208,7 @@ public class CSDescriptionOfAWalk extends ActionBarActivity {
 
         final ProgressDialog prgDialog = new ProgressDialog(this);
         // Set Progress Dialog Text
-        prgDialog.setMessage("Please wait...");
+        prgDialog.setMessage(getResources().getString(R.string.please_wait));
         // Set Cancelable as False
         prgDialog.setCancelable(false);
 
@@ -226,10 +218,9 @@ public class CSDescriptionOfAWalk extends ActionBarActivity {
         System.out.println("Email id = " + email + " walkId = " + walkId);
         client.post(ApplicationConstants.INSERT_PARTICIPANT, params,
                 new AsyncHttpResponseHandler() {
-                    // When the response returned by REST has Http
-                    // response code '200'
+                    // When the response returned by REST has Http response code '200'
                     @Override
-                    public void onSuccess(String response) {
+                    public void onSuccess(int statusCode, Header[] headers, byte[] response) {
                         // Hide Progress Dialog
                         prgDialog.hide();
                         if (prgDialog != null) {
@@ -238,29 +229,20 @@ public class CSDescriptionOfAWalk extends ActionBarActivity {
                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.participation_ok), Toast.LENGTH_LONG).show();
                     }
 
-                    // When the response returned by REST has Http
-                    // response code other than '200' such as '404',
-                    // '500' or '403' etc
+                    // When the response returned by REST has Http response code other than '200' such as '404','500' or '403' etc
                     @Override
-                    public void onFailure(int statusCode, Throwable error,
-                                          String content) {
+                    public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
                         // Hide Progress Dialog
                         prgDialog.hide();
                         if (prgDialog != null) {
                             prgDialog.dismiss();
                         }
-                        // When Http response code is '404'
                         if (statusCode == 404) {
                             Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
-                        }
-                        // When Http response code is '500'
-                        else if (statusCode == 500) {
+                        } else if (statusCode == 500) {
                             Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
-                        }
-                        // When Http response code other than 404, 500
-                        else {
-                            Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might "
-                                            + "not be connected to Internet or remote server is not up and running], check for other errors as well",
+                        } else {
+                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.gone_internet),
                                     Toast.LENGTH_LONG).show();
                         }
                     }

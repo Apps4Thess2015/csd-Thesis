@@ -34,6 +34,7 @@ public class Account extends ActionBarActivity {
         String registrationId = prefs.getString("regId", "");
         String emailId = prefs.getString("eMailId", "");
 
+        //check if user is already registered
         if (!TextUtils.isEmpty(emailId) && !TextUtils.isEmpty(registrationId)) {
             Intent i = new Intent(getApplicationContext(), GreetingActivity.class);
             i.putExtra("regId", registrationId);
@@ -45,6 +46,7 @@ public class Account extends ActionBarActivity {
 
         String validation = prefs.getString("validation", "");
 
+        //check if app wait fro user to confirm the e-mail address
         if (!TextUtils.isEmpty(validation) && validation.equals("wait") && !TextUtils.isEmpty(emailId)) {
 
             Intent i = new Intent(getApplicationContext(), RegisterGCM.class);

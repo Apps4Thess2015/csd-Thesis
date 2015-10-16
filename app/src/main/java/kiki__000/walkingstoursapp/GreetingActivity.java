@@ -27,7 +27,6 @@ public class GreetingActivity extends ActionBarActivity {
         //set the action bar for the right language
         getSupportActionBar().setTitle(getResources().getString(R.string.title_activity_greeting));
 
-
         //get the emailID
         Intent intent = getIntent();
         String emailId = intent.getStringExtra("eMailId");
@@ -38,7 +37,6 @@ public class GreetingActivity extends ActionBarActivity {
         //animation
         Animation fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
         mail.startAnimation(fadeIn);
-
 
     }
 

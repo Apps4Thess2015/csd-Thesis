@@ -23,9 +23,11 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -136,11 +138,15 @@ public class Register extends ActionBarActivity {
         // Checks if user exists
         client.post(ApplicationConstants.CHECK_FOR_USER, params, new AsyncHttpResponseHandler() {
             @Override
-            public void onSuccess(String response) {
-                System.out.println(response);
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
                 try {
+
+                    //convert response to string
+                    String responseString = new String(response, "UTF-8");
+                    System.out.println(responseString);
+
                     // Create JSON object out of the response sent by getdbrowcount.php
-                    JSONObject obj = new JSONObject(response);
+                    JSONObject obj = new JSONObject(responseString);
                     System.out.println(obj.get("exist"));
                     // If the exist value is 1 then it means that user already exists
                     if (obj.getInt("exist") == 1) {
@@ -163,22 +169,20 @@ public class Register extends ActionBarActivity {
                         startActivity(intent);
                         finish();
                     }
-                } catch (JSONException e) {
-                    // TODO Auto-generated catch block
+                } catch (JSONException | UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
             }
 
             @Override
-            public void onFailure(int statusCode, Throwable error,
-                                  String content) {
-                // TODO Auto-generated method stub
+            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
                 if (statusCode == 404) {
-                    Toast.makeText(getApplicationContext(), "404", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
                 } else if (statusCode == 500) {
-                    Toast.makeText(getApplicationContext(), "500", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Error occured!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.gone_internet),
+                            Toast.LENGTH_LONG).show();
                 }
             }
         });

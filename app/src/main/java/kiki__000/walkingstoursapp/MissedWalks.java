@@ -40,6 +40,8 @@ public class MissedWalks extends ActionBarActivity {
         // Get walks from SQLite DB where STATUS = 0 and joinIn = 1
         ArrayList<Walk> walkList = controller.getJoinedWalks();
 
+        //ArrayList<Walk> walkList = controller.getAllWalks(0);
+
         //message
         Toast.makeText(getApplicationContext(), getResources().getString(R.string.joined_walks), Toast.LENGTH_LONG).show();
 
@@ -74,7 +76,6 @@ public class MissedWalks extends ActionBarActivity {
                 }
             });
 
-
         } else {
             //stay tuned
             TextView stayTuned = (TextView) findViewById(R.id.stayTuned);
@@ -108,5 +109,4 @@ public class MissedWalks extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 }

@@ -29,5 +29,4 @@ public class ListViewAdapter extends ArrayAdapter<String> {
 
         return rowView;
     }
-
 }

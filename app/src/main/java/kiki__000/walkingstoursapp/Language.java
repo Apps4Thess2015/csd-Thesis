@@ -13,18 +13,12 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-
-import java.util.List;
 import java.util.Locale;
 
 
 public class Language extends ActionBarActivity {
 
-    private String[] languages;
-    private ListView listViewLang;
     private String language;
 
     @Override
@@ -43,18 +37,18 @@ public class Language extends ActionBarActivity {
         getSupportActionBar().setTitle(getResources().getString(R.string.title_activity_language));
 
         //set the languages;
-        languages = new String[]{getResources().getString(R.string.gr), getResources().getString(R.string.en)};
+        String[] languages = new String[]{getResources().getString(R.string.gr), getResources().getString(R.string.en)};
 
         //set the ListView
-        listViewLang = (ListView)findViewById(R.id.listView_lang);
+        ListView listViewLang = (ListView) findViewById(R.id.listView_lang);
         listViewLang.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_single_choice, languages));
         listViewLang.setItemsCanFocus(true);
         listViewLang.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               //greek language
+                //greek language
                 Log.i("lang", "" + position);
-                if(position == 0){
+                if (position == 0) {
                     Locale locale = new Locale("el");
                     Locale.setDefault(locale);
                     Configuration config = new Configuration();
@@ -63,7 +57,7 @@ public class Language extends ActionBarActivity {
                     language = "el";
                 }
                 //english language
-                else{
+                else {
                     Locale locale = new Locale("en_US");
                     Locale.setDefault(locale);
                     Configuration config = new Configuration();

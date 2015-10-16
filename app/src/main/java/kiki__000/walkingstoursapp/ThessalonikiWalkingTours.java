@@ -1,10 +1,5 @@
 package kiki__000.walkingstoursapp;
 
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.renderscript.Allocation;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -14,7 +9,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -23,10 +17,6 @@ import java.util.ArrayList;
 
 public class ThessalonikiWalkingTours extends ActionBarActivity {
 
-    private String[] team;
-    private String[] info;
-    private int[] imageId;
-    private TableLayout table;
     private ArrayList<TableRow> hiddenRows = new ArrayList<>();
     private ArrayList<Button> buttons = new ArrayList<>();
 
@@ -45,15 +35,15 @@ public class ThessalonikiWalkingTours extends ActionBarActivity {
         getSupportActionBar().setTitle(getResources().getString(R.string.title_activity_thessaloniki_walking_tours));
 
         //create array with team's photos
-        imageId = new int[]{R.mipmap.evi, R.mipmap.kostis, R.mipmap.giorgos, R.mipmap.tasos, R.mipmap.alkistis, R.mipmap.mada};
+        int[] imageId = new int[]{R.mipmap.evi, R.mipmap.kostis, R.mipmap.giorgos, R.mipmap.tasos, R.mipmap.alkistis, R.mipmap.mada};
         //create array with team's names
-        team = new String[]{getResources().getString(R.string.member1), getResources().getString(R.string.member2), getResources().getString(R.string.member3), getResources().getString(R.string.member4), getResources().getString(R.string.member5), getResources().getString(R.string.member6)};
+        String[] team = new String[]{getResources().getString(R.string.member1), getResources().getString(R.string.member2), getResources().getString(R.string.member3), getResources().getString(R.string.member4), getResources().getString(R.string.member5), getResources().getString(R.string.member6)};
         //create array with team's info
-        info = new String[]{getResources().getString(R.string.info_member1), getResources().getString(R.string.info_member2), getResources().getString(R.string.info_member3), getResources().getString(R.string.info_member4), getResources().getString(R.string.info_member5), getResources().getString(R.string.info_member6)};
+        String[] info = new String[]{getResources().getString(R.string.info_member1), getResources().getString(R.string.info_member2), getResources().getString(R.string.info_member3), getResources().getString(R.string.info_member4), getResources().getString(R.string.info_member5), getResources().getString(R.string.info_member6)};
 
-        table = (TableLayout) findViewById(R.id.table);
+        TableLayout table = (TableLayout) findViewById(R.id.table);
 
-        int rows = 2*team.length;
+        int rows = 2* team.length;
         for (int i = 0; i<rows; i=i+2) {
 
             //add a row with image, name and a button

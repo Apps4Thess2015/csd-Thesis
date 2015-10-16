@@ -1,23 +1,12 @@
 package kiki__000.walkingstoursapp;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Base64;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import java.util.ArrayList;
-
 
 public class About extends ActionBarActivity {
-
-    private TextView text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +21,6 @@ public class About extends ActionBarActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         //set the action bar for the right language
         getSupportActionBar().setTitle(getResources().getString(R.string.title_activity_about));
-
-        text = (TextView)findViewById(R.id.text_about);
-        text.setText(getResources().getString(R.string.text_about));
-
     }
 
 

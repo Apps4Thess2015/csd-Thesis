@@ -27,10 +27,12 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 
 public class RegisterGCM extends ActionBarActivity {
@@ -163,7 +165,6 @@ public class RegisterGCM extends ActionBarActivity {
 
     }
 
-
     /**
      * check if user has validate the address
      */
@@ -176,11 +177,17 @@ public class RegisterGCM extends ActionBarActivity {
         // Checks if user exists
         client.post(ApplicationConstants.CHECK_EMAIL_VALIDATION, params, new AsyncHttpResponseHandler() {
             @Override
-            public void onSuccess(String response) {
-                System.out.println(response);
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+
                 try {
+
+                    //convert response to string
+                    String responseString = new String(response, "UTF-8");
+                    System.out.println(responseString);
+
                     // Create JSON object out of the response sent by php file
-                    JSONObject obj = new JSONObject(response);
+                    JSONObject obj = new JSONObject(responseString);
+
                     System.out.println(obj.get("active"));
                     // If the active value is 0 then it means that user hasn't validate the e-mail address
                     if (obj.getInt("active") == 0) {
@@ -189,22 +196,23 @@ public class RegisterGCM extends ActionBarActivity {
                         // Register Device in GCM Server
                         registerInBackground(mail);
                     }
-                } catch (JSONException e) {
-                    // TODO Auto-generated catch block
+                } catch (JSONException | UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
             }
 
+            // When error occurred
             @Override
-            public void onFailure(int statusCode, Throwable error,
-                                  String content) {
-                // TODO Auto-generated method stub
+            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                // Hide ProgressBar
+                prgDialog.hide();
                 if (statusCode == 404) {
-                    Toast.makeText(getApplicationContext(), "404", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
                 } else if (statusCode == 500) {
-                    Toast.makeText(getApplicationContext(), "500", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Error occured!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.gone_internet),
+                            Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -276,7 +284,7 @@ public class RegisterGCM extends ActionBarActivity {
                     // When the response returned by REST has Http
                     // response code '200'
                     @Override
-                    public void onSuccess(String response) {
+                    public void onSuccess(int statusCode, Header[] headers, byte[] response) {
                         // Hide Progress Dialog
                         prgDialog.hide();
                         if (prgDialog != null) {
@@ -292,12 +300,10 @@ public class RegisterGCM extends ActionBarActivity {
                         finish();
                     }
 
-                    // When the response returned by REST has Http
-                    // response code other than '200' such as '404',
-                    // '500' or '403' etc
+                    // When error occured
                     @Override
-                    public void onFailure(int statusCode, Throwable error,
-                                          String content) {
+                    public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+
                         // Hide Progress Dialog
                         prgDialog.hide();
                         if (prgDialog != null) {
@@ -305,22 +311,11 @@ public class RegisterGCM extends ActionBarActivity {
                         }
                         // When Http response code is '404'
                         if (statusCode == 404) {
-                            Toast.makeText(applicationContext,
-                                    "Requested resource not found",
-                                    Toast.LENGTH_LONG).show();
-                        }
-                        // When Http response code is '500'
-                        else if (statusCode == 500) {
-                            Toast.makeText(applicationContext,
-                                    "Something went wrong at server end",
-                                    Toast.LENGTH_LONG).show();
-                        }
-                        // When Http response code other than 404, 500
-                        else {
-                            Toast.makeText(
-                                    applicationContext,
-                                    "Unexpected Error occcured! [Most common Error: Device might "
-                                            + "not be connected to Internet or remote server is not up and running], check for other errors as well",
+                            Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
+                        } else if (statusCode == 500) {
+                            Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.gone_internet),
                                     Toast.LENGTH_LONG).show();
                         }
                     }

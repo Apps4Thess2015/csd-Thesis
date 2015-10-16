@@ -23,8 +23,11 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 
 
 public class LogIn extends ActionBarActivity {
@@ -131,11 +134,14 @@ public class LogIn extends ActionBarActivity {
         // Checks if user exists
         client.post(ApplicationConstants.CHECK_LOG_IN, params, new AsyncHttpResponseHandler() {
             @Override
-            public void onSuccess(String response) {
-                System.out.println(response);
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
                 try {
+                    //convert response to string
+                    String responseString = new String(response, "UTF-8");
+                    System.out.println(responseString);
+
                     // Create JSON object out of the response sent by php file
-                    JSONObject obj = new JSONObject(response);
+                    JSONObject obj = new JSONObject(responseString);
                     System.out.println(obj.get("exist"));
                     // If the exist value is 0 then it means failed log in
                     if (obj.getInt("exist") == 0) {
@@ -155,22 +161,21 @@ public class LogIn extends ActionBarActivity {
                         startActivity(intent);
                         finish();
                     }
-                } catch (JSONException e) {
-                    // TODO Auto-generated catch block
+                } catch (JSONException | UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
             }
 
+            //when error occurred
             @Override
-            public void onFailure(int statusCode, Throwable error,
-                                  String content) {
-                // TODO Auto-generated method stub
+            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
                 if (statusCode == 404) {
-                    Toast.makeText(getApplicationContext(), "404", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
                 } else if (statusCode == 500) {
-                    Toast.makeText(getApplicationContext(), "500", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Error occured!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.gone_internet),
+                            Toast.LENGTH_LONG).show();
                 }
             }
         });

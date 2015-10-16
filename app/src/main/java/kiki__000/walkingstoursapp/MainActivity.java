@@ -23,10 +23,12 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -81,7 +83,6 @@ public class MainActivity extends ActionBarActivity {
         //button for second menu option - walk of day
         Button menu2 = (Button) findViewById(R.id.menu2);
         // load animation in layout
-        // Animation rightToLeft = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.right_to_left);
         menu2.startAnimation(leftToRight);
         //set listener
         menu2.setOnClickListener(new View.OnClickListener() {
@@ -95,7 +96,6 @@ public class MainActivity extends ActionBarActivity {
         //button for third menu option - coming soon
         Button menu3 = (Button) findViewById(R.id.menu3);
         // load animation in layout
-        //Animation leftToRight = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.left_to_right);
         menu3.startAnimation(leftToRight);
         //set listener
         menu3.setOnClickListener(new View.OnClickListener() {
@@ -126,27 +126,22 @@ public class MainActivity extends ActionBarActivity {
                 if (position == 0) {
                     Intent intent = new Intent(MainActivity.this, Language.class);
                     startActivity(intent);
-                }
-                if (position == 1) {
+                } else if (position == 1) {
                     Intent intent = new Intent(MainActivity.this, Account.class);
                     startActivity(intent);
-                }
-                if (position == 2) {
+                } else if (position == 2) {
                     Intent intent = new Intent(MainActivity.this, RefreshDatabaseActivity.class);
                     startActivity(intent);
-                }
-                if (position == 3) {
+                } else if (position == 3) {
                     Intent intent = new Intent(MainActivity.this, ThessalonikiWalkingTours.class);
                     startActivity(intent);
-                }
-                if (position == 4) {
+                } else if (position == 4) {
                     Intent intent = new Intent(MainActivity.this, About.class);
                     startActivity(intent);
                 }
 
             }
         });
-
 
     }
 
@@ -250,39 +245,24 @@ public class MainActivity extends ActionBarActivity {
                         // When the response returned by REST has Http
                         // response code '200'
                         @Override
-                        public void onSuccess(String response) {
-                            Toast.makeText(getApplicationContext(),
-                                    "Succesful sent points",
-                                    Toast.LENGTH_LONG).show();
+                        public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+
+                            Toast.makeText(getApplicationContext(), "Succesful sent points", Toast.LENGTH_LONG).show();
                         }
 
-                        // When the response returned by REST has Http
-                        // response code other than '200' such as '404',
-                        // '500' or '403' etc
+                        // When error occurred
                         @Override
-                        public void onFailure(int statusCode, Throwable error,
-                                              String content) {
-                            // When Http response code is '404'
+                        public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
                             if (statusCode == 404) {
-                                Toast.makeText(getApplicationContext(),
-                                        "Requested resource not found for sent points",
-                                        Toast.LENGTH_LONG).show();
-                            }
-                            // When Http response code is '500'
-                            else if (statusCode == 500) {
-                                Toast.makeText(getApplicationContext(),
-                                        "Something went wrong at server end for sent points",
-                                        Toast.LENGTH_LONG).show();
-                            }
-                            // When Http response code other than 404, 500
-                            else {
-                                Toast.makeText(
-                                        getApplicationContext(),
-                                        "Unexpected Error occcured senting points! [Most common Error: Device might "
-                                                + "not be connected to Internet or remote server is not up and running], check for other errors as well",
+                                Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
+                            } else if (statusCode == 500) {
+                                Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.gone_internet),
                                         Toast.LENGTH_LONG).show();
                             }
                         }
+
                     });
         }
     }
@@ -301,13 +281,14 @@ public class MainActivity extends ActionBarActivity {
         // Make Http call to remote php file
         client.post(ApplicationConstants.GET_POINTS, params, new AsyncHttpResponseHandler() {
             @Override
-            public void onSuccess(String response) {
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
 
-                // Create GSON object
-                Gson gson = new GsonBuilder().create();
                 try {
+                    //convert response to string
+                    String responseString = new String(response, "UTF-8");
+
                     // Extract JSON array from the response
-                    JSONArray arr = new JSONArray(response);
+                    JSONArray arr = new JSONArray(responseString);
                     System.out.println(arr.length());
                     // If no of array elements is not zero
                     if (arr.length() != 0) {
@@ -324,28 +305,24 @@ public class MainActivity extends ActionBarActivity {
                         }
                     }
 
-                } catch (JSONException e) {
-                    // TODO Auto-generated catch block
+                } catch (JSONException | UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
 
-
             }
 
-            // When error occured
+            // When error occurred
             @Override
-            public void onFailure(int statusCode, Throwable error, String content) {
+            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
                 if (statusCode == 404) {
-                    Toast.makeText(getApplicationContext(), "Requested resource not found getPoints", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
                 } else if (statusCode == 500) {
-                    Toast.makeText(getApplicationContext(), "Something went wrong at server end getPoints", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(getApplicationContext(), " getPoints Unexpected Error occcured! [Most common Error: Device might not be connected to Internet]",
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.gone_internet),
                             Toast.LENGTH_LONG).show();
                 }
             }
         });
     }
-
-
 }

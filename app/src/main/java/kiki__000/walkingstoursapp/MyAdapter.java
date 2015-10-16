@@ -115,7 +115,6 @@ public class MyAdapter extends BaseAdapter {
 
                 return decodedByte;
             }
-
         }
 
         @Override
@@ -144,6 +143,5 @@ public class MyAdapter extends BaseAdapter {
             }
         }
     }
-
 
 }

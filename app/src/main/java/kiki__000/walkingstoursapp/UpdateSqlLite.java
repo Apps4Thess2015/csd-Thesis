@@ -115,8 +115,6 @@ public class UpdateSqlLite {
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-
-
             }
 
             // When error occurred

@@ -1,6 +1,5 @@
 package kiki__000.walkingstoursapp;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
@@ -20,7 +19,6 @@ import org.json.JSONObject;
 
 public class Message extends ActionBarActivity {
 
-    private TextView serverText;
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
     @Override
@@ -37,7 +35,7 @@ public class Message extends ActionBarActivity {
         //set the action bar for the right language
         getSupportActionBar().setTitle(getResources().getString(R.string.title_activity_message));
 
-        serverText = (TextView)findViewById(R.id.server_text);
+        TextView serverText = (TextView) findViewById(R.id.server_text);
 
         //get extra from GCMNotificationIntentService
         String json = getIntent().getStringExtra("greetjson");
@@ -69,7 +67,6 @@ public class Message extends ActionBarActivity {
                     serverText.setText(prefs.getString("greetmsg", ""));
                 }
             } catch (JSONException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 

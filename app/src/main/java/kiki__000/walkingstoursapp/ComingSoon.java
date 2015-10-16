@@ -1,12 +1,8 @@
 package kiki__000.walkingstoursapp;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,14 +12,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -52,7 +40,7 @@ public class ComingSoon extends ActionBarActivity {
         // Get walks from SQLite DB where status = 2
         ArrayList<Walk> walkList = controller.getAllWalks(2);
 
-        if (walkList.size() != 0) { // If walks exists in SQLite DB
+        if (walkList != null && walkList.size() != 0) { // If walks exists in SQLite DB
 
             //get the names of walks with status 2
             for (int i = 0; i < walkList.size(); i++) {

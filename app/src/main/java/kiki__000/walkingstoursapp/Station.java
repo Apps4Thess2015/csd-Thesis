@@ -3,7 +3,7 @@ package kiki__000.walkingstoursapp;
 /**
  * Created by kiki__000 on 16-May-15.
  *
- * Representation of a station o a walk
+ * Representation of a station of a walk
  */
 public class Station {
 

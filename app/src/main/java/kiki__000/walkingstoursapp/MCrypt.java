@@ -27,9 +27,7 @@ public class MCrypt {
 
         try {
             cipher = Cipher.getInstance("AES/CBC/NoPadding");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (NoSuchPaddingException e) {
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
             e.printStackTrace();
         }
     }
