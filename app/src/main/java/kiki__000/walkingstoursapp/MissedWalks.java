@@ -38,9 +38,9 @@ public class MissedWalks extends ActionBarActivity {
         getSupportActionBar().setTitle(getResources().getString(R.string.title_activity_missed_walks));
 
         // Get walks from SQLite DB where STATUS = 0 and joinIn = 1
-        ArrayList<Walk> walkList = controller.getJoinedWalks();
+       // ArrayList<Walk> walkList = controller.getJoinedWalks();
 
-        //ArrayList<Walk> walkList = controller.getAllWalks(0);
+        ArrayList<Walk> walkList = controller.getAllWalks(0);
 
         //message
         Toast.makeText(getApplicationContext(), getResources().getString(R.string.joined_walks), Toast.LENGTH_LONG).show();

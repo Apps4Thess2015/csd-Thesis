@@ -15,6 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:textColor="@color/bright_green"
             android:text="@string/text_email_validation" />
 
         <!-- confirm button -->
@@ -26,21 +27,31 @@
             android:layout_marginTop="50dp"
             android:layout_centerHorizontal="true"
             android:onClick="RegisterUser"
+            android:textColor="@color/bright_green"
             android:text="@string/ok"/>
+
+        <!-- message text -->
+        <TextView
+            android:id="@+id/message_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_below="@+id/confirm_button"
+            android:text="@string/try_again_text"
+            android:textColor="@color/bright_green"
+            android:gravity="center"/>
 
         <!-- try again button -->
         <Button
             android:id="@+id/send_again_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/confirm_button"
+            android:layout_below="@+id/message_text"
             android:layout_marginTop="50dp"
             android:layout_centerHorizontal="true"
             android:onClick="tryAgain"
-            android:text="@string/try_again"/>
+            android:text="@string/try_again"
+            android:textColor="@color/bright_green"/>
 
     </RelativeLayout>
 </ScrollView>
-
-
-

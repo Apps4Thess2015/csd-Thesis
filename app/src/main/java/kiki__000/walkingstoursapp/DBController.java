@@ -458,19 +458,37 @@ public class DBController extends SQLiteOpenHelper {
      */
     public boolean recordExists(String id){
 
-        SQLiteDatabase database = this.getReadableDatabase();
-        String query = "SELECT * FROM walksG  WHERE id = " + id;
-        Cursor cursor = database.rawQuery(query, null);
-        if (cursor.getCount() <= 0) {
-            Log.i("EXISTS1","no");
+        // 1. get reference to readable DB
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // 2. build query
+        Cursor cursor =
+                db.query("walksG", // a. table
+                        COLUMNSWalks, // b. column names
+                        " id = ?", // c. selections
+                        new String[]{String.valueOf(id)}, // d. selections args
+                        null, // e. group by
+                        null, // f. having
+                        null, // g. order by
+                        null); // h. limit
+
+        // 3. if we got results get the first one
+        if (cursor.moveToFirst()) {
+
+            //close db
             cursor.close();
-            database.close();
-            return false;
+            db.close();
+            Log.i("EXISTS", "yes");
+
+            return true;
         }
-        Log.i("EXISTS1","yes");
+
         cursor.close();
-        database.close();
-        return true;
+        db.close();
+        Log.i("EXISTS", "no");
+
+        return false;
+
     }
 
     /**
@@ -720,19 +738,36 @@ public class DBController extends SQLiteOpenHelper {
      */
     public boolean recordRating(String stationId){
 
-        SQLiteDatabase database = this.getReadableDatabase();
-        String query = "SELECT * FROM rating  WHERE stationId = " + stationId;
-        Cursor cursor = database.rawQuery(query, null);
-        if (cursor.getCount() <= 0) {
-            Log.i("EXISTSRATING","no");
+        // 1. get reference to readable DB
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // 2. build query
+        Cursor cursor =
+                db.query("rating", // a. table
+                        COLUMNSRating, // b. column names
+                        " stationId = ?", // c. selections
+                        new String[]{String.valueOf(stationId)}, // d. selections args
+                        null, // e. group by
+                        null, // f. having
+                        null, // g. order by
+                        null); // h. limit
+
+        // 3. if we got results get the first one
+        if (cursor.moveToFirst()) {
+
+            //close db
             cursor.close();
-            database.close();
-            return false;
+            db.close();
+            Log.i("EXISTSRATING", "yes");
+
+            return true;
         }
-        Log.i("EXISTSRATING","yes");
+
         cursor.close();
-        database.close();
-        return true;
+        db.close();
+        Log.i("EXISTSRATING", "no");
+
+        return false;
     }
 
 

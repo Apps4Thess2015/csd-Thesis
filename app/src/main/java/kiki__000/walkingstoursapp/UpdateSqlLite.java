@@ -6,9 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -20,7 +17,6 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Objects;
 
 
 /**
@@ -28,7 +24,7 @@ import java.util.Objects;
  */
 public class UpdateSqlLite {
 
-    String lang[] = new String[]{"gr", "en"};
+    String language[] = new String[]{"gr", "en"};
     DBController controller;
     ProgressDialog prgDialog;
     Walk queryValues;
@@ -52,19 +48,7 @@ public class UpdateSqlLite {
         prgDialog.setCancelable(false);
 
         //first check for deleted walks
-        syncSQLiteMySQLDB(ApplicationConstants.GET_DELETED_WALKS, lang[0]);
-        //update table walksG
-        syncSQLiteMySQLDB(ApplicationConstants.GET_WALKS_G, lang[0]);
-        //update table walksE
-        syncSQLiteMySQLDB(ApplicationConstants.GET_WALKS_E, lang[1]);
-        //update table stationsG
-        syncSQLiteMySQLDB(ApplicationConstants.GET_STATIONS_G, lang[0]);
-        //update table stationsE
-        syncSQLiteMySQLDB(ApplicationConstants.GET_STATIONS_E, lang[1]);
-        //update table rating
-        syncSQLiteMySQLDB(ApplicationConstants.GET_RATING, lang[0]);
-        //update table Photos
-        syncSQLiteMySQLDB(ApplicationConstants.GET_PHOTOS, lang[0]);
+        syncSQLiteMySQLDB(ApplicationConstants.GET_DELETED_WALKS, language[0]);
     }
 
     /**
@@ -95,11 +79,17 @@ public class UpdateSqlLite {
                     String responseString = new String(response, "UTF-8");
 
                     // Update SQLite DB with response sent by php file
-                    if (url.contains("Walks")) {
+                    if (url.contains("WalksG")) {
                         updateWalks(responseString, lang);
                         Log.i("responce", responseString);
-                    } else if (url.contains("Stations")) {
+                    } else if (url.contains("WalksE")){
+                        updateWalksE(responseString, lang);
+                        Log.i("responce", responseString);
+                    }else if (url.contains("StationsG")) {
                         updateStations(responseString, lang);
+                        Log.i("responce", responseString);
+                    }else if(url.contains("StationsE")){
+                        updateStationsE(responseString, lang);
                         Log.i("responce", responseString);
                     } else if (url.contains("Deleted")) {
                         updateDeleted(responseString);
@@ -107,7 +97,7 @@ public class UpdateSqlLite {
                     } else if (url.contains("Rating")) {
                         updateRating(responseString);
                         Log.i("responce", responseString);
-                    } else {
+                    } else if (url.contains("Photos")){
                         updatePhotos(responseString);
                         Log.i("responce", responseString);
                     }
@@ -156,6 +146,10 @@ public class UpdateSqlLite {
                     controller.deleteWalk(deletedWalks.get(i));
                 }
             }
+
+            //update table walksG
+            syncSQLiteMySQLDB(ApplicationConstants.GET_WALKS_G, language[0]);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -163,7 +157,7 @@ public class UpdateSqlLite {
 
 
     /**
-     * Update the table walks
+     * Update the table walksG
      *
      * @param response
      * @param lang
@@ -206,6 +200,9 @@ public class UpdateSqlLite {
                 }
             }
 
+            //update table walksE
+            syncSQLiteMySQLDB(ApplicationConstants.GET_WALKS_E, language[1]);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -213,7 +210,55 @@ public class UpdateSqlLite {
     }
 
     /**
-     * Update the table stations
+     * Update the table walksE
+     *
+     * @param response
+     * @param lang
+     */
+    public void updateWalksE(String response, String lang) {
+
+        try {
+            // Extract JSON array from the response
+            JSONArray arr = new JSONArray(response);
+            System.out.println(arr.length());
+            // If no of array elements is not zero
+            if (arr.length() != 0) {
+                // Loop through each array element, get JSON object which has userid and username
+                for (int i = 0; i < arr.length(); i++) {
+                    // Get JSON object
+                    JSONObject obj = (JSONObject) arr.get(i);
+                    // DB QueryValues Object to insert into SQLite
+                    queryValues = new Walk();
+                    // Add fields extracted from Object
+                    queryValues.setId(obj.get("id").toString());
+                    queryValues.setName(obj.get("name").toString());
+                    queryValues.setDate(obj.get("date").toString());
+                    queryValues.setTime(obj.get("time").toString());
+                    queryValues.setVenue(obj.get("venue").toString());
+                    queryValues.setKind(obj.get("kind").toString());
+                    queryValues.setGuide(obj.get("guide").toString());
+                    queryValues.setDescription(obj.get("description").toString());
+                    queryValues.setStations(Integer.parseInt(obj.get("stations").toString()));
+                    queryValues.setStatus(Integer.parseInt(obj.get("status").toString()));
+                    queryValues.setJoinIn("0");
+
+                    // Insert Walk into SQLite DB
+                    controller.insertWalk(queryValues, lang);
+                }
+            }
+
+            //update table stationsG
+            syncSQLiteMySQLDB(ApplicationConstants.GET_STATIONS_G, language[0]);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    /**
+     * Update the table stationsG
      *
      * @param response
      * @param lang
@@ -247,10 +292,57 @@ public class UpdateSqlLite {
                 }
             }
 
+            //update table stationsE
+            syncSQLiteMySQLDB(ApplicationConstants.GET_STATIONS_E, language[1]);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Update the table stationsE
+     *
+     * @param response
+     * @param lang
+     */
+    public void updateStationsE(String response, String lang) {
+
+        try {
+            // Extract JSON array from the response
+            JSONArray arr = new JSONArray(response);
+            System.out.println(arr.length());
+            // If no of array elements is not zero
+            if (arr.length() != 0) {
+
+                // Loop through each array element, get JSON object which has userid and username
+                for (int i = 0; i < arr.length(); i++) {
+                    // Get JSON object
+                    JSONObject obj = (JSONObject) arr.get(i);
+                    // DB QueryValues Object to insert into SQLite
+                    qValuesStation = new Station();
+                    // Add fields extracted from Object
+                    qValuesStation.setId(obj.get("id").toString());
+                    qValuesStation.setTitle(obj.get("title").toString());
+                    qValuesStation.setDescription(obj.get("description").toString());
+                    qValuesStation.setLat(Double.parseDouble(obj.get("lat").toString()));
+                    qValuesStation.setLng(Double.valueOf(obj.get("lng").toString()));
+                    qValuesStation.setWalkId(obj.get("walkId").toString());
+                    qValuesStation.setTurn(obj.get("turn").toString());
+
+                    // Insert Station into SQLite DB
+                    controller.insertStation(qValuesStation, lang);
+                }
+            }
+
+            //update table rating
+            syncSQLiteMySQLDB(ApplicationConstants.GET_RATING, language[0]);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
     /**
@@ -288,6 +380,9 @@ public class UpdateSqlLite {
                     }
                 }
             }
+
+            //update table Photos
+            syncSQLiteMySQLDB(ApplicationConstants.GET_PHOTOS, language[0]);
 
         } catch (JSONException e) {
             e.printStackTrace();

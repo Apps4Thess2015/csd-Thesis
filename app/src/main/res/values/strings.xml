@@ -79,7 +79,7 @@
     <string name="thessaloniki_walking_tour_team_text">The team of Thessaloniki Walking Tour consist of</string>
     <string name="up_date">Up to date </string>
     <string name="start_update">Update starts</string>
-    <string name="go_to_register">You should register first. Go to register screen in order to register.</string>
+    <string name="go_to_register">You should register first. Go to account screen in order to register.</string>
     <string name="menu_button">Click</string>
     <string name="app_title">Thessaloniki Walking Tours</string>
     <string name="new_message">New message</string>
@@ -135,5 +135,8 @@
     <string name="gone_internet">Unexpected Error occurred!
         Most common Error: Device might not be connected to Internet</string>
     <string name="please_wait">Please wait &#8230;</string>
+    <string name="try_again_text">If you haven\'t receive the e-mail or if it has passed 8 hours
+         click the below button in order to try again.
+    </string>
 
 </resources>

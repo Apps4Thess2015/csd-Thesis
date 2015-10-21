@@ -84,7 +84,7 @@
     <string name="thessaloniki_walking_tour_team_text">Η ομάδα του Thessaloniki Walking Tour αποτελείται από τους</string>
     <string name="up_date">Δε χρειάζεται ανανέωση</string>
     <string name="start_update">Η ανανέωση ξεκινά</string>
-    <string name="go_to_register">Απαιτείται εγγραφή. Μεταβείτε στην οθόνη εγγραφής για να πραγματοποιήσετε την εγγραφή.</string>
+    <string name="go_to_register">Απαιτείται εγγραφή. Μεταβείτε στην οθόνη λογαριασμός για να πραγματοποιήσετε την εγγραφή.</string>
     <string name="menu_button">Κλικ</string>
     <string name="app_title">Thessaloniki Walking Tours</string>
     <string name="new_message">Νέο Μήνυμα</string>
@@ -138,11 +138,14 @@
     <string name="empty_login">Παρακαλώ συμπληρώστε όλα τα πεδία.</string>
     <string name="no_internet">Απαιτείται σύνδεση στο διαδίκτυο. Παρακαλώ ενεργοποιήστε Wifi ή 3G.</string>
     <string name="transfer">Μεταφορά δεδομένων από την απομακρυσμένη βάση και συγχρονισμός της τοπικής βάσης.
-        Παρακαλώ περιμένετε &#2830;</string>
+        Παρακαλώ περιμένετε &#8230;</string>
     <string name="try_again">Προσπαθήστε πάλι</string>
     <string name="gone_internet">Σφάλμα. Ελέγξτε τη σύνδεση στο διαδύκτιο και
         προσπαθήστε ξανά. </string>
     <string name="please_wait">Παρακαλώ περιμένετε &#8230;</string>
+     <string name="try_again_text">Αν δε λάβατε το e-mail ή αν έχουν περάσει 8 ώρες
+         προσπαθήστε ξανά πατώντας το παρακάτω κουμπί.
+    </string>
 
 
 

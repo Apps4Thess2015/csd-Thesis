@@ -1,7 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bright_green">
+    android:background="@color/white">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
             android:layout_marginTop="40dp"
             android:gravity="center"
             android:text="@string/welcome_text"
-            android:textColor="@color/fuchsia"
+            android:textColor="@color/bright_green"
             android:textSize="20sp" />
 
         <!--register as -->
@@ -29,7 +29,7 @@
             android:layout_below="@+id/welcome"
             android:layout_marginTop="40dp"
             android:text="@string/register_as"
-            android:textColor="@color/fuchsia"
+            android:textColor="@color/bright_green"
             android:textSize="20sp" />
 
         <!--mail text -->
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/register_as"
             android:layout_marginTop="5dp"
-            android:textColor="@color/fuchsia"
+            android:textColor="@color/bright_green"
             android:textSize="20sp" />
 
     </RelativeLayout>

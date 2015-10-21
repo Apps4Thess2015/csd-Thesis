@@ -1,6 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,6 +20,7 @@
             android:text="@string/walk"
             android:layout_marginTop="150dp"
             android:textSize="@dimen/text_size"
+            android:textColor="@color/bright_green"
             android:textStyle="bold" />
 
         <!--title of walk-->
@@ -29,6 +31,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:paddingBottom="15dp"
+            android:textColor="@color/bright_green"
             android:textSize="@dimen/text_size" />
 
         <!--when text-->
@@ -40,6 +43,7 @@
             android:gravity="center"
             android:text="@string/when"
             android:textSize="@dimen/text_size"
+           android:textColor="@color/bright_green"
             android:textStyle="bold" />
 
         <!--when of walk-->
@@ -50,6 +54,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:paddingBottom="15dp"
+            android:textColor="@color/bright_green"
             android:textSize="@dimen/text_size" />
 
         <!--time text-->
@@ -61,6 +66,7 @@
             android:gravity="center"
             android:text="@string/time"
             android:textSize="@dimen/text_size"
+            android:textColor="@color/bright_green"
             android:textStyle="bold" />
 
         <!--time of walk-->
@@ -71,6 +77,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:paddingBottom="15dp"
+            android:textColor="@color/bright_green"
             android:textSize="@dimen/text_size" />
 
         <!--venue text-->
@@ -82,6 +89,7 @@
             android:gravity="center"
             android:text="@string/venue"
             android:textSize="@dimen/text_size"
+            android:textColor="@color/bright_green"
             android:textStyle="bold" />
 
         <!--venue of walk-->
@@ -92,6 +100,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:paddingBottom="15dp"
+            android:textColor="@color/bright_green"
             android:textSize="@dimen/text_size" />
 
         <!--kind text-->
@@ -103,6 +112,7 @@
             android:gravity="center"
             android:text="@string/kind"
             android:textSize="@dimen/text_size"
+            android:textColor="@color/bright_green"
             android:textStyle="bold" />
 
         <!--kind of walk-->
@@ -113,6 +123,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:paddingBottom="15dp"
+            android:textColor="@color/bright_green"
             android:textSize="@dimen/text_size" />
 
         <!--guides text-->
@@ -124,6 +135,7 @@
             android:gravity="center"
             android:text="@string/guides"
             android:textSize="@dimen/text_size"
+            android:textColor="@color/bright_green"
             android:textStyle="bold" />
 
         <!--guides of walk-->
@@ -134,6 +146,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:paddingBottom="15dp"
+            android:textColor="@color/bright_green"
             android:textSize="@dimen/text_size" />
 
         <!--description text-->
@@ -145,6 +158,7 @@
             android:gravity="center"
             android:text="@string/description"
             android:textSize="@dimen/text_size"
+            android:textColor="@color/bright_green"
             android:textStyle="bold" />
 
         <!--description of walk-->
@@ -155,6 +169,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:paddingBottom="15dp"
+            android:textColor="@color/bright_green"
             android:textSize="@dimen/text_size" />
 
         <!-- joinIn button-->
@@ -162,6 +177,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:textColor="@color/bright_green"
             android:id="@+id/joinIn" />
 
 

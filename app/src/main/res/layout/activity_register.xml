@@ -1,6 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/white">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -18,6 +19,7 @@
             android:layout_marginTop="150dp"
             android:gravity="center"
             android:text="@string/resister_text"
+            android:textColor="@color/bright_green"
             android:textSize="@dimen/text_size" />
 
         <!-- e-mail -->
@@ -29,6 +31,7 @@
             android:layout_marginTop="50dp"
             android:layout_centerHorizontal="true"
             android:text="@string/mail"
+            android:textColor="@color/bright_green"
             android:textSize="@dimen/text_size" />
 
         <!-- edit text -->
@@ -48,6 +51,7 @@
             android:layout_below="@+id/edit_text"
             android:layout_marginTop="50dp"
             android:text="@string/password"
+            android:textColor="@color/bright_green"
             android:textSize="@dimen/text_size" />
 
         <!-- password field -->
@@ -67,6 +71,7 @@
             android:layout_below="@+id/password_field"
             android:layout_marginTop="50dp"
             android:text="@string/confirm_password"
+            android:textColor="@color/bright_green"
             android:textSize="@dimen/text_size" />
 
         <!-- password field -->
@@ -86,11 +91,10 @@
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/confirm_password_field"
             android:layout_marginTop="50dp"
+            android:textColor="@color/bright_green"
             android:onClick="RegisterEmail"
             android:text="@string/ok" />
 
     </RelativeLayout>
 
 </ScrollView>
-
-
