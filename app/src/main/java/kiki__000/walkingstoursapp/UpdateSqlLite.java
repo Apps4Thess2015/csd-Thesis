@@ -1,9 +1,13 @@
 package kiki__000.walkingstoursapp;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
+import android.text.style.UpdateAppearance;
 import android.util.Log;
 import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpClient;
@@ -33,14 +37,24 @@ public class UpdateSqlLite {
     Rating qValuesRating;
     ArrayList<String> deletedWalks = new ArrayList<>();
     Context context;
+    Activity activity;
 
-    public UpdateSqlLite(Context context) {
+    public UpdateSqlLite(Context context, Activity activity) {
 
         this.context = context;
         controller = new DBController(context);
+        this.activity = activity;
     }
 
     public void update() {
+
+        //lock screen orientation
+        int currentOrientation = context.getResources().getConfiguration().orientation;
+        if (currentOrientation == Configuration.ORIENTATION_PORTRAIT) {
+            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        } else {
+            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
 
         // Initialize Progress Dialog properties
         prgDialog = new ProgressDialog(context);
@@ -433,6 +447,9 @@ public class UpdateSqlLite {
 
         // Hide ProgressBar
         prgDialog.hide();
+
+        //unlock the screen orientation
+        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 
         // Reload MainActivity
         Intent objIntent = new Intent(context.getApplicationContext(), MainActivity.class);

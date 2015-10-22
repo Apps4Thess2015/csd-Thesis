@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.ActionBarActivity;
@@ -131,6 +133,14 @@ public class LogIn extends ActionBarActivity {
         params.put("password", password);
         Log.i("LOGIN check", mail);
 
+        //lock screen orientation
+        int currentOrientation = getResources().getConfiguration().orientation;
+        if (currentOrientation == Configuration.ORIENTATION_PORTRAIT) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
+
         // Checks if user exists
         client.post(ApplicationConstants.CHECK_LOG_IN, params, new AsyncHttpResponseHandler() {
             @Override
@@ -143,6 +153,10 @@ public class LogIn extends ActionBarActivity {
                     // Create JSON object out of the response sent by php file
                     JSONObject obj = new JSONObject(responseString);
                     System.out.println(obj.get("exist"));
+
+                    //unlock screen orientation
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+
                     // If the exist value is 0 then it means failed log in
                     if (obj.getInt("exist") == 0) {
                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.login_fail), Toast.LENGTH_SHORT).show();
@@ -169,6 +183,10 @@ public class LogIn extends ActionBarActivity {
             //when error occurred
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+
+                //unlock screen orientation
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+
                 if (statusCode == 404) {
                     Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
                 } else if (statusCode == 500) {

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -135,6 +137,14 @@ public class Register extends ActionBarActivity {
         params.put("email", mail);
         Log.i("EMAIL check", mail);
 
+        //lock screen orientation
+        int currentOrientation = getResources().getConfiguration().orientation;
+        if (currentOrientation == Configuration.ORIENTATION_PORTRAIT) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
+
         // Checks if user exists
         client.post(ApplicationConstants.CHECK_FOR_USER, params, new AsyncHttpResponseHandler() {
             @Override
@@ -148,6 +158,10 @@ public class Register extends ActionBarActivity {
                     // Create JSON object out of the response sent by getdbrowcount.php
                     JSONObject obj = new JSONObject(responseString);
                     System.out.println(obj.get("exist"));
+
+                    //unlock screen orientation
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+
                     // If the exist value is 1 then it means that user already exists
                     if (obj.getInt("exist") == 1) {
                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.user_exists), Toast.LENGTH_SHORT).show();
@@ -176,6 +190,10 @@ public class Register extends ActionBarActivity {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+
+                //unlock screen orientation
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+
                 if (statusCode == 404) {
                     Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
                 } else if (statusCode == 500) {

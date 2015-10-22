@@ -110,7 +110,7 @@ public class RefreshDatabaseActivity extends ActionBarActivity {
                                     if (obj.getInt("count") != 0) {
                                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.start_update), Toast.LENGTH_SHORT).show();
                                         // Transfer data from remote MySQL DB to SQLite on Android and perform Sync
-                                        UpdateSqlLite updateSQL = new UpdateSqlLite(RefreshDatabaseActivity.this);
+                                        UpdateSqlLite updateSQL = new UpdateSqlLite(RefreshDatabaseActivity.this, RefreshDatabaseActivity.this);
                                         updateSQL.update();
                                     } else {
                                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.up_date), Toast.LENGTH_SHORT).show();

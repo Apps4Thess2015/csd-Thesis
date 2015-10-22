@@ -238,7 +238,7 @@ public class MainActivity extends ActionBarActivity {
             Log.i("setPoints", "noResult");
         } else {
             params.put("stationIds", stationIds);
-            // Make RESTful webservice call using AsyncHttpClient object
+            // Make RESTFul webservice call using AsyncHttpClient object
             AsyncHttpClient client = new AsyncHttpClient();
             client.post(ApplicationConstants.SENT_POINTS, params,
                     new AsyncHttpResponseHandler() {

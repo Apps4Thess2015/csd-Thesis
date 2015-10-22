@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -171,7 +173,16 @@ public class RegisterGCM extends ActionBarActivity {
         RequestParams params = new RequestParams();
         params.put("email", mail);
         Log.i("EMAIL validation", mail);
-        // Checks if user exists
+
+        //lock screen orientation
+        int currentOrientation = getResources().getConfiguration().orientation;
+        if (currentOrientation == Configuration.ORIENTATION_PORTRAIT) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
+
+        // Checks if user has validated the email address
         client.post(ApplicationConstants.CHECK_EMAIL_VALIDATION, params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
@@ -290,6 +301,11 @@ public class RegisterGCM extends ActionBarActivity {
                         Toast.makeText(applicationContext,
                                 "Reg Id shared successfully with Web App ",
                                 Toast.LENGTH_LONG).show();
+
+                        //unlock screen orientation
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+
+                        //go to new activity
                         Intent i = new Intent(applicationContext,
                                 GreetingActivity.class);
                         i.putExtra("eMailId", emailID);
@@ -306,6 +322,10 @@ public class RegisterGCM extends ActionBarActivity {
                         if (prgDialog != null) {
                             prgDialog.dismiss();
                         }
+
+                        //unlock screen orientation
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+
                         // When Http response code is '404'
                         if (statusCode == 404) {
                             Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();

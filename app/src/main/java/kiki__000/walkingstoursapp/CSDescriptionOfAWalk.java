@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -216,6 +218,15 @@ public class CSDescriptionOfAWalk extends ActionBarActivity {
         params.put("email", email);
         params.put("walkId", walkId);
         System.out.println("Email id = " + email + " walkId = " + walkId);
+
+        //lock screen orientation
+        int currentOrientation = getResources().getConfiguration().orientation;
+        if (currentOrientation == Configuration.ORIENTATION_PORTRAIT) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
+
         client.post(ApplicationConstants.INSERT_PARTICIPANT, params,
                 new AsyncHttpResponseHandler() {
                     // When the response returned by REST has Http response code '200'
@@ -227,6 +238,9 @@ public class CSDescriptionOfAWalk extends ActionBarActivity {
                             prgDialog.dismiss();
                         }
                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.participation_ok), Toast.LENGTH_LONG).show();
+
+                        //unlock screen orientation
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
                     }
 
                     // When the response returned by REST has Http response code other than '200' such as '404','500' or '403' etc
@@ -237,6 +251,10 @@ public class CSDescriptionOfAWalk extends ActionBarActivity {
                         if (prgDialog != null) {
                             prgDialog.dismiss();
                         }
+
+                        //unlock screen orientation
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+
                         if (statusCode == 404) {
                             Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
                         } else if (statusCode == 500) {

@@ -387,7 +387,9 @@ public class DBController extends SQLiteOpenHelper {
     public ArrayList<Photo> getPhotosByWalkId(String walkId){
 
         ArrayList<Photo> photosList = new ArrayList<Photo>();
-        String selectQuery = "SELECT  * FROM photos WHERE walkId = " + walkId + " ORDER BY stationId";
+        //String selectQuery = "SELECT  * FROM photos WHERE walkId = " + walkId + " ORDER BY stationId";
+        String selectQuery = "SELECT * FROM photos INNER JOIN stationsG ON photos.stationId = stationsG.id WHERE photos.walkId = " + walkId +" ORDER BY stationsG.turn ASC";
+
         SQLiteDatabase database = this.getReadableDatabase();
 
         Cursor cursor = database.rawQuery(selectQuery, null);
